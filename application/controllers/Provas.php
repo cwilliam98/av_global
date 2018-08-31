@@ -25,7 +25,7 @@ class Provas extends CI_Controller {
 			redirect('login');
 		}
 
-		$aluno = $this->session->userdata('aluno');
+		$usuario = $this->session->userdata('aluno');
 
 		$this->form_validation->set_rules('nome',          'nome',           			'trim|required|max_length[1000]');
 		$this->form_validation->set_rules('aplicacao',     'data',           			'trim|required');
@@ -55,7 +55,8 @@ class Provas extends CI_Controller {
 			"aplicacao" =>	set_value('aplicacao'),
 			"qtd_questoes" => set_value('qtd_questoes'),
 			"reaproveitar" => set_value('reaproveitar'),
-			"tipo_prova" => set_value('tipo_prova')
+			"tipo_prova" => set_value('tipo_prova'),
+			"professor"  => $usuario['id']
 		);
 
 
@@ -85,7 +86,7 @@ class Provas extends CI_Controller {
 
 		$aluno = $this->session->userdata('aluno');
 
-		$this->load->view('prova_aviso_tpl.php');
+		$this->load->view('prova_aviso.php');
 
 	}
 
@@ -103,7 +104,14 @@ class Provas extends CI_Controller {
 		$this->load->model('Formularios_model');
 
 
-		$formularios = $this->Provas_model->getProvaAluno($aluno['id']);
+
+		$prova = $this->Provas_model->getProva();
+		if(!$prova)
+		{
+			redirect('provas/aviso');
+		}
+
+		$formularios = $this->Provas_model->getProvaAluno($aluno['id'],$prova->id);
 
 
 		foreach ($formularios as $formulario) {
@@ -111,12 +119,13 @@ class Provas extends CI_Controller {
 			$data_formulario = array(
 				"aluno" => $aluno['id'],
 				"disciplina" => $formulario['disciplina'],
-				"prova" => $formulario['prova']
+				"prova" => $formulario['prova'],
+				"situacao" => 'em andamento'	
 			);
 
 			$id = $this->Formularios_model->cadastra($data_formulario);
 
-			$questoes = $this->Provas_model->getQuestoesById($formulario['disciplina']);
+			$questoes = $this->Provas_model->getQuestoesById($formulario['disciplina'], $formulario['qtd_questoes']);
 			
 
 
@@ -133,7 +142,6 @@ class Provas extends CI_Controller {
 
 		}
 		
-
 		redirect('provas/fazer');
 	}
 
@@ -175,10 +183,10 @@ class Provas extends CI_Controller {
 				$questao->alternativas = $this->Provas_model->getAlternativasByQuestoes( $questao->questao );
 			}
 		}
-			
+
 		$this->load->view('relatorio_provas_aluno_tpl',$prova);
 
-		$this->load->view('template_alunos_footer.php');
+		$this->load->view('template_alunos_footer');
 	}
 
 
@@ -201,6 +209,77 @@ class Provas extends CI_Controller {
 				$this->Provas_model->inserirRespostas($resultado);
 			}
 		}
+
+	}
+
+	public function resultado(){
+		if(!$this->session->userdata('logado'))
+		{
+			redirect('login');
+		}
+
+		$aluno = $this->session->userdata('aluno');
+
+		$this->load->model('Provas_model');
+
+		$id = $this->input->post('id');
+
+		if(!$this->Provas_model->atualizaSituacaoProva($id)){
+			echo json_encode('erro');
+		}
+		else{
+			echo json_encode($this->Provas_model->atualizaSituacaoProva($id));
+		}
+
+
+	}
+
+	public function acompanhaProvas(){
+
+		if(!$this->session->userdata('logado'))
+		{
+			redirect('login');
+		}
+
+		$aluno = $this->session->userdata('aluno');
+
+		$this->load->model('Provas_model');
+
+		$provas = $this->Provas_model->getProvas();
+
+		
+		foreach ($provas as $prova) {
+			
+			$this->load->view('acompanhamento_provas_tpl', $prova);
+		}
+
+	}
+
+	public function fim(){
+		if(!$this->session->userdata('logado'))
+		{
+			redirect('login');
+		}
+
+		$aluno = $this->session->userdata('aluno');
+
+		$this->load->view('fim_tpl');
+
+	}
+
+	public function sessao(){
+		if(!$this->session->userdata('logado'))
+		{
+			redirect('login');
+		}
+
+		$aluno = $this->session->userdata('aluno');
+
+		$this->load->model('Provas_model');
+
+		$data = ["usuario" => $this->input->post('id')];	
+
+		$this->Provas_model->insereSessao($data);
 
 	}
 }

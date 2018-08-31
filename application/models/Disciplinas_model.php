@@ -24,7 +24,11 @@ class Disciplinas_model extends CI_Model {
 	}
 
 	function getTodosProfessores(){
-		return $this->db->order_by('nome')->get('professores')->result_array();
+		return $this->db
+		->where('contexto','professor')
+		->order_by('nome')
+		->get('usuarios')
+		->result_array();
 
 	}
 }

@@ -16,9 +16,7 @@
 	-moz-column-gap: 40px; /* Firefox */
 	column-gap: 40px;
 
-	-webkit-column-rule: 4px double #ff00ff; /* Chrome, Safari, Opera */
-	-moz-column-rule: 4px double #ff00ff; /* Firefox */
-	column-rule: 4px double #ff00ff;
+	
 }
 .colunas .questao{
 	break-inside: avoid-column;
@@ -31,16 +29,17 @@
 		<div class="row">
 			<div class="col-md-10 col-md-offset-1 colunas">
 				<?php foreach ($disciplinas as $count => $questoes) : ?>
-						<div class="row">
-							<hr style="border: 1px solid;">
-							Disciplina de <?php echo  $questoes->nome;   ?>
-							<hr style="border: 1px solid;">
-						</div>
+
+					<div class="row">
+						<hr style="border: 1px solid;">
+						Disciplina de <?php echo  $questoes->nome;   ?>
+						<hr style="border: 1px solid;">
+					</div>
 
 					<form role="form" class="questao" name="enviar_prova" method="post" action="<?php echo site_url('provas/resultado') ?>">
 						<?php foreach ($questoes->questoes as $questao) : ?>
-							<div><?php echo ($count+1). ' ) '. $questao->descricao;   ?></div>
-							<?php foreach ($questao->alternativas as $alternativa) :?>
+							<div><?php echo ($count++). ' ) '. $questao->descricao;   ?></div>
+							<?php foreach ($questao->alternativas as $alternativa) : ?>
 								<div class="radio radio-info">
 									<input type="radio"  name="questao[<?php echo $questao->questao ?>]"  value="<?php echo $alternativa->id ?>"  id="<?php echo $alternativa->id ?>"/>
 									<label for="<?php echo $alternativa->id ?>"> <?php echo $alternativa->descricao?></label>
@@ -55,7 +54,6 @@
 
 	<script type="text/javascript">
 		$("input").click(function(e){
-			console.log($(this).serializeArray());
 			$.ajax({
 				type: "POST",
 				url: '<?php echo base_url('provas/corrigir') ?>',
@@ -64,4 +62,17 @@
 				//dataType: dataType
 			});
 		});
+
+		$(document).ready(function() {
+			$.ajax({
+				type: "POST",
+				url: '<?php echo base_url('provas/sessao') ?>',
+				data: { id: <?php echo $aluno['id']; ?>},
+				//success: ,
+				//dataType: dataType
+			});
+		});
+
 	</script>
+	<button type="submit" value="<?php echo $id;?>" id="finalizar_prova" class="btn btn-success">Finalizar prova</button>
+

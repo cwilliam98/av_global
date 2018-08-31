@@ -7,7 +7,28 @@
 <script>
 	setTimeout(function(){
 		$('button.close').click()
-	},2000)
+	},2000);
+
+$('#finalizar_prova').click(function(){
+
+	var resposta = confirm("Deseja realmente encerrar a prova?");
+
+	
+	console.log($(this).val());
+	$.ajax({
+		type: "POST",
+		url: '<?php echo base_url('provas/resultado') ?>',
+		data: {id:$(this).val()},
+		//success: ,
+		//dataType: dataType
+	});
+	
+	if (resposta == true) {
+          window.location.href = "<?php echo base_url('provas/fim') ?>";
+     }
+});
+
 </script>
+
 </body>
 </html>

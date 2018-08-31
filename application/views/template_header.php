@@ -10,6 +10,7 @@
 	<link href="<?=base_url('/assets/css/funkyradio.css')?>" rel="stylesheet">
 	<script src="https://use.fontawesome.com/4be8641a9d.js"></script>
 	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+	<script src="//cdn.ckeditor.com/4.10.0/standard/ckeditor.js"></script>
 	</head>
 	<body>
 

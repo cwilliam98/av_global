@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Simple Sidebar - Start Bootstrap Template</title>
+    <title>Dashboard</title>
 
     <!-- Bootstrap core CSS -->
     <link href="<?=base_url('/assets/css/bootstrap.min.css')?>" rel="stylesheet">
@@ -17,15 +17,16 @@
 </head>
 
 <body>
-
     <div id="wrapper">
-
+        
         <!-- Sidebar -->
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
                 <li class="sidebar-brand">
                     <a href="#">
-                        Start Bootstrap
+                        <?php $usuario = $_SESSION['aluno']; 
+                        echo $usuario['nome'];
+                        ?>
                     </a>
                 </li>
                 <li>
@@ -46,6 +47,10 @@
                     <a href="" id="cadastrar_disciplina">Cadastrar disciplina</a>
                 </li>
 
+                <li>
+                    <a href="" id="acompanha_provas">Acompanhar provas</a>
+                </li>
+
             </ul>
         </div>
         <!-- /#sidebar-wrapper -->
@@ -53,7 +58,6 @@
         <!-- Page Content -->
         <div id="page-content-wrapper">
             <div class="container-fluid" id="coisas">
-                <a href="#menu-toggle" class="btn btn-secondary" id="menu-toggle">Toggle Menu</a>
             </div>
         </div>
         <!-- /#page-content-wrapper -->
@@ -107,6 +111,15 @@
 		$("#cadastrar_disciplina").click(function(e){
             e.preventDefault();
             $.get('<?php echo base_url('disciplinas/index') ?>', function(data){
+
+                $('#coisas').html(data);
+
+            });
+        });
+
+        $("#acompanha_provas").click(function(e){
+            e.preventDefault();
+            $.get('<?php echo base_url('provas/acompanhaProvas') ?>', function(data){
 
                 $('#coisas').html(data);
 

@@ -29,18 +29,18 @@
 
         		$campo.parent().addClass('has-error');
         		$campo.next().html(mensagem);
-                
+
         		
         	}
         	if ( response.error === false ) {
                 $.get('<?php echo base_url('perguntas/cadastra?aviso=1') ?>', function(data){
 
-                $('#coisas').html(data);
+                    $('#coisas').html(data);
 
-            });
+                });
                 form.reset();
-           }
-       })
+            }
+        })
         .fail(function() {
         	console.log("error");
         })
@@ -53,6 +53,9 @@
     });
 	})();
 </script>
+<script>
+    CKEDITOR.replace( 'questao' );
+</script>
 </br>
 <footer class="py-3 bg-info">
   <div class="container">
@@ -63,7 +66,7 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>
- setTimeout(function(){
+   setTimeout(function(){
     $('button.close').click()
 },2000)
 </script>

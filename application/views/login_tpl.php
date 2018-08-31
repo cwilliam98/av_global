@@ -64,7 +64,7 @@
 </head>
 <body>
 
-
+  
 
   <div class="container-fluid">
     <div class="container">
@@ -86,7 +86,7 @@
 
             <div class="row">
               <div class="col-sm-6 col-sm-offset-3">
-                <div class="inputBox ">
+                <div class="inputBox">
                   <div class="inputText">Código</div>
                    <input type="number" class="input" id="codigo" name="codigo" autofocus>
                 </div>

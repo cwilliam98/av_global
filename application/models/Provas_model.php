@@ -38,21 +38,22 @@ class Provas_model extends CI_Model {
 	function getAlternativaById($alternativa,$questao,$aluno){
 		$resultado = $this->db
 		->select('alternativas.id alternativa,itens_prova.id item_prova')
-		->from('alternativas')
+		->from('alternativas, formularios')
 		->join('questoes','questoes.id = alternativas.questao')
 		->join('itens_prova', 'itens_prova.questao = questoes.id')
 		->join('provas','provas.id = itens_prova.formulario')
 		->where('alternativas.id', $alternativa)
 		->where('questoes.id', $questao)
-		->where('provas.aluno', $aluno)
+		->where('formularios.aluno', $aluno)
 		->get()
 		->result_array();
 		return reset($resultado);
 	}
-	function getQuestoesById($id){
+	function getQuestoesById($id, $qtd_questoes){
 		return $this->db
 		->from('questoes')
 		->where('disciplina', $id)
+		->limit($qtd_questoes)
 		->get()
 		->result_array();
 
@@ -120,24 +121,54 @@ class Provas_model extends CI_Model {
 
 	}
 
-	function getProvaAluno($id){
+	function getProvaAluno($id,$prova){
 		return $this->db
-		->select('matriculas.disciplina, matriculas.aluno, provas.id prova')
+		->select('matriculas.disciplina, matriculas.aluno, provas.id prova, provas.qtd_questoes')
 		->from('provas,matriculas')
 		->where('matriculas.aluno',$id)
+		->where('provas.aplicacao', date('Y-m-d'))
+		->where('provas.id', $prova)
 		->get()
 		->result_array();
 
 	}
 
-	function getProva(){
+
+	function getProva(){ 
 		$prova = $this->db
 			->from('provas')
-			// ->where('aplicacao', date('Y-m-d'))
+			->where('aplicacao', date('Y-m-d'))
 			->limit(1)
 			->get()
 			->result();
 		return reset($prova);
+	}
+
+	function atualizaSituacaoProva($id){
+		return $this->db
+		->where('aluno',$id)
+		->set('situacao','finalizada')
+		->update('formularios');
+	}
+
+	function getProvas(){
+		$dados =  $this->db
+		->select('disciplinas.nome disciplina, usuarios.nome usuario, provas.nome, provas.qtd_questoes, provas.aplicacao,formularios.situacao')
+		->from('formularios')
+		->join('usuarios','usuarios.id = formularios.aluno')
+		->join('disciplinas','disciplinas.id = formularios.disciplina')
+		->join('provas','provas.id = formularios.prova')
+		->where('provas.aplicacao', date('Y-m-d'))
+		->get()
+		->result_array();
+		return $dados;
+ 		print_r($this->db->last_query());
+		exit();
+	}
+
+	function insereSessao($data){
+		$this->db->insert('sessoes', $data);
+		return $this->db->insert_id();
 	}
 }
 

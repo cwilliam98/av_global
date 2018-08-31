@@ -53,7 +53,7 @@ class Perguntas extends CI_Controller {
 
 		$this->form_validation->set_rules('questao',       'questao',          	 'required|max_length[1000]');
 		$this->form_validation->set_rules('alternativa[]', 'alternativa',        'max_length[1000]');
-		$this->form_validation->set_rules('correta[A]',     'alternativa Correta','required');
+		$this->form_validation->set_rules('correta[]',     'alternativa Correta','required');
 		$this->form_validation->set_rules('disciplina',    'disciplina',         'required');
 
 	if($this->form_validation->run() == FALSE)
@@ -73,7 +73,8 @@ class Perguntas extends CI_Controller {
 
 		$questaoId = $this->Perguntas_model->cadastraPergunta([
 			"descricao" =>	set_value('questao'),
-			"disciplina" => set_value('disciplina')
+			"disciplina" => set_value('disciplina'),
+			"professor"  => $aluno['id']
 		]);
 
 
