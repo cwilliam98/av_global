@@ -24,11 +24,11 @@
 </style>
 <body>
 	
-
+<?php $aluno = $_SESSION['aluno'];?>
 	<div class="container classe">
 		<div class="row">
 			<div class="col-md-10 col-md-offset-1 colunas">
-				<?php foreach ($disciplinas as $count => $questoes) : ?>
+				<?php foreach ($disciplinas as $count => $questoes) :  ?>
 
 					<div class="row">
 						<hr style="border: 1px solid;">
@@ -41,7 +41,8 @@
 							<div><?php echo ($count++). ' ) '. $questao->descricao;   ?></div>
 							<?php foreach ($questao->alternativas as $alternativa) : ?>
 								<div class="radio radio-info">
-									<input type="radio"  name="questao[<?php echo $questao->questao ?>]"  value="<?php echo $alternativa->id ?>"  id="<?php echo $alternativa->id ?>"/>
+									<input type="radio"  name="questao[<?php echo $questao->questao ?>]"  value="<?php echo 
+									$alternativa->id ?>"  id="<?php echo $alternativa->id ?>"/>
 									<label for="<?php echo $alternativa->id ?>"> <?php echo $alternativa->descricao?></label>
 								</div>
 							<?php endforeach; ?>
@@ -72,7 +73,8 @@
 				//dataType: dataType
 			});
 		});
-
 	</script>
-	<button type="submit" value="<?php echo $id;?>" id="finalizar_prova" class="btn btn-success">Finalizar prova</button>
+
+		<button type="submit" value="<?php echo $aluno['id'];?>" id="finalizar_prova" class="btn btn-success">Finalizar prova</button>
+
 

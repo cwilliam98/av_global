@@ -18,7 +18,7 @@
 
 <body>
     <div id="wrapper">
-        
+
         <!-- Sidebar -->
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
@@ -38,17 +38,26 @@
                 <li>
                     <a href="" id="perguntas_cadastradas">Perguntas cadastradas</a>
                 </li>
-				
-				<li>
+
+                <li>
                     <a href="" id="cadastrar_alunos">Cadastrar alunos</a>
                 </li>
-				
-				<li>
+
+                <li>
                     <a href="" id="cadastrar_disciplina">Cadastrar disciplina</a>
                 </li>
 
                 <li>
                     <a href="" id="acompanha_provas">Acompanhar provas</a>
+                </li>
+
+                <li>
+                    <form method="post" action="<?php echo base_url('login/logout')?>" id="cadastra_perguntas">                                  
+                        <button type="submit"  id="cadastrar" class="btn btn-md"> 
+                            <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+                            Sair
+                        </button>
+                    </form>                    
                 </li>
 
             </ul>
@@ -70,7 +79,7 @@
 
     <script>
 
-            $("#wrapper").toggleClass("toggled");
+        $("#wrapper").toggleClass("toggled");
         
         $("#cadastra_pergunta").click(function(e){
             e.preventDefault();
@@ -98,8 +107,8 @@
 
             });
         });
-		
-		$("#cadastrar_alunos").click(function(e){
+
+        $("#cadastrar_alunos").click(function(e){
             e.preventDefault();
             $.get('<?php echo base_url('alunos/index') ?>', function(data){
 
@@ -108,7 +117,7 @@
             });
         });
 
-		$("#cadastrar_disciplina").click(function(e){
+        $("#cadastrar_disciplina").click(function(e){
             e.preventDefault();
             $.get('<?php echo base_url('disciplinas/index') ?>', function(data){
 
@@ -128,7 +137,7 @@
 
 
 
-  </script>
+    </script>
 
 </body>
 

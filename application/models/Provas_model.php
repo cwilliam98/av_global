@@ -1,7 +1,5 @@
 <?php
 
-
-
 class Provas_model extends CI_Model {
 
 
@@ -47,6 +45,8 @@ class Provas_model extends CI_Model {
 		->where('formularios.aluno', $aluno)
 		->get()
 		->result_array();
+		// echo $this->db->last_query();
+		// exit();
 		return reset($resultado);
 	}
 	function getQuestoesById($id, $qtd_questoes){
@@ -67,44 +67,44 @@ class Provas_model extends CI_Model {
 	public function getDisciplinas($prova, $aluno)
 	{
 		$disciplinas = $this->db
-			->select(['disciplinas.id', 'disciplinas.nome', 'formularios.id formulario'])
-			->from('disciplinas')
-			->join('matriculas', 'matriculas.disciplina = disciplinas.id')
-			->join('formularios', 'formularios.disciplina = matriculas.disciplina AND formularios.aluno = matriculas.aluno')
-			->where('formularios.prova', $prova)
-			->where('formularios.aluno', $aluno)
-			->get()
-			->result();
-			
+		->select(['disciplinas.id', 'disciplinas.nome', 'formularios.id formulario','formularios.prova'])
+		->from('disciplinas')
+		->join('matriculas', 'matriculas.disciplina = disciplinas.id')
+		->join('formularios', 'formularios.disciplina = matriculas.disciplina AND formularios.aluno = matriculas.aluno')
+		->where('formularios.prova', $prova)
+		->where('formularios.aluno', $aluno)
+		->get()
+		->result();
+		
 
 		return $disciplinas;
 	}
 	function getQuestoesByFormulario( $formulario )
 	{
 		$questoes = $this->db
-			->select('questao')
-			->from('itens_prova')
-			->where('formulario', $formulario)
-			->get()
-			->result_array();
+		->select('questao')
+		->from('itens_prova')
+		->where('formulario', $formulario)
+		->get()
+		->result_array();
 
 
 		$questoes = $this->db
-			->select(['questoes.id questao', 'questoes.descricao'])
-			->from('questoes')
-			->where_in('id', array_column($questoes,'questao'))
-			->get()
-			->result();	
-			
+		->select(['questoes.id questao', 'questoes.descricao'])
+		->from('questoes')
+		->where_in('id', array_column($questoes,'questao'))
+		->get()
+		->result();	
+		
 		return $questoes;
 	}
 	function getAlternativasByQuestoes( $questao )
 	{
 		$alternativas = $this->db
-			->where('questao', $questao)
-			->order_by('id', 'random')
-			->get('alternativas')
-			->result();
+		->where('questao', $questao)
+		->order_by('id', 'random')
+		->get('alternativas')
+		->result();
 
 		return $alternativas;
 	}
@@ -130,17 +130,23 @@ class Provas_model extends CI_Model {
 		->where('provas.id', $prova)
 		->get()
 		->result_array();
+		// echo $this->db->last_query();
+			// exit();
 
 	}
 
 
-	function getProva(){ 
+	function getProva($id){ 
 		$prova = $this->db
-			->from('provas')
-			->where('aplicacao', date('Y-m-d'))
-			->limit(1)
-			->get()
-			->result();
+		->select('provas.id, provas.nome, provas.criado_em, provas.aplicacao, provas.qtd_questoes, provas.reaproveitar, provas.tipo_prova, provas.nota, provas.professor, formularios.situacao, formularios.aluno')
+		->from('provas')
+		->join('formularios','formularios.prova = provas.id AND formularios.aluno = '.$id.'','left')
+		->where('aplicacao', date('Y-m-d'))
+		->limit(1)
+		->get()
+		->result();
+			// echo $this->db->last_query();
+			// exit();
 		return reset($prova);
 	}
 
@@ -149,6 +155,8 @@ class Provas_model extends CI_Model {
 		->where('aluno',$id)
 		->set('situacao','finalizada')
 		->update('formularios');
+		echo $this->db->last_query();
+		exit();
 	}
 
 	function getProvas(){
@@ -162,22 +170,18 @@ class Provas_model extends CI_Model {
 		->get()
 		->result_array();
 		return $dados;
- 		print_r($this->db->last_query());
-		exit();
 	}
+
 
 	function insereSessao($data){
-		$this->db->insert('sessoes', $data);
+		$this->db->replace('sessoes', $data);
 		return $this->db->insert_id();
 	}
+
+	function insereFimSessao($id){
+		return $this->db
+		->where('usuario',$id)
+		->set('termino', date('Y-m-d H:m:s'))
+		->update('sessoes');
+	}
 }
-
-
-
-
-
-
-
-
-
-

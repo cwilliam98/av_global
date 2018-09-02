@@ -14,7 +14,6 @@ $('#finalizar_prova').click(function(){
 	var resposta = confirm("Deseja realmente encerrar a prova?");
 
 	
-	console.log($(this).val());
 	$.ajax({
 		type: "POST",
 		url: '<?php echo base_url('provas/resultado') ?>',

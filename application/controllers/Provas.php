@@ -105,11 +105,19 @@ class Provas extends CI_Controller {
 
 
 
-		$prova = $this->Provas_model->getProva();
+		$prova = $this->Provas_model->getProva($aluno['id']);
+
+
 		if(!$prova)
 		{
 			redirect('provas/aviso');
+
+		} else if($prova->situacao == 'finalizada' && $prova->aluno == $aluno['id']){
+
+			redirect('provas/aviso');	
+
 		}
+		
 
 		$formularios = $this->Provas_model->getProvaAluno($aluno['id'],$prova->id);
 
@@ -161,8 +169,15 @@ class Provas extends CI_Controller {
 		$this->load->view('template_alunos_header.php',['aluno' => $aluno]);
 
 
-		$prova = $this->Provas_model->getProva();
-
+		$prova = $this->Provas_model->getProva($aluno['id']);
+// echo "<pre>";
+//  print_r($prova); 
+//  echo $aluno['id'];
+//  exit();
+		if($prova->situacao == 'finalizada' && $prova->aluno == $aluno['id']){
+			
+			redirect('provas/aviso');	
+		}
 		
 		$prova->disciplinas = $this->Provas_model->getDisciplinas( $prova->id, $aluno['id'] );
 
@@ -198,15 +213,16 @@ class Provas extends CI_Controller {
 			redirect('login');
 		}
 
-		$aluno = $this->session->userdata('aluno');
 
 		$this->load->model('Provas_model');
+		
 		foreach ($this->input->post('questao') as $questao => $alternativa)
 		{
 			$resultado =  $this->Provas_model->getAlternativaById($alternativa,$questao,$aluno['id']);
 
 			if($resultado){
-				$this->Provas_model->inserirRespostas($resultado);
+				$id = $this->Provas_model->inserirRespostas($resultado);
+				
 			}
 		}
 
@@ -218,17 +234,21 @@ class Provas extends CI_Controller {
 			redirect('login');
 		}
 
-		$aluno = $this->session->userdata('aluno');
 
 		$this->load->model('Provas_model');
 
+
+
 		$id = $this->input->post('id');
+
+		
+		$this->Provas_model->insereFimSessao($id);
 
 		if(!$this->Provas_model->atualizaSituacaoProva($id)){
 			echo json_encode('erro');
 		}
-		else{
-			echo json_encode($this->Provas_model->atualizaSituacaoProva($id));
+		else {
+			echo json_encode('funcionou');
 		}
 
 
@@ -245,23 +265,18 @@ class Provas extends CI_Controller {
 
 		$this->load->model('Provas_model');
 
-		$provas = $this->Provas_model->getProvas();
+		$provas['prova'] = $this->Provas_model->getProvas();
 
+		$prova['prova'] = $provas['prova'];
+
+		$this->load->view('acompanhamento_provas_tpl', $prova);
 		
-		foreach ($provas as $prova) {
-			
-			$this->load->view('acompanhamento_provas_tpl', $prova);
-		}
 
 	}
 
 	public function fim(){
-		if(!$this->session->userdata('logado'))
-		{
-			redirect('login');
-		}
-
-		$aluno = $this->session->userdata('aluno');
+		
+		$this->session->sess_destroy();
 
 		$this->load->view('fim_tpl');
 
@@ -270,10 +285,9 @@ class Provas extends CI_Controller {
 	public function sessao(){
 		if(!$this->session->userdata('logado'))
 		{
-			redirect('login');
+			redirect('login'); 
 		}
 
-		$aluno = $this->session->userdata('aluno');
 
 		$this->load->model('Provas_model');
 

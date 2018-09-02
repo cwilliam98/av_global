@@ -15,21 +15,7 @@
 
 	<title>Acompanhar</title>
 
-	<div class="container">
-		
-		
-		<div class="row">
-			
-			<div class="col col-md-4">
-				<table class="table">
-					<thead>
-						<tr>
-							<th scope="col">Situação</th>
-							<th scope="col">Aluno</th>
-							<th scope="col">Disciplinas</th>
-						</tr>
-					</thead>
-
+	
 
 
 

@@ -1,14 +1,10 @@
 
-<?php if (!$usuario) { ?>
+<?php if (!$prova) { ?>
 <div class="container">
-	
-	
 	<div class="row">
-		
 		<div class="col col-md-4">
 			<p> Você não tem provas para acompanhar hoje!</p>
 		</div>
-		
 	</div>
 </div>
 
@@ -20,21 +16,28 @@
 	
 	<div class="row">
 		
-		<div class="col col-md-4">
+		<div class="col col-md-12">
 			<table class="table">
 				<thead>
 					<tr>
 						<th scope="col">Situação</th>
 						<th scope="col">Aluno</th>
 						<th scope="col">Disciplinas</th>
+						<th scope="col">Aplicação</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td><?php echo $situacao?></td>
-						<td><?php echo $usuario?></td>
-						<td><?php echo $disciplina?></td>
-					</tr>
+					<?php foreach ($prova as  $dado) { ?>
+						
+						<tr>
+							<td><?php echo $dado['situacao'] ?></td>
+							<td><?php echo $dado['usuario'] ?></td>
+							<td><?php echo $dado['disciplina'] ?></td>
+							<td><?php echo date('d/m/Y h:m:s',strtotime($dado['aplicacao'])) ?></td>
+							<td><?php echo $dado['qtd_questoes'] ?></td>
+						</tr>
+
+					<?php } ?>
 				</tbody>
 			</table>	
 		</div>

@@ -102,7 +102,7 @@
             
               <div class="col-sm-6 col-sm-offset-3">
                 <button type="submit"  id="cadastrar" class="btn btn-lg btn-success btn-block"> 
-                <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
+                <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
                 Login
                 </button>
               </div>

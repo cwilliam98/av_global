@@ -32,20 +32,20 @@
 				</div>
 
 				<h4>Reaproveitar prova</h4>
-				<div  class="checkbox">
+				<div  class="radio">
 						<div style="padding-left: 20px">
-							<input type="checkbox" id="reaproveitar" name="reaproveitar" value="nao">
-							<label for="">Sim</label>
+							<input type="radio" id="reaproveitar_sim" name="reaproveitar" value="nao">
+							<label for="reaproveitar_sim">Sim</label>
 						</div>
 						<div style="padding-left: 20px">
-							<input type="checkbox" id="reaproveitar" name="reaproveitar" value="sim">
-							<label for="reaproveitar">Não</label>
+							<input type="radio" id="reaproveitar_nao" name="reaproveitar" value="sim">
+							<label for="reaproveitar_nao">Não</label>
 						</div>
 				</div>
 
 				<div class="form-group <?php echo form_error('data') ? 'has-error' : '' ?>">
 					<label >Tipo de prova</label>
-					<input type="text" class="form-control" id="tipo_prova" name="tipo_prova" placeholder="tipo_prova"  value="<?php echo set_value('tipo_prova') ?>">
+					<input type="text" class="form-control" id="tipo_prova" name="tipo_prova" placeholder="tipo da prova"  value="<?php echo set_value('tipo_prova') ?>">
 					<span id="helpBlock2" class="help-block"><?php echo form_error('tipo_prova'); ?></span>
 				</div>
 
