@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 01-Set-2018 às 01:17
+-- Generation Time: 02-Set-2018 às 20:24
 -- Versão do servidor: 10.1.13-MariaDB
 -- PHP Version: 5.5.34
 
@@ -226,33 +226,13 @@ CREATE TABLE IF NOT EXISTS `formularios` (
   PRIMARY KEY (`id`),
   KEY `fk_provas_matriculas1_idx` (`aluno`,`disciplina`),
   KEY `fk_provas_provas1_idx` (`prova`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Truncate table before insert `formularios`
 --
 
 TRUNCATE TABLE `formularios`;
---
--- Extraindo dados da tabela `formularios`
---
-
-INSERT INTO `formularios` (`id`, `aluno`, `disciplina`, `prova`, `situacao`) VALUES
-(1, 2, 1, 1, 'finalizada'),
-(2, 2, 2, 1, 'finalizada'),
-(3, 2, 3, 1, 'finalizada'),
-(4, 2, 4, 1, 'finalizada'),
-(5, 4, 3, 1, 'finalizada'),
-(6, 4, 4, 1, 'finalizada'),
-(7, 2, 1, 6, 'em andamento'),
-(8, 2, 2, 6, 'em andamento'),
-(9, 2, 3, 6, 'em andamento'),
-(10, 2, 4, 6, 'em andamento'),
-(11, 2, 1, 7, 'em andamento'),
-(12, 2, 2, 7, 'em andamento'),
-(13, 2, 3, 7, 'em andamento'),
-(14, 2, 4, 7, 'em andamento');
-
 -- --------------------------------------------------------
 
 --
@@ -267,59 +247,13 @@ CREATE TABLE IF NOT EXISTS `itens_prova` (
   PRIMARY KEY (`id`),
   KEY `fk_itens_prova_questoes1_idx` (`questao`),
   KEY `fk_itens_prova_formularios1_idx` (`formulario`)
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Truncate table before insert `itens_prova`
 --
 
 TRUNCATE TABLE `itens_prova`;
---
--- Extraindo dados da tabela `itens_prova`
---
-
-INSERT INTO `itens_prova` (`id`, `questao`, `formulario`) VALUES
-(1, 1, 1),
-(2, 2, 1),
-(3, 3, 1),
-(4, 4, 1),
-(5, 9, 2),
-(6, 10, 2),
-(7, 11, 2),
-(8, 12, 2),
-(9, 17, 3),
-(10, 18, 3),
-(11, 19, 3),
-(12, 20, 3),
-(13, 25, 4),
-(14, 26, 4),
-(15, 27, 4),
-(16, 28, 4),
-(17, 17, 5),
-(18, 18, 5),
-(19, 19, 5),
-(20, 20, 5),
-(21, 25, 6),
-(22, 26, 6),
-(23, 27, 6),
-(24, 28, 6),
-(25, 1, 7),
-(26, 2, 7),
-(27, 9, 8),
-(28, 10, 8),
-(29, 17, 9),
-(30, 18, 9),
-(31, 25, 10),
-(32, 26, 10),
-(33, 1, 11),
-(34, 2, 11),
-(35, 9, 12),
-(36, 10, 12),
-(37, 17, 13),
-(38, 18, 13),
-(39, 25, 14),
-(40, 26, 14);
-
 -- --------------------------------------------------------
 
 --
@@ -353,7 +287,9 @@ INSERT INTO `matriculas` (`aluno`, `disciplina`) VALUES
 (2, 3),
 (2, 4),
 (4, 3),
-(4, 4);
+(4, 4),
+(7, 1),
+(7, 2);
 
 -- --------------------------------------------------------
 
@@ -374,7 +310,7 @@ CREATE TABLE IF NOT EXISTS `provas` (
   `professor` int(10) UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
   KEY `professor_usuario_idx` (`professor`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 --
 -- Truncate table before insert `provas`
@@ -386,11 +322,7 @@ TRUNCATE TABLE `provas`;
 --
 
 INSERT INTO `provas` (`id`, `nome`, `criado_em`, `aplicacao`, `qtd_questoes`, `reaproveitar`, `tipo_prova`, `nota`, `professor`) VALUES
-(1, 'Avaliação Global', '2018-08-20 19:41:17', '2018-08-20 00:00:00', 4, 0, 'Avaliação global', 0, 2),
-(2, 'Avaliação Global', '2018-08-20 19:43:05', '2018-08-20 00:00:00', 2, 0, 'Avaliação global', 0, 2),
-(5, 'Teste', '2018-08-20 21:07:01', '2018-08-20 00:00:00', 2, 0, 'n sei', 0, 4),
-(6, 'Avaliação Global', '2018-08-22 22:35:42', '2018-08-22 00:00:00', 2, 0, 'n sei', 0, 1),
-(7, 'teste', '2018-08-26 15:23:17', '2018-08-26 00:00:00', 2, 0, 'n sei', 0, 1);
+(1, 'Avaliação Global', '2018-09-02 14:15:20', '2018-09-02 00:00:00', 2, 0, 'Avaliação global', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -468,7 +400,7 @@ CREATE TABLE IF NOT EXISTS `respostas` (
   `item_prova` int(10) UNSIGNED NOT NULL,
   `alternativa` int(11) NOT NULL,
   `criado_em` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`item_prova`,`alternativa`),
+  PRIMARY KEY (`item_prova`),
   KEY `fk_prova_respondida_itens_prova1_idx` (`item_prova`),
   KEY `fk_prova_respondida_alternativas1_idx` (`alternativa`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -478,28 +410,6 @@ CREATE TABLE IF NOT EXISTS `respostas` (
 --
 
 TRUNCATE TABLE `respostas`;
---
--- Extraindo dados da tabela `respostas`
---
-
-INSERT INTO `respostas` (`item_prova`, `alternativa`, `criado_em`) VALUES
-(1, 1, '2018-08-15 20:55:13'),
-(1, 2, '2018-08-26 15:31:48'),
-(1, 3, '2018-08-15 21:02:25'),
-(1, 4, '2018-08-26 16:04:02'),
-(2, 6, '2018-08-17 21:23:22'),
-(2, 7, '2018-08-26 16:04:07'),
-(2, 34, '2018-08-15 21:02:49'),
-(2, 36, '2018-08-15 21:02:41'),
-(3, 35, '2018-08-17 21:23:29'),
-(4, 37, '2018-08-17 21:23:32'),
-(5, 36, '2018-08-26 16:04:09'),
-(6, 40, '2018-08-26 16:04:12'),
-(17, 66, '2018-08-26 16:04:04'),
-(18, 72, '2018-08-26 16:04:05'),
-(21, 99, '2018-08-26 16:04:10'),
-(22, 101, '2018-08-26 16:04:11');
-
 -- --------------------------------------------------------
 
 --
@@ -514,21 +424,13 @@ CREATE TABLE IF NOT EXISTS `sessoes` (
   `termino` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `usuario_idx` (`usuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Truncate table before insert `sessoes`
 --
 
 TRUNCATE TABLE `sessoes`;
---
--- Extraindo dados da tabela `sessoes`
---
-
-INSERT INTO `sessoes` (`id`, `usuario`, `inicio`, `termino`) VALUES
-(2, 2, '2018-08-26 15:42:46', NULL),
-(3, 2, '2018-08-26 16:03:39', NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -543,7 +445,7 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   `senha` varchar(200) NOT NULL,
   `contexto` enum('aluno','professor','administrador') DEFAULT 'aluno',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 --
 -- Truncate table before insert `usuarios`
@@ -558,7 +460,8 @@ INSERT INTO `usuarios` (`id`, `nome`, `codigo`, `senha`, `contexto`) VALUES
 (1, 'Cristian William Albrecht', '4964', '1234', 'aluno'),
 (2, 'Mikael Powzum Amorim', '7878', '1234', 'aluno'),
 (3, 'Ederson', '0740', '1234', 'professor'),
-(4, 'Mateus', '1234', '1234', 'aluno');
+(4, 'Mateus', '1234', '1234', 'aluno'),
+(7, 'Diana', '3232', '1234', 'aluno');
 
 --
 -- Constraints for dumped tables
