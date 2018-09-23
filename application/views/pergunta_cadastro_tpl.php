@@ -4,18 +4,10 @@
 .classe {
 	background: #f8f8f8;
 }
-.blur {
-	/* Any browser which supports CSS3 */
-	filter: blur(1px);
-	/* Firefox version 34 and earlier */
-	filter: url('data:image/svg;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/Pgo8IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPjxzdmcgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj48ZGVmcz48ZmlsdGVyIGlkPSJnYXVzc2lhbl9ibHVyIj48ZmVHYXVzc2lhbkJsdXIgaW49IlNvdXJjZUdyYXBoaWMiIHN0ZERldmlhdGlvbj0iMSIgLz48L2ZpbHRlcj48L2RlZnM+PC9zdmc+#gaussian_blur');
-	/* Webkit in Chrome 52, Safari 9, Opera 39, and earlier */
-	-webkit-filter: blur(1px);
-}
 </style>
 <title>Cadastro de Questões</title>
 
-
+<?php include 'index_admin_tpl.php' ?>
 <div class="container">
 	<div class="row">
 		<div class="col-md-6  col-md-offset-2 classe">
@@ -28,13 +20,13 @@
 
 <div class="container">
 	<div class="row">
-		<div class="col-md-6  col-md-offset-2 classe">
+		<div class="col-md-10  col-md-offset-2 classe">
 			
 			<form method="post" action="<?php echo base_url('perguntas/execCadastraPergunta')?>" id="cadastra_perguntas" class="">
-				<div class="form-group">
+				<div class="form-group <?php echo form_error('questao') ? 'has-error' : '' ?>">
 					<label >Pergunta 1</label>
 					<textarea style=" resize: vertical;" rows="4" type="text" class="form-control" id="questao" name="questao" placeholder="Questão" autofocus ><?php echo set_value('questao'); ?></textarea>
-					<span id="questao" name="questao" class="help-block"></span>
+					<span id="helpBlock2" class="help-block"><?php echo form_error('questao'); ?></span>
 				</div>
 
 				<div class="form-group">
@@ -45,7 +37,7 @@
 						</span>
 						<textarea type="text" class="form-control" id="alternativaA" name="alternativa[A]" placeholder="alternativa A"><?php echo set_value('alternativa[]'); ?></textarea>
 					</div><!-- /input-group -->
-					<span id="alternativaA" name="alternativa[A]" class="help-block"></span>
+					<span id="helpBlock2" class="help-block"><?php echo form_error('nome'); ?></span>
 				</div>
 
 				<div class="form-group">

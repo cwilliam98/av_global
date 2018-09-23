@@ -6,10 +6,10 @@
 	background: #f8f8f8;
 }
 </style>
-
+<?php include 'index_admin_tpl.php' ?>
 <div class="container">
 	<div class="row">
-		<div class="col-md-6  col-md-offset-2 classe">
+		<div class="col-md-10  col-md-offset-2 classe">
 			<h3>Cadastrar nova prova</h3>
 
 			<form method="post" action="<?php echo site_url('provas/execCadastraProva') ?>">

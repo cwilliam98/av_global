@@ -34,21 +34,24 @@ class Login extends CI_Controller {
 		$this->load->model('Login_model');
 		$aluno = $this->Login_model->login($codigo,$senha);
 
-		if (!$aluno)
-		{
+		if (!$aluno){
 			redirect('login/index?aviso=2');
 		}
 
-		if ($aluno['codigo'] == '4964')
-		{
+		if ($aluno['contexto'] == 'administrador'){
 
 			$this->session->set_userdata('logado', TRUE);
 			$this->session->set_userdata('aluno', $aluno);
 			redirect('admin');
 		}
 
-		else
-		{
+		else if ($aluno['contexto'] == 'professor'){
+			$this->session->set_userdata('logado', TRUE);
+			$this->session->set_userdata('aluno', $aluno);
+			redirect('admin/professor');
+		}
+
+		else {
 			$this->session->set_userdata('logado', TRUE);
 			$this->session->set_userdata('aluno', $aluno);
 			redirect('provas/fazer', ['aluno' => $aluno] );

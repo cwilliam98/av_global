@@ -6,10 +6,11 @@
 background: #f8f8f8;
 }
 </style>
+<?php include 'index_admin_tpl.php' ?>
 
 		<div class="container">
 			<div class="row">
-				<div class="col-md-10 col-md-offset-1">
+				<div class="col-md-10 col-md-offset-2">
 					<nav class="navbar navbar-default">
 						<div class="container-fluid">
 							<div class="navbar-header">
@@ -23,7 +24,8 @@ background: #f8f8f8;
 			</div>
 		</div>
 		
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="<?php echo base_url(); ?>assets/js/jquery-3.2.1.min.js"></script>
+
 <script language="javascript">
 <!--
 $(document).ready(function() {

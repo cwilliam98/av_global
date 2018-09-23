@@ -64,6 +64,21 @@
         </div>
         <!-- /#sidebar-wrapper -->
 
+        <?php if($this->input->get('aviso')==1) { ?>    
+            <div class="alert alert-success alert-dismissible fade in" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>Sucesso!</strong> Registro inserido com sucesso.
+            </div>
+        <?php } ?>
+        
+        <?php if($this->input->get('aviso')==2) { ?>
+            <div class="alert alert-danger alert-dismissible fade in" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>Errooo!</strong> Registro não inserido.
+            </div>
+        <?php } ?>
+
+
         <!-- Page Content -->
         <div id="page-content-wrapper">
             <div class="container-fluid" id="coisas">
@@ -75,69 +90,64 @@
     <!-- /#wrapper -->
 
     <!-- Bootstrap core JavaScript -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/js/jquery-3.2.1.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/js/bootstrap.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/ckeditor/ckeditor.js"></script>
 
     <script>
 
+        // window.onbeforeunload = function() {
+            // return "Os dados do formulário serão perdidos.";
+        // }
+
+        setTimeout(function(){
+            $('button.close').click()
+        },2000);
+
         $("#wrapper").toggleClass("toggled");
-        
+
+
         $("#cadastra_pergunta").click(function(e){
             e.preventDefault();
-            $.get('<?php echo base_url('perguntas/cadastra') ?>', function(data){
-
-                $('#coisas').html(data);
-
-            });
+            window.location.href = 'http://localhost/av_global/perguntas/cadastra'; 
         });
 
         $("#cadastrar_provas").click(function(e){
-            e.preventDefault();
-            $.get('<?php echo base_url('provas/index') ?>', function(data){
 
-                $('#coisas').html(data);
-
-            });
-        });
+           e.preventDefault();
+           window.location.href = 'http://localhost/av_global/provas/index'; 
+       });
 
         $("#perguntas_cadastradas").click(function(e){
-            e.preventDefault();
-            $.get('<?php echo base_url('perguntas/index') ?>', function(data){
-
-                $('#coisas').html(data);
-
-            });
-        });
+           e.preventDefault();
+           window.location.href = 'http://localhost/av_global/perguntas/index'; 
+           
+       });
 
         $("#cadastrar_alunos").click(function(e){
-            e.preventDefault();
-            $.get('<?php echo base_url('alunos/index') ?>', function(data){
 
-                $('#coisas').html(data);
-
-            });
-        });
+           e.preventDefault();
+           window.location.href = 'http://localhost/av_global/alunos/index'; 
+           e.preventDefault();
+           
+       });
 
         $("#cadastrar_disciplina").click(function(e){
-            e.preventDefault();
-            $.get('<?php echo base_url('disciplinas/index') ?>', function(data){
 
-                $('#coisas').html(data);
-
-            });
-        });
+           e.preventDefault();
+           window.location.href = 'http://localhost/av_global/disciplinas/index'; 
+           
+       });
 
         $("#acompanha_provas").click(function(e){
-            e.preventDefault();
-            $.get('<?php echo base_url('provas/acompanhaProvas') ?>', function(data){
 
-                $('#coisas').html(data);
-
-            });
-        });
+           e.preventDefault();
+           window.location.href = 'http://localhost/av_global/provas/acompanhaProvas'; 
+       });
 
 
 
-    </script>
+   </script>
 
 </body>
 

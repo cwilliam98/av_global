@@ -1,8 +1,9 @@
 <?php include 'template_header.php' ?>
 	<title>Cadastro de Disciplinas</title>
+	<?php include 'index_admin_tpl.php' ?>
 		<div class="container">
 			<div class="row">
-				<div class="col-md-10 col-md-offset-1">
+				<div class="col-md-10 col-md-offset-2">
 					<nav class="navbar navbar-default">
 						<div class="container-fluid">
 							<div class="navbar-header">
@@ -18,7 +19,7 @@
 		
 		<div class="container">
 			<div class="row">
-				<div class="col-md-6  col-md-offset-3">
+				<div class="col-md-10  col-md-offset-2">
 					<h3>Cadastrar nova Disciplina</h3>
 					
 					<form method="post" action="<?php echo site_url('disciplinas/execCadastraDisciplina') ?>">
