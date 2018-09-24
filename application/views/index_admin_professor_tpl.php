@@ -86,52 +86,45 @@
     <script src="<?php echo base_url(); ?>assets/js/bootstrap.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/ckeditor/ckeditor.js"></script>
 
-    <script>
-     setTimeout(function(){
-        $('button.close').click()
-    },2000);
+       <script>
 
-     $("#wrapper").toggleClass("toggled");
+        // window.onbeforeunload = function() {
+            // return "Os dados do formulário serão perdidos.";
+        // }
 
-     $("#cadastra_pergunta").click(function(e){
-        e.preventDefault();
-        $.get('<?php echo base_url('perguntas/cadastra') ?>', function(data){
+        setTimeout(function(){
+            $('button.close').click()
+        },2000);
 
-            $('#coisas').html(data);
+        $("#wrapper").toggleClass("toggled");
 
+
+        $("#cadastra_pergunta").click(function(e){
+            e.preventDefault();
+            window.location.href = 'http://localhost/av_global/perguntas/cadastra'; 
         });
-    });
 
-     $("#cadastrar_provas").click(function(e){
-        e.preventDefault();
-        $.get('<?php echo base_url('provas/index') ?>', function(data){
+        $("#cadastrar_provas").click(function(e){
 
-            $('#coisas').html(data);
+           e.preventDefault();
+           window.location.href = 'http://localhost/av_global/provas/index'; 
+       });
 
-        });
-    });
+        $("#perguntas_cadastradas").click(function(e){
+           e.preventDefault();
+           window.location.href = 'http://localhost/av_global/perguntas/index'; 
+           
+       });
 
-     $("#perguntas_cadastradas").click(function(e){
-        e.preventDefault();
-        $.get('<?php echo base_url('perguntas/index') ?>', function(data){
+        $("#acompanha_provas").click(function(e){
 
-            $('#coisas').html(data);
-
-        });
-    });
-
-     $("#acompanha_provas").click(function(e){
-        e.preventDefault();
-        $.get('<?php echo base_url('provas/acompanhaProvas') ?>', function(data){
-
-            $('#coisas').html(data);
-
-        });
-    });
+           e.preventDefault();
+           window.location.href = 'http://localhost/av_global/provas/acompanhaProvas'; 
+       });
 
 
 
-</script>
+   </script>
 
 </body>
 

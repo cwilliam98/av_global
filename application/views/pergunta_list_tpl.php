@@ -1,7 +1,13 @@
-<?php include 'template_header.php' ?>
+<?php
+$aluno = $_SESSION['aluno'];
+if ($aluno['contexto'] == 'professor'){
+ include 'index_admin_professor_tpl.php'; 
+} else {
+include 'index_admin_tpl.php';
+}
+?>
 
 <body>
-	<?php include 'index_admin_tpl.php' ?>
 	<div class="container">
 		<div class="col-md-12 col-md-offset-2">
 

@@ -162,10 +162,7 @@ class Provas extends CI_Controller {
 
 
 			$prova = $this->Provas_model->getProva($aluno['id']);
-// echo "<pre>";
-//  print_r($prova); 
-//  echo $aluno['id'];
-//  exit();
+
 			if($prova->situacao == 'finalizada' && $prova->aluno == $aluno['id']){
 
 				redirect('provas/aviso');	

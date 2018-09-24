@@ -1,6 +1,12 @@
-<?php include 'template_header.php' ?>
+<?php
+$aluno = $_SESSION['aluno'];
+if ($aluno['contexto'] == 'professor'){
+ include 'index_admin_professor_tpl.php'; 
+} else {
+include 'index_admin_tpl.php';
+}
+?>
 	<title>Cadastro de Disciplinas</title>
-	<?php include 'index_admin_tpl.php' ?>
 		<div class="container">
 			<div class="row">
 				<div class="col-md-10 col-md-offset-2">

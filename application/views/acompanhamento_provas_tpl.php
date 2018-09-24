@@ -1,4 +1,12 @@
-<?php include 'index_admin_tpl.php' ?>
+<?php
+$aluno = $_SESSION['aluno'];
+if ($aluno['contexto'] == 'professor'){
+ include 'index_admin_professor_tpl.php'; 
+} else {
+include 'index_admin_tpl.php';
+}
+ 
+ ?>
 <?php if (!$prova) { ?>
 <div class="container">
 	<div class="row">

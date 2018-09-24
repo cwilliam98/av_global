@@ -1,4 +1,11 @@
-<?php include 'template_header.php' ?>
+<?php
+$aluno = $_SESSION['aluno'];
+if ($aluno['contexto'] == 'professor'){
+ include 'index_admin_professor_tpl.php'; 
+} else {
+include 'index_admin_tpl.php';
+}
+?>
 <title>Cadastro de Provas</title>
 
 <style>
@@ -6,7 +13,6 @@
 	background: #f8f8f8;
 }
 </style>
-<?php include 'index_admin_tpl.php' ?>
 <div class="container">
 	<div class="row">
 		<div class="col-md-10  col-md-offset-2 classe">
