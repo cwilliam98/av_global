@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 02-Set-2018 às 20:24
+-- Generation Time: 02-Out-2018 às 04:19
 -- Versão do servidor: 10.1.13-MariaDB
 -- PHP Version: 5.5.34
 
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `alternativas` (
   `questao` int(10) UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_alternativas_questoes1_idx` (`questao`)
-) ENGINE=InnoDB AUTO_INCREMENT=131 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=142 DEFAULT CHARSET=utf8;
 
 --
 -- Truncate table before insert `alternativas`
@@ -177,7 +177,18 @@ INSERT INTO `alternativas` (`id`, `descricao`, `correta`, `questao`) VALUES
 (127, '3ª alternativa da questão', 0, 32),
 (128, '4ª alternativa da questão', 0, 32),
 (129, 'djaksdjksa', 1, 43),
-(130, 'djaksdjksa', 1, 44);
+(130, 'djaksdjksa', 1, 44),
+(131, 'aaaaa', 1, 45),
+(132, 'ggg', 1, 46),
+(133, 'teste', 1, 47),
+(134, 'teste', 1, 48),
+(135, 'teste', 1, 49),
+(136, 'teste', 1, 50),
+(137, 'teste', 1, 51),
+(138, 'teste', 1, 52),
+(139, 'teste', 1, 53),
+(140, 'teste', 1, 54),
+(141, 'teste', 1, 55);
 
 -- --------------------------------------------------------
 
@@ -189,11 +200,10 @@ DROP TABLE IF EXISTS `disciplinas`;
 CREATE TABLE IF NOT EXISTS `disciplinas` (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `nome` varchar(45) NOT NULL,
-  `periodo` varchar(45) NOT NULL,
   `professor` int(10) UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
   KEY `professor_usuario_idx` (`professor`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 --
 -- Truncate table before insert `disciplinas`
@@ -204,11 +214,14 @@ TRUNCATE TABLE `disciplinas`;
 -- Extraindo dados da tabela `disciplinas`
 --
 
-INSERT INTO `disciplinas` (`id`, `nome`, `periodo`, `professor`) VALUES
-(1, 'Redes e Servidores', '', 3),
-(2, 'Orientação a objetos', '', 3),
-(3, 'Estrutura de Dados', '', 3),
-(4, 'Banco de Dados', '', 3);
+INSERT INTO `disciplinas` (`id`, `nome`, `professor`) VALUES
+(1, 'Redes e Servidores', 3),
+(2, 'Orientação a objetos', 9),
+(3, 'Estrutura de Dados', 9),
+(4, 'Banco de Dados', 3),
+(5, 'teste', 3),
+(6, 'Orientação a objetos', 9),
+(7, 'Orientação a objetos', 3);
 
 -- --------------------------------------------------------
 
@@ -226,13 +239,27 @@ CREATE TABLE IF NOT EXISTS `formularios` (
   PRIMARY KEY (`id`),
   KEY `fk_provas_matriculas1_idx` (`aluno`,`disciplina`),
   KEY `fk_provas_provas1_idx` (`prova`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 --
 -- Truncate table before insert `formularios`
 --
 
 TRUNCATE TABLE `formularios`;
+--
+-- Extraindo dados da tabela `formularios`
+--
+
+INSERT INTO `formularios` (`id`, `aluno`, `disciplina`, `prova`, `situacao`) VALUES
+(1, 7, 1, 1, 'finalizada'),
+(2, 7, 2, 1, 'finalizada'),
+(3, 2, 1, 1, 'finalizada'),
+(4, 2, 2, 1, 'finalizada'),
+(5, 2, 3, 1, 'finalizada'),
+(6, 2, 4, 1, 'finalizada'),
+(7, 4, 3, 1, 'finalizada'),
+(8, 4, 4, 1, 'finalizada');
+
 -- --------------------------------------------------------
 
 --
@@ -247,13 +274,59 @@ CREATE TABLE IF NOT EXISTS `itens_prova` (
   PRIMARY KEY (`id`),
   KEY `fk_itens_prova_questoes1_idx` (`questao`),
   KEY `fk_itens_prova_formularios1_idx` (`formulario`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8;
 
 --
 -- Truncate table before insert `itens_prova`
 --
 
 TRUNCATE TABLE `itens_prova`;
+--
+-- Extraindo dados da tabela `itens_prova`
+--
+
+INSERT INTO `itens_prova` (`id`, `questao`, `formulario`) VALUES
+(1, 1, 1),
+(2, 2, 1),
+(3, 3, 1),
+(4, 4, 1),
+(5, 5, 1),
+(6, 9, 2),
+(7, 10, 2),
+(8, 11, 2),
+(9, 12, 2),
+(10, 13, 2),
+(11, 1, 3),
+(12, 2, 3),
+(13, 3, 3),
+(14, 4, 3),
+(15, 5, 3),
+(16, 9, 4),
+(17, 10, 4),
+(18, 11, 4),
+(19, 12, 4),
+(20, 13, 4),
+(21, 17, 5),
+(22, 18, 5),
+(23, 19, 5),
+(24, 20, 5),
+(25, 21, 5),
+(26, 25, 6),
+(27, 26, 6),
+(28, 27, 6),
+(29, 28, 6),
+(30, 29, 6),
+(31, 17, 7),
+(32, 18, 7),
+(33, 19, 7),
+(34, 20, 7),
+(35, 21, 7),
+(36, 25, 8),
+(37, 26, 8),
+(38, 27, 8),
+(39, 28, 8),
+(40, 29, 8);
+
 -- --------------------------------------------------------
 
 --
@@ -289,7 +362,11 @@ INSERT INTO `matriculas` (`aluno`, `disciplina`) VALUES
 (4, 3),
 (4, 4),
 (7, 1),
-(7, 2);
+(7, 2),
+(9, 1),
+(9, 2),
+(9, 3),
+(9, 4);
 
 -- --------------------------------------------------------
 
@@ -310,7 +387,7 @@ CREATE TABLE IF NOT EXISTS `provas` (
   `professor` int(10) UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
   KEY `professor_usuario_idx` (`professor`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
 -- Truncate table before insert `provas`
@@ -322,7 +399,8 @@ TRUNCATE TABLE `provas`;
 --
 
 INSERT INTO `provas` (`id`, `nome`, `criado_em`, `aplicacao`, `qtd_questoes`, `reaproveitar`, `tipo_prova`, `nota`, `professor`) VALUES
-(1, 'Avaliação Global', '2018-09-02 14:15:20', '2018-09-02 00:00:00', 2, 0, 'Avaliação global', 0, 1);
+(1, 'Avaliação Global', '2018-09-22 19:54:18', '2018-09-22 00:00:00', 5, 0, 'Semestral', 0, 1),
+(2, 'teste', '2018-09-28 20:16:16', '2018-09-28 00:00:00', 12, 0, 'Avaliação global', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -342,7 +420,7 @@ CREATE TABLE IF NOT EXISTS `questoes` (
   PRIMARY KEY (`id`),
   KEY `fk_questoes_disciplinas1_idx` (`disciplina`),
   KEY `professor_usuario_idx` (`professor`)
-) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8;
 
 --
 -- Truncate table before insert `questoes`
@@ -387,7 +465,18 @@ INSERT INTO `questoes` (`id`, `descricao`, `criado_em`, `disciplina`, `peso`, `p
 (31, 'Sétima questão de Banco de Dados, a descricão vai aqui.', '2017-11-17 20:32:02', 4, 1, 0, NULL),
 (32, 'Oitava questão de Banco de Dados, a descricão vai aqui.', '2017-11-17 20:32:02', 4, 1, 0, NULL),
 (43, '&lt;p&gt;&lt;img alt=&quot;&quot; src=&quot;http://qnimate.com/wp-content/uploads/2014/03/images2.jpg&quot; style=&quot;height:50px; width:100px&quot; /&gt;hdjahjdhad&lt;/p&gt;\r\n', '2018-08-26 15:11:12', 4, 0, 1, NULL),
-(44, '&lt;p&gt;&lt;img alt=&quot;&quot; src=&quot;http://qnimate.com/wp-content/uploads/2014/03/images2.jpg&quot; style=&quot;height:50px; width:100px&quot; /&gt;hdjahjdhad&lt;/p&gt;\r\n', '2018-08-26 15:11:13', 4, 0, 1, NULL);
+(44, '&lt;p&gt;&lt;img alt=&quot;&quot; src=&quot;http://qnimate.com/wp-content/uploads/2014/03/images2.jpg&quot; style=&quot;height:50px; width:100px&quot; /&gt;hdjahjdhad&lt;/p&gt;\n', '2018-08-26 15:11:13', 4, 0, 1, NULL),
+(45, '<h2 style="font-style:italic"><span style="font-size:22px">Teste???</span></h2>\n', '2018-09-20 21:33:13', 4, 0, 1, NULL),
+(46, '<p><img alt="Imagem" src="uploads/onepiece.jpg" style="height:108px; width:192px" />teste</p>\r\n', '2018-09-21 20:11:29', 4, 0, 1, NULL),
+(47, '<p><em>teste</em></p>\r\n', '2018-09-21 21:06:53', 4, 0, 1, NULL),
+(48, '<p><em>teste</em></p>\r\n', '2018-09-21 21:06:53', 4, 0, 1, NULL),
+(49, '<p>teste</p>\r\n', '2018-09-21 21:08:42', 4, 0, 1, NULL),
+(50, '<p>teste</p>\r\n', '2018-09-21 21:09:47', 4, 0, 1, NULL),
+(51, 'testet', '2018-09-21 21:36:44', 4, 0, 1, NULL),
+(52, '<h1><span style="font-family:Comic Sans MS,cursive">teste</span></h1>\r\n', '2018-09-21 21:49:33', 4, 0, 1, NULL),
+(53, '<h1><span style="font-family:Comic Sans MS,cursive">teste</span></h1>\r\n', '2018-09-21 21:49:48', 4, 0, 1, NULL),
+(54, '&lt;p&gt;teste&lt;/p&gt;\r\n', '2018-09-28 20:39:09', 4, 0, 1, NULL),
+(55, '&lt;p&gt;teste&lt;/p&gt;\r\n', '2018-09-28 22:36:38', 4, 0, 3, NULL);
 
 -- --------------------------------------------------------
 
@@ -410,6 +499,17 @@ CREATE TABLE IF NOT EXISTS `respostas` (
 --
 
 TRUNCATE TABLE `respostas`;
+--
+-- Extraindo dados da tabela `respostas`
+--
+
+INSERT INTO `respostas` (`item_prova`, `alternativa`, `criado_em`) VALUES
+(1, 3, '2018-09-22 20:00:28'),
+(2, 5, '2018-09-22 20:00:31'),
+(3, 12, '2018-09-22 20:00:32'),
+(4, 15, '2018-09-22 20:00:35'),
+(5, 20, '2018-09-22 20:00:41');
+
 -- --------------------------------------------------------
 
 --
@@ -424,13 +524,22 @@ CREATE TABLE IF NOT EXISTS `sessoes` (
   `termino` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `usuario_idx` (`usuario`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- Truncate table before insert `sessoes`
 --
 
 TRUNCATE TABLE `sessoes`;
+--
+-- Extraindo dados da tabela `sessoes`
+--
+
+INSERT INTO `sessoes` (`id`, `usuario`, `inicio`, `termino`) VALUES
+(1, 7, '2018-09-22 19:55:50', '2018-09-22 19:09:43'),
+(2, 2, '2018-09-22 19:57:06', '2018-09-22 20:09:56'),
+(3, 4, '2018-09-22 19:57:27', '2018-09-22 20:09:12');
+
 -- --------------------------------------------------------
 
 --
@@ -445,7 +554,7 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   `senha` varchar(200) NOT NULL,
   `contexto` enum('aluno','professor','administrador') DEFAULT 'aluno',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 --
 -- Truncate table before insert `usuarios`
@@ -457,11 +566,12 @@ TRUNCATE TABLE `usuarios`;
 --
 
 INSERT INTO `usuarios` (`id`, `nome`, `codigo`, `senha`, `contexto`) VALUES
-(1, 'Cristian William Albrecht', '4964', '1234', 'aluno'),
+(1, 'Cristian William Albrecht', '4964', '1234', 'administrador'),
 (2, 'Mikael Powzum Amorim', '7878', '1234', 'aluno'),
 (3, 'Ederson', '0740', '1234', 'professor'),
 (4, 'Mateus', '1234', '1234', 'aluno'),
-(7, 'Diana', '3232', '1234', 'aluno');
+(7, 'Diana', '3232', '1234', 'aluno'),
+(9, 'Pedro', '9999', '1234', 'professor');
 
 --
 -- Constraints for dumped tables
