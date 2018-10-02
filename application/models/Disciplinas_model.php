@@ -6,7 +6,7 @@ class Disciplinas_model extends CI_Model {
 
 	
 	function cadastraDisciplina($disciplina){
-		$this->db->insert('disciplinas', $disciplina);
+		$this->db->replace('disciplinas', $disciplina);
 	    return $this->db->insert_id();
 	}
 	function getDisciplinaById($id)
@@ -19,7 +19,12 @@ class Disciplinas_model extends CI_Model {
 	}
 	
 	function getTodasDisciplinas(){
-		return $this->db->order_by('nome')->get('disciplinas')->result_array();
+		return $this->db
+		->select('usuarios.nome professor, disciplinas.nome, disciplinas.id')
+		->join('usuarios','disciplinas.professor = usuarios.id')
+		->order_by('nome')
+		->get('disciplinas')
+		->result_array();
 
 	}
 
@@ -31,4 +36,12 @@ class Disciplinas_model extends CI_Model {
 		->result_array();
 
 	}
+
+	 function alteraDisciplina($data,$id){
+        $this->db->where('id' , $id);
+       $retorno = $this->db->update('disciplinas', $data);
+
+       return $retorno;
+
+        }
 }

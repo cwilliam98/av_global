@@ -42,19 +42,19 @@ class Login extends CI_Controller {
 
 			$this->session->set_userdata('logado', TRUE);
 			$this->session->set_userdata('aluno', $aluno);
-			redirect('admin');
+			redirect('administrador/admin');
 		}
 
 		else if ($aluno['contexto'] == 'professor'){
 			$this->session->set_userdata('logado', TRUE);
 			$this->session->set_userdata('aluno', $aluno);
-			redirect('admin/professor');
+			redirect('professor/admin');
 		}
 
 		else {
 			$this->session->set_userdata('logado', TRUE);
 			$this->session->set_userdata('aluno', $aluno);
-			redirect('provas/fazer', ['aluno' => $aluno] );
+			redirect('aluno/provas/fazer', ['aluno' => $aluno] );
 		}
 
 		
