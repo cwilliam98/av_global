@@ -23,114 +23,111 @@ class Provas extends CI_Controller {
 
 	public function aviso(){
 
-			$this->load->view('aluno/prova_aviso');
+		$this->load->view('aluno/prova_aviso');
 
 	}
 
 	public function gerarProva(){
 
-			$this->load->model('Provas_model');
-			$this->load->model('Itens_prova_model');
-			$this->load->model('Formularios_model');
+		$aluno = $this->session->userdata('aluno');
+
+		$this->load->model('Provas_model');
+		$this->load->model('Itens_prova_model');
+		$this->load->model('Formularios_model');
 
 
 
-			$prova = $this->Provas_model->getProva($aluno['id']);
+		$prova = $this->Provas_model->getProva($aluno['id']);
 
 
-			if(!$prova)
+		if(!$prova)
+		{
+			redirect('aluno/provas/aviso');
+
+		} else if($prova->situacao == 'finalizada' && $prova->aluno == $aluno['id']){
+
+			redirect('aluno/provas/aviso');	
+
+		}
+
+
+		$formularios = $this->Provas_model->getProvaAluno($aluno['id'],$prova->id);
+
+
+		foreach ($formularios as $formulario) {
+
+			$data_formulario = array(
+				"aluno" => $aluno['id'],
+				"disciplina" => $formulario['disciplina'],
+				"prova" => $formulario['prova'],
+				"situacao" => 'em andamento'	
+			);
+
+			$id = $this->Formularios_model->cadastra($data_formulario);
+
+			$questoes = $this->Provas_model->getQuestoesById($formulario['disciplina'], $formulario['qtd_questoes']);
+
+
+
+			foreach($questoes as $questao)
 			{
-				redirect('aluno/provas/aviso');
-
-			} else if($prova->situacao == 'finalizada' && $prova->aluno == $aluno['id']){
-
-				redirect('aluno/provas/aviso');	
-
-			}
-
-
-			$formularios = $this->Provas_model->getProvaAluno($aluno['id'],$prova->id);
-
-
-			foreach ($formularios as $formulario) {
-
-				$data_formulario = array(
-					"aluno" => $aluno['id'],
-					"disciplina" => $formulario['disciplina'],
-					"prova" => $formulario['prova'],
-					"situacao" => 'em andamento'	
+				$data = array(
+					"formulario" => $id,
+					"questao" => $questao['id']
 				);
 
-				$id = $this->Formularios_model->cadastra($data_formulario);
 
-				$questoes = $this->Provas_model->getQuestoesById($formulario['disciplina'], $formulario['qtd_questoes']);
-
-
-
-				foreach($questoes as $questao)
-				{
-					$data = array(
-						"formulario" => $id,
-						"questao" => $questao['id']
-					);
-
-
-					$this->Itens_prova_model->cadastra($data);
-				}
-
+				$this->Itens_prova_model->cadastra($data);
 			}
 
-			redirect('aluno/provas/fazer');
+		}
+
+		redirect('aluno/provas/fazer');
 	}
 
 	public function fazer(){
 
 
-			if(!$this->session->userdata('logado'))
+		$aluno = $this->session->userdata('aluno');
+
+		$this->load->model('alunos_model');
+		$this->load->model('Disciplinas_model');
+		$this->load->model('Provas_model');
+		$this->load->model('Itens_prova_model');
+		$this->load->view('aluno/template_alunos_header.php',['aluno' => $aluno]);
+
+
+		$prova = $this->Provas_model->getProva($aluno['id']);
+
+		if($prova->situacao == 'finalizada' && $prova->aluno == $aluno['id']){
+
+			redirect('aluno/provas/aviso');	
+		}
+
+		$prova->disciplinas = $this->Provas_model->getDisciplinas( $prova->id, $aluno['id'] );
+
+
+
+		if(!$prova->disciplinas)
+		{
+
+			redirect('aluno/provas/gerarProva');
+		}
+
+
+		foreach ($prova->disciplinas as $disciplina)
+		{
+			$disciplina->questoes = $this->Provas_model->getQuestoesByFormulario( $disciplina->formulario );
+			foreach ($disciplina->questoes as $questao)
 			{
-				redirect('login');
+				$questao->alternativas = $this->Provas_model->getAlternativasByQuestoes( $questao->questao );
 			}
+		}
 
-			$aluno = $this->session->userdata('aluno');
+		$this->load->view('aluno/relatorio_provas_aluno_tpl',$prova);
 
-			$this->load->model('alunos_model');
-			$this->load->model('Disciplinas_model');
-			$this->load->model('Provas_model');
-			$this->load->model('Itens_prova_model');
-			$this->load->view('aluno/template_alunos_header.php',['aluno' => $aluno]);
+		$this->load->view('aluno/template_alunos_footer');
 
-
-			$prova = $this->Provas_model->getProva($aluno['id']);
-
-			if($prova->situacao == 'finalizada' && $prova->aluno == $aluno['id']){
-
-				redirect('aluno/provas/aviso');	
-			}
-
-			$prova->disciplinas = $this->Provas_model->getDisciplinas( $prova->id, $aluno['id'] );
-
-
-
-			if(!$prova->disciplinas)
-			{
-
-				redirect('aluno/provas/gerarProva');
-			}
-
-
-			foreach ($prova->disciplinas as $disciplina)
-			{
-				$disciplina->questoes = $this->Provas_model->getQuestoesByFormulario( $disciplina->formulario );
-				foreach ($disciplina->questoes as $questao)
-				{
-					$questao->alternativas = $this->Provas_model->getAlternativasByQuestoes( $questao->questao );
-				}
-			}
-
-			$this->load->view('aluno/relatorio_provas_aluno_tpl',$prova);
-
-			$this->load->view('aluno/template_alunos_footer');
-	
 	}
 
 
@@ -138,18 +135,18 @@ class Provas extends CI_Controller {
 	public function corrigir() {
 
 		$aluno = $this->session->userdata('aluno');
-		 $this->load->model('Provas_model');
+		$this->load->model('Provas_model');
 
 
-			foreach ($this->input->post('questao') as $questao => $alternativa)
-			{
-				$resultado =  $this->Provas_model->getAlternativaById($alternativa,$questao,$aluno['id']);
+		foreach ($this->input->post('questao') as $questao => $alternativa)
+		{
+			$resultado =  $this->Provas_model->getAlternativaById($alternativa,$questao,$aluno['id']);
 
-				if($resultado){
-					$id = $this->Provas_model->inserirRespostas($resultado);
+			if($resultado){
+				$id = $this->Provas_model->inserirRespostas($resultado);
 
-				}
 			}
+		}
 
 	}
 
@@ -157,18 +154,18 @@ class Provas extends CI_Controller {
 
 		$aluno = $this->session->userdata('aluno');
 
-			$this->load->model('Provas_model');
+		$this->load->model('Provas_model');
 
-			$id = $this->input->post('id');
+		$id = $this->input->post('id');
 
-			$this->Provas_model->insereFimSessao($id);
+		$this->Provas_model->insereFimSessao($id);
 
-			if(!$this->Provas_model->atualizaSituacaoProva($id)){
-				echo json_encode('erro');
-			}
-			else {
-				echo json_encode('funcionou');
-			}
+		if(!$this->Provas_model->atualizaSituacaoProva($id)){
+			echo json_encode('erro');
+		}
+		else {
+			echo json_encode('funcionou');
+		}
 
 	}
 
