@@ -1,0 +1,120 @@
+<?php
+	include 'index_admin_tpl.php'; 
+?>
+<style>	
+.classe {
+	background: #f8f8f8;
+}
+</style>
+<title>Cadastro de Questões</title>
+<div class="container">
+	<div class="row">
+		<div class="col-md-6  col-md-offset-2 classe">
+			<h3 class="m-1 text-center text-white">Cadastro de Perguntas</h3>
+		</div>
+	</div>
+</div>
+
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-10  col-md-offset-2 classe">
+			
+			<form method="post" action="<?php echo base_url('administrador/perguntas/execCadastraPergunta') ?>">
+				<div class="form-group <?php echo form_error('questao') ? 'has-error' : '' ?>">
+					<label >Pergunta 1</label>
+					<textarea style=" resize: vertical;" rows="4" type="text" class="form-control" id="questao" name="questao" placeholder="Questão" value="<?php echo $questoes['pergunta'] ?>" autofocus ></textarea>
+					<span id="helpBlock2" class="help-block"><?php echo form_error('questao'); ?></span>
+				</div>
+
+				<div class="form-group">
+					<label>Alternativa A</label>
+					<div class="input-group">
+						<span class="input-group-addon">
+							<input type="checkbox" name="correta[A]" id="correta[A]" value="A" <?php echo set_checkbox('correta[]', 'A'); ?> <?php
+								if($questoes['correta'] == '1') { ?>
+                    checked
+                  <?php }?>/>
+						</span>
+						<textarea type="text" class="form-control" id="alternativaA" name="alternativa[A]" value="<?php echo $questoes['descricao'] ?>" placeholder="alternativa A"></textarea>
+					</div><!-- /input-group -->
+				</div>
+
+				<div class="form-group">
+					<label>Alternativa B</label>
+					<div class="input-group">
+						<span class="input-group-addon">
+							<input type="checkbox"  name="correta[B]" value="B" <?php echo set_checkbox('correta[]', 'B'); ?><?php
+								if($questoes['correta'] == '1') { ?>
+                    checked
+                  <?php }?> />
+						</span>
+						<textarea type="text" class="form-control" id="alternativaB" name="alternativa[B]" value="<?php echo $questoes['descricao'] ?>" placeholder="alternativa B"></textarea>
+					</div><!-- /input-group -->
+				</div>
+
+				<div class="form-group">
+					<label>Alternativa C</label>
+					<div class="input-group">
+						<span class="input-group-addon">
+							<input type="checkbox" name="correta[C]" value="C" <?php echo set_checkbox('correta[]', 'C'); ?> <?php
+								if($questoes['correta'] == '1') { ?>
+                    checked
+                  <?php }?>/>
+						</span>
+						<textarea type="text" class="form-control" id="alternativaC" name="alternativa[C]" value="<?php echo $questoes['descricao'] ?>" placeholder="alternativa C"></textarea>
+					</div><!-- /input-group -->
+				</div>
+
+				<div class="form-group">
+					<label>Alternativa D</label>
+					<div class="input-group">
+						<span class="input-group-addon">
+							<input type="checkbox" name="correta[D]" value="D" <?php echo set_checkbox('correta[]', 'D'); ?> <?php
+								if($questoes['correta'] == '1') { ?>
+                    checked
+                  <?php }?>/>
+						</span>
+						<textarea type="text" class="form-control" id="alternativaD" name="alternativa[D]" value="<?php echo $questoes['descricao'] ?>" placeholder="alternativa D"></textarea>
+					</div><!-- /input-group -->
+				</div>
+
+				<div class="form-group">
+					<label>Alternativa E</label>
+					<div class="input-group">
+						<span class="input-group-addon">
+							<input type="checkbox" name="correta[E]" value="E" <?php echo set_checkbox('correta[]', 'E'); ?> <?php
+								if($questoes['correta'] == '1') { ?>
+                    checked
+                  <?php }?>/>
+						</span>
+						<textarea type="text" class="form-control" id="alternativaE" name="alternativa[E]" value="<?php echo $questoes['descricao'] ?>" placeholder="alternativa E"></textarea>
+					</div><!-- /input-group -->
+				</div>
+
+				<h4>Selecione a disciplina</h4>
+				<select class="form-control" name="disciplina">
+					<?php  foreach ($disciplinas as $key => $value): ?>
+						<option value="<?php echo $value["id"]; ?>" <?php
+								if($value['id'] == $questoes['disciplina']) { ?>
+                    selected="selected"
+                  <?php }?>><?php echo $value["nome"]; ?></option>
+					<?php  endforeach ?>
+				</select>
+
+				<br/>
+
+				<div class="form-group">
+					<button type="submit"  id="cadastrar" class="btn btn-info">Cadastrar</button>
+				</div>
+			</form>
+
+		</div>
+	</div>
+</div>
+
+
+
+
+
+<?php include 'template_footer.php' ?>

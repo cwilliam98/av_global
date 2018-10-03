@@ -94,6 +94,78 @@ class Perguntas extends CI_Controller {
 
 	}
 
+	public function alterar($id=-1){
+
+		$aluno = $this->session->userdata('aluno');
+		$this->load->model('Perguntas_model');
+		
+		$data["questoes"] = $this->Perguntas_model->getQuestoesById($id);
+
+		$this->load->view('administrador/pergunta_alterar_tpl',$data);
+	}
+
+	public function execAlterarPergunta($id){
+		
+		$id = (int)$id;
+		$this->form_validation->set_rules('questao',       'questao',          	 'required|max_length[1000]');
+		$this->form_validation->set_rules('alternativa[]', 'alternativa',        'max_length[1000]');
+		$this->form_validation->set_rules('correta[]',     'alternativa Correta','required');
+		$this->form_validation->set_rules('disciplina',    'disciplina',         'required');
+
+		if($this->form_validation->run() == FALSE)
+		{
+			
+			redirect('administrador/perguntas/index');
+		}
+		
+		$this->load->model('Perguntas_model');
+
+
+		$data = [
+			"descricao" =>	set_value('questao'),
+			"disciplina" => set_value('disciplina'),
+			"professor"  => $aluno['id']
+		];
+
+		$questaoId = $this->Perguntas_model->alteraPergunta($data,$id);
+
+		foreach (set_value('alternativa') as $alternativa => $descricao)
+		{
+			if (empty($descricao))
+				continue;
+
+			$data = [
+				'descricao' => $descricao,
+				'correta' => (bool)set_value("correta[$alternativa]"),
+				'questao' => $questaoId,
+
+			];
+
+
+			$this->Perguntas_model->alteraAlternativa($data,$id);
+		}
+		if(!empty($retorno)){
+			redirect('administrador/perguntas/alterar?aviso=1');
+		}
+
+		redirect('administrador/perguntas/alterar?aviso=2');	
+	}
+
+	public function inativar($id){
+		$id = (int)$id;
+		
+		$this->load->model('Perguntas_model');
+
+
+		$retorno = $this->Perguntas_model->inativaPergnta($id);
+
+		if(!empty($retorno)){
+			redirect('administrador/perguntas/index?aviso=1');
+		}
+
+		redirect('administrador/perguntas/index?aviso=2');	
+	}
+
 	public function uploadImageCKeditor() {
 		if(isset($_FILES['upload'])){
   // ------ Process your file upload code -------

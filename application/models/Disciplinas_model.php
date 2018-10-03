@@ -7,7 +7,7 @@ class Disciplinas_model extends CI_Model {
 	
 	function cadastraDisciplina($disciplina){
 		$this->db->replace('disciplinas', $disciplina);
-	    return $this->db->insert_id();
+		return $this->db->insert_id();
 	}
 	function getDisciplinaById($id)
 	{
@@ -20,7 +20,7 @@ class Disciplinas_model extends CI_Model {
 	
 	function getTodasDisciplinas(){
 		return $this->db
-		->select('usuarios.nome professor, disciplinas.nome, disciplinas.id')
+		->select('usuarios.nome professor, disciplinas.nome, disciplinas.id, disciplinas.situacao')
 		->join('usuarios','disciplinas.professor = usuarios.id')
 		->order_by('nome')
 		->get('disciplinas')
@@ -37,11 +37,21 @@ class Disciplinas_model extends CI_Model {
 
 	}
 
-	 function alteraDisciplina($data,$id){
-        $this->db->where('id' , $id);
-       $retorno = $this->db->update('disciplinas', $data);
+	function alteraDisciplina($data,$id){
+		$this->db->where('id' , $id);
+		$retorno = $this->db->update('disciplinas', $data);
 
-       return $retorno;
+		return $retorno;
 
-        }
+	}
+
+	function inativaDisciplina($id){
+		$this->db->where('id' , $id);
+		$retorno = $this->db
+		->set('situacao','inativo')
+		->update('disciplinas');
+
+		return $retorno;
+
+	}
 }

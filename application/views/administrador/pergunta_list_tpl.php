@@ -4,11 +4,11 @@ include 'index_admin_tpl.php';
 
 <body>
 	<div class="container">
-		<div class="col-md-12 col-md-offset-2">
+		<div class="col-md-12 col-md-offset-1">
 
 		</br>
 
-		<table class="" id="myTable">
+		<table width="1000"  align="center"  class="" id="myTable">
 			<tr>
 				<th>Descricao</th>
 				<th>Opções</th>
@@ -19,8 +19,8 @@ include 'index_admin_tpl.php';
 						<?php echo $pergunta['id']. ') ' . $pergunta['descricao'];?>
 					</td>
 					<td  class="btn-info">
-						<button class="btn btn-sm btn-danger left"><span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></button>
-						<button class="btn btn-sm btn-info left"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>
+						 <a href="<?=base_url('administrador/perguntas/inativar/' .$pergunta['id'])?>" class="btn-sm btn-danger"  onclick="return confirm ('Têm certeza que deseja excluir esse registro?') "><span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></a>
+					 <a href="<?=base_url('administrador/perguntas/alterar/' .$pergunta['id'])?>" class="btn-sm btn-info"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
 					</td>
 					<?php foreach ($pergunta['alternativas'] as $alternativa) { ?>
 

@@ -42,6 +42,38 @@ class Disciplinas extends CI_Controller {
 
 	}
 
+	public function execCadastraDisciplina(){
+		
+
+		
+		$disciplina = $this->input->post('disciplina');
+
+		$this->form_validation->set_rules('disciplina',       'Disciplina',          'trim|required|max_length[1000]');
+		$this->form_validation->set_rules('professor',   	  'professor',         	 'required');
+
+
+
+		if($this->form_validation->run() == FALSE)
+		{
+			redirect('administrador/disciplinas/index');
+		}
+
+
+		$this->load->model('Disciplinas_model');
+
+
+		$disciplina = $this->Disciplinas_model->cadastraDisciplina([
+			"nome" =>	set_value('disciplina'),
+			"professor" =>	set_value('professor')
+		]);
+
+		if(!empty($disciplina)){
+			redirect('administrador/disciplinas/index?aviso=1');
+		}
+
+		redirect('administrador/disciplinas/index?aviso=2');	
+
+	}
 
 	public function alterar($id=-1){
 
@@ -76,47 +108,30 @@ class Disciplinas extends CI_Controller {
 			"professor" =>	set_value('professor')
 		];
 
-		$this->Disciplinas_model->alteraDisciplina($disciplina, $id);
+		$retorno = $this->Disciplinas_model->alteraDisciplina($disciplina, $id);
 
-		if(!empty($disciplina)){
+		if(!empty($retorno)){
 			redirect('administrador/disciplinas/alterar?aviso=1');
 		}
 
 		redirect('administrador/disciplinas/alterar?aviso=2');	
 	}
 
-	public function execCadastraDisciplina(){
+	public function inativar($id){
+		$id = (int)$id;
 		
-
-		
-		$disciplina = $this->input->post('disciplina');
-
-		$this->form_validation->set_rules('disciplina',       'Disciplina',          'trim|required|max_length[1000]');
-		$this->form_validation->set_rules('professor',   	  'professor',         	 'required');
-
-
-
-		if($this->form_validation->run() == FALSE)
-		{
-			redirect('administrador/disciplinas/index');
-		}
-
-
 		$this->load->model('Disciplinas_model');
 
 
-		$disciplina = $this->Disciplinas_model->cadastraDisciplina([
-			"nome" =>	set_value('disciplina'),
-			"professor" =>	set_value('professor')
-		]);
+		$retorno = $this->Disciplinas_model->inativaDisciplina($id);
 
-		if(!empty($disciplina)){
-			redirect('administrador/disciplinas/index?aviso=1');
+		if(!empty($retorno)){
+			redirect('administrador/disciplinas/lista?aviso=1');
 		}
 
-		redirect('administrador/disciplinas/index?aviso=2');	
-
+		redirect('administrador/disciplinas/lista?aviso=2');	
 	}
+	
 
 
 }

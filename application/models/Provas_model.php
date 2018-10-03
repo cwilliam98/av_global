@@ -73,6 +73,7 @@ class Provas_model extends CI_Model {
 		->join('formularios', 'formularios.disciplina = matriculas.disciplina AND formularios.aluno = matriculas.aluno')
 		->where('formularios.prova', $prova)
 		->where('formularios.aluno', $aluno)
+		->where('disciplinas.situacao', 'ativo')
 		->get()
 		->result();
 		
@@ -93,6 +94,7 @@ class Provas_model extends CI_Model {
 		->select(['questoes.id questao', 'questoes.descricao'])
 		->from('questoes')
 		->where_in('id', array_column($questoes,'questao'))
+		->random()
 		->get()
 		->result();	
 		
@@ -113,9 +115,11 @@ class Provas_model extends CI_Model {
 		return $this->db
 		->select('matriculas.aluno, matriculas.disciplina, provas.id prova, questoes.id questao')
 		->from('matriculas')
+		->join('disciplinas','disciplinas.id = matriculas.disciplina')
 		->join('questoes','questoes.disciplina = matriculas.disciplina')
 		->where('provas.id',$id)
 		->where('matriculas.aluno',$id)
+		->where('disciplinas.situacao','ativo')
 		->get()
 		->result_array();
 
@@ -155,8 +159,8 @@ class Provas_model extends CI_Model {
 		->where('aluno',$id)
 		->set('situacao','finalizada')
 		->update('formularios');
-		echo $this->db->last_query();
-		exit();
+		// echo $this->db->last_query();
+		// exit();
 	}
 
 	function getProvas(){
@@ -167,6 +171,7 @@ class Provas_model extends CI_Model {
 		->join('disciplinas','disciplinas.id = formularios.disciplina')
 		->join('provas','provas.id = formularios.prova')
 		->where('provas.aplicacao', date('Y-m-d'))
+		->where('disciplinas.situacao','ativo')
 		->get()
 		->result_array();
 		return $dados;

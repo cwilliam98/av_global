@@ -35,7 +35,7 @@ class Perguntas_model extends CI_Model {
 
 	function getTodasAlternativas()
 	{
-		 return $this->db
+		return $this->db
 		->select('*')
 		->join('alternativas', 'questoes.id = alternativas.questao')
 		->get('questoes')
@@ -48,13 +48,41 @@ class Perguntas_model extends CI_Model {
 		->result_array();
 	}
 
-		function getAlternativas($questao){
+	function getQuestoesById($id){
+		$retorno = $this->db
+		->select('questoes.id, questoes.descricao pergunta, questoes.disciplina, alternativas.id alternativa, alternativas.descricao, alternativas.correta')
+		->from('questoes')
+		->join('alternativas','alternativas.questao = '.$id.'')
+		->where('questoes.id',$id)
+		->get()
+		->result_array();
+		
+		return reset($retorno);
+	}
+
+	function getAlternativas($questao){
 		return $this->db
 		->from('alternativas')
 		->where('questao', $questao)
 		->get()
 		->result_array();
 		
+	}
+
+	function alteraPergunta($id,$data){
+		$this->db->where('id' , $id);
+		$retorno = $this->db->update('questoes', $data);
+
+		return $retorno;
+
+	}
+
+	function alteraAlternativa($id,$data){
+		$this->db->where('questao' , $id);
+		$retorno = $this->db->update('alternativa', $data);
+
+		return $retorno;
+
 	}
 	
 }
