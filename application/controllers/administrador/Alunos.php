@@ -52,7 +52,7 @@ class Alunos extends CI_Controller {
 			$data = [
 				"nome" =>	set_value('nome'),
 				"codigo" =>	set_value('codigo'),
-				"senha" =>	set_value('senha'),
+				"senha" =>	password_hash(set_value('senha'), PASSWORD_BCRYPT),
 				"contexto" => 'aluno'
 			];
 			
