@@ -32,32 +32,21 @@ class Login extends CI_Controller {
 		$codigo = $this->input->post('codigo');
 		$senha = password_verify($this->input->post('senha'));
 		$this->load->model('Login_model');
-		$aluno = $this->Login_model->login($codigo,$senha);
 
-		if (!$aluno){
+		$usuario = $this->Login_model->login($codigo, $senha);
+
+		if ( !$usuario ){
 			redirect('login/index?aviso=2');
 		}
 
-		if ($aluno['contexto'] == 'administrador'){
+		$this->session->set_userdata('logado', TRUE);
+		$this->session->set_userdata('usuario', $usuario);
 
-			$this->session->set_userdata('logado', TRUE);
-			$this->session->set_userdata('aluno', $aluno);
-			redirect('administrador/admin');
+		if ($usuario['contexto'] === 'aluno'){
+			redirect('aluno/provas/fazer');
 		}
 
-		else if ($aluno['contexto'] == 'professor'){
-			$this->session->set_userdata('logado', TRUE);
-			$this->session->set_userdata('aluno', $aluno);
-			redirect('professor/admin');
-		}
-
-		else {
-			$this->session->set_userdata('logado', TRUE);
-			$this->session->set_userdata('aluno', $aluno);
-			redirect('aluno/provas/fazer', ['aluno' => $aluno] );
-		}
-
-		
+		redirect($usuario['contexto'].'/admin');
 	}
 
 	public function logout(){
