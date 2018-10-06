@@ -11,7 +11,7 @@ class Provas extends CI_Controller {
 			redirect('login');
 		}
 
-		$aluno = $this->session->userdata('aluno');
+		$aluno = $this->session->userdata('usuario');
 
 		if ($aluno['contexto'] != 'professor') {
 			$this->load->view('aviso_permissao');

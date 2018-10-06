@@ -10,7 +10,7 @@ class Perguntas extends CI_Controller {
 		{
 			redirect('login');
 		}
-		$aluno = $this->session->userdata('aluno');
+		$aluno = $this->session->userdata('usuario');
 
 		if ($aluno['contexto'] == 'aluno') {
 			$this->load->view('aviso_permissao');

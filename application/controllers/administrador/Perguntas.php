@@ -97,16 +97,25 @@ class Perguntas extends CI_Controller {
 	public function alterar($id= -1){
 
 		$aluno = $this->session->userdata('usuario');
-		if ($id != -1) {
-
+		
+		$this->load->model('Disciplinas_model');
 		$this->load->model('Perguntas_model');
-			
-			$data["questoes"] = $this->Perguntas_model->getQuestoesById($id);
-			$this->load->model('Disciplinas_model');
-			$data["disciplinas"] = $this->Disciplinas_model->getTodasDisciplinas();
 
-			$this->load->view('administrador/pergunta_alterar_tpl',$data);
-		}
+		$data["questoes"] = $this->Perguntas_model->getQuestoesPeloId($id);
+		$data["alternativas"] = $this->Perguntas_model->getAlternativas($id);
+		
+		
+		
+		$data["disciplinas"] = $this->Disciplinas_model->getTodasDisciplinas();
+
+		
+
+		$this->load->view('administrador/pergunta_alterar_tpl',$data);
+
+		
+
+
+
 	}
 
 	public function execAlterarPergunta($id){
@@ -133,23 +142,29 @@ class Perguntas extends CI_Controller {
 			"professor"  => $aluno['id']
 		];
 
-		$questaoId = $this->Perguntas_model->alteraPergunta($data,$id);
+		$alternativasId['id'] = $this->Perguntas_model->getAlternativas($id);
 
+
+		$this->Perguntas_model->alteraPergunta($data,$id);
 		foreach (set_value('alternativa') as $alternativa => $descricao)
 		{
+
+
 			if (empty($descricao))
 				continue;
 
 			$data = [
 				'descricao' => $descricao,
 				'correta' => (bool)set_value("correta[$alternativa]"),
-				'questao' => $questaoId,
+				'questao' => $id,
 
 			];
 
 
-			$this->Perguntas_model->alteraAlternativa($data,$id);
+			$retorno = $this->Perguntas_model->alteraAlternativa($data,$id,$alternativasId['id']);
+
 		}
+		
 		if(!empty($retorno)){
 			redirect('administrador/perguntas/alterar?aviso=1');
 		}
