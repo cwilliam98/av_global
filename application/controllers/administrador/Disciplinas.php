@@ -10,7 +10,7 @@ class Disciplinas extends CI_Controller {
 		{
 			redirect('login');
 		}
-		$aluno = $this->session->userdata('aluno');
+		$aluno = $this->session->userdata('usuario');
 
 		if ($aluno['contexto'] == 'aluno' || $aluno['contexto'] == 'professor') {
 			$this->load->view('aviso_permissao');

@@ -10,7 +10,7 @@ class Perguntas extends CI_Controller {
 		{
 			redirect('login');
 		}
-		$aluno = $this->session->userdata('aluno');
+		$aluno = $this->session->userdata('usuario');
 
 		if ($aluno['contexto'] == 'aluno') {
 			$this->load->view('aviso_permissao');
@@ -94,28 +94,34 @@ class Perguntas extends CI_Controller {
 
 	}
 
-	public function alterar($id=-1){
+	public function alterar($id= -1){
 
-		$aluno = $this->session->userdata('aluno');
+		$aluno = $this->session->userdata('usuario');
+		if ($id != -1) {
+
 		$this->load->model('Perguntas_model');
-		
-		$data["questoes"] = $this->Perguntas_model->getQuestoesById($id);
+			
+			$data["questoes"] = $this->Perguntas_model->getQuestoesById($id);
+			$this->load->model('Disciplinas_model');
+			$data["disciplinas"] = $this->Disciplinas_model->getTodasDisciplinas();
 
-		$this->load->view('administrador/pergunta_alterar_tpl',$data);
+			$this->load->view('administrador/pergunta_alterar_tpl',$data);
+		}
 	}
 
 	public function execAlterarPergunta($id){
-		
+
+		$aluno = $this->session->userdata('usuario');
 		$id = (int)$id;
 		$this->form_validation->set_rules('questao',       'questao',          	 'required|max_length[1000]');
 		$this->form_validation->set_rules('alternativa[]', 'alternativa',        'max_length[1000]');
 		$this->form_validation->set_rules('correta[]',     'alternativa Correta','required');
-		$this->form_validation->set_rules('disciplina',    'disciplina',         'required');
+		$this->form_validation->set_rules('disciplina',    'disciplina',         '');
 
 		if($this->form_validation->run() == FALSE)
 		{
 			
-			redirect('administrador/perguntas/index');
+			redirect('administrador/perguntas/alterar');
 		}
 		
 		$this->load->model('Perguntas_model');

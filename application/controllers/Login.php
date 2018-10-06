@@ -30,7 +30,7 @@ class Login extends CI_Controller {
 		}
 
 		$codigo = $this->input->post('codigo');
-		$senha = $this->input->post('senha');
+		$senha = password_verify($this->input->post('senha'));
 		$this->load->model('Login_model');
 
 		$usuario = $this->Login_model->login($codigo, $senha);
