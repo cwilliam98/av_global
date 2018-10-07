@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 02-Out-2018 às 04:18
+-- Generation Time: 07-Out-2018 às 14:54
 -- Versão do servidor: 10.1.13-MariaDB
 -- PHP Version: 5.5.34
 
@@ -38,10 +38,10 @@ CREATE TABLE `alternativas` (
 --
 
 INSERT INTO `alternativas` (`id`, `descricao`, `correta`, `questao`) VALUES
-(1, '1ª alternativa da questão', 1, 1),
-(2, '2ª alternativa da questão', 0, 1),
-(3, '3ª alternativa da questão', 0, 1),
-(4, '4ª alternativa da questão', 0, 1),
+(1, ' alternativa da questão', 0, 1),
+(2, '5ª alternativa da questão', 1, 1),
+(3, '5ª alternativa da questão', 1, 1),
+(4, '5ª alternativa da questão', 1, 1),
 (5, '1ª alternativa da questão', 1, 2),
 (6, '2ª alternativa da questão', 0, 2),
 (7, '3ª alternativa da questão', 0, 2),
@@ -189,21 +189,22 @@ INSERT INTO `alternativas` (`id`, `descricao`, `correta`, `questao`) VALUES
 CREATE TABLE `disciplinas` (
   `id` int(10) UNSIGNED NOT NULL,
   `nome` varchar(45) NOT NULL,
-  `professor` int(10) UNSIGNED NOT NULL
+  `professor` int(10) UNSIGNED NOT NULL,
+  `situacao` varchar(45) DEFAULT 'ativo'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Extraindo dados da tabela `disciplinas`
 --
 
-INSERT INTO `disciplinas` (`id`, `nome`, `professor`) VALUES
-(1, 'Redes e Servidores', 3),
-(2, 'Orientação a objetos', 9),
-(3, 'Estrutura de Dados', 9),
-(4, 'Banco de Dados', 3),
-(5, 'teste', 3),
-(6, 'Orientação a objetos', 9),
-(7, 'Orientação a objetos', 3);
+INSERT INTO `disciplinas` (`id`, `nome`, `professor`, `situacao`) VALUES
+(1, 'Redes e Servidores', 3, 'ativo'),
+(2, 'Orientação a objetos', 9, 'ativo'),
+(3, 'Estrutura de Dados', 9, 'inativo'),
+(4, 'Banco de Dados', 3, 'inativo'),
+(5, 'teste', 3, 'ativo'),
+(6, 'Orientação a objetos', 9, 'ativo'),
+(7, 'Orientação a objetos', 3, 'ativo');
 
 -- --------------------------------------------------------
 
@@ -322,7 +323,10 @@ INSERT INTO `matriculas` (`aluno`, `disciplina`) VALUES
 (9, 1),
 (9, 2),
 (9, 3),
-(9, 4);
+(9, 4),
+(10, 3),
+(10, 4),
+(10, 6);
 
 -- --------------------------------------------------------
 
@@ -371,7 +375,7 @@ CREATE TABLE `questoes` (
 --
 
 INSERT INTO `questoes` (`id`, `descricao`, `criado_em`, `disciplina`, `peso`, `professor`, `imagem`) VALUES
-(1, 'Primeira questão de redes e servidores, a descricão vai aqui.', '2017-11-17 20:32:02', 1, 1, 0, NULL),
+(1, '&lt;p&gt;&lt;strong&gt;Primeira quest&amp;atilde;o de redes e servidores, a descric&amp;atilde;o vai aqui. alterada&lt;/strong&gt;&lt;/p&gt;\r\n', '2017-11-17 20:32:02', 5, 1, 10, NULL),
 (2, 'Segunda questão de redes e servidores, a descricão vai aqui.', '2017-11-17 20:32:02', 1, 1, 0, NULL),
 (3, 'Terceira questão de redes e servidores, a descricão vai aqui.', '2017-11-17 20:32:02', 1, 1, 0, NULL),
 (4, 'Quarta questão de redes e servidores, a descricão vai aqui.', '2017-11-17 20:32:02', 1, 1, 0, NULL),
@@ -486,7 +490,8 @@ INSERT INTO `usuarios` (`id`, `nome`, `codigo`, `senha`, `contexto`) VALUES
 (3, 'Ederson', '0740', '1234', 'professor'),
 (4, 'Mateus', '1234', '1234', 'aluno'),
 (7, 'Diana', '3232', '1234', 'aluno'),
-(9, 'Pedro', '9999', '1234', 'professor');
+(9, 'Pedro', '9999', '1234', 'professor'),
+(10, 'joão', '9090', '$2y$10$S6URNNG1tNWRDtSsmVU3YON9LnlVoJtMZlSq4a/DRLwQO2zD82t/6', 'administrador');
 
 --
 -- Indexes for dumped tables
@@ -608,7 +613,7 @@ ALTER TABLE `sessoes`
 -- AUTO_INCREMENT for table `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- Constraints for dumped tables
 --

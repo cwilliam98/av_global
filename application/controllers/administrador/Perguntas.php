@@ -102,6 +102,8 @@ class Perguntas extends CI_Controller {
 		$this->load->model('Perguntas_model');
 
 		$data["questoes"] = $this->Perguntas_model->getQuestoesPeloId($id);
+		
+
 		$data["alternativas"] = $this->Perguntas_model->getAlternativas($id);
 		
 		
