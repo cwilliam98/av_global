@@ -94,7 +94,7 @@ class Perguntas extends CI_Controller {
 
 	}
 
-	public function alterar($id= -1){
+	public function alterar($id= null){
 
 		$aluno = $this->session->userdata('usuario');
 		
@@ -110,7 +110,7 @@ class Perguntas extends CI_Controller {
 		
 		$data["disciplinas"] = $this->Disciplinas_model->getTodasDisciplinas();
 
-		
+		//echo '<pre>'; print_r(reset($data['questoes'])); exit();		
 
 		$this->load->view('administrador/pergunta_alterar_tpl',$data);
 
@@ -144,31 +144,31 @@ class Perguntas extends CI_Controller {
 			"professor"  => $aluno['id']
 		];
 
-		$alternativasId['id'] = $this->Perguntas_model->getAlternativas($id);
 
+		$alternativa = $this->Perguntas_model->getAlternativa($id);
 
-		$this->Perguntas_model->alteraPergunta($data,$id);
-		foreach (set_value('alternativa') as $alternativa => $descricao)
+		$this->Perguntas_model->alteraPergunta($this->input->post(),$id);
+
+		print_r(set_value('correta'));
+		exit();
+
+		foreach (set_value('alternativas') as $alternativa => $descricao)
 		{
-
-
 			if (empty($descricao))
 				continue;
-
+			
 			$data = [
 				'descricao' => $descricao,
-				'correta' => (bool)set_value("correta[$alternativa]"),
-				'questao' => $id,
-
+				'correta' => (bool)set_value('correta'),
+				'questao' => $id
 			];
 
-
-			$retorno = $this->Perguntas_model->alteraAlternativa($data,$id,$alternativasId['id']);
-
+			$retorno = $this->Perguntas_model->alteraAlternativa($data,$id,$alternativa);
+			
 		}
-		
-		if(!empty($retorno)){
-			redirect('administrador/perguntas/alterar?aviso=1');
+
+	if(!empty($retorno)){
+		redirect('administrador/perguntas/alterar/'.$id."?aviso=1");
 		}
 
 		redirect('administrador/perguntas/alterar?aviso=2');	
