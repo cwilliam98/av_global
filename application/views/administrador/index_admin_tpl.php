@@ -24,7 +24,7 @@
             <ul class="sidebar-nav">
                 <li class="sidebar-brand">
                     <a href="#">
-                        <?php $usuario = $_SESSION['aluno']; 
+                        <?php $usuario = $_SESSION['usuario']; 
                         echo $usuario['nome'];
                         ?>
                     </a>

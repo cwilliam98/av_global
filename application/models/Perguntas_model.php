@@ -50,39 +50,69 @@ class Perguntas_model extends CI_Model {
 
 	function getQuestoesById($id){
 		$retorno = $this->db
-		->select('questoes.id, questoes.descricao pergunta, questoes.disciplina, alternativas.id alternativa, alternativas.descricao, alternativas.correta')
+		->select('questoes.id, questoes.descricao pergunta, questoes.disciplina, alternativas.id alternativa, alternativas.descricao, alternativas.correta,questoes.disciplina')
 		->from('questoes')
-		->join('alternativas','alternativas.questao = '.$id.'')
+		->join('alternativas','alternativas.questao = "'.$id.'"')
 		->where('questoes.id',$id)
 		->get()
 		->result_array();
-		
-		return reset($retorno);
+		return $retorno;
 	}
 
-	function getAlternativas($questao){
+	function getQuestoesPeloId($questao){
 		return $this->db
+		->from('questoes')
+		->where('id', $questao)
+		->get()
+		->result_array();
+
+		
+		return $retorno;
+		
+	}
+
+
+	function getAlternativas($questao){
+		$retorno = $this->db
 		->from('alternativas')
 		->where('questao', $questao)
 		->get()
 		->result_array();
 		
+		return $retorno;
+		
 	}
 
-	function alteraPergunta($id,$data){
-		$this->db->where('id' , $id);
-		$retorno = $this->db->update('questoes', $data);
+	function getAlternativa($questao){
+		$retorno = $this->db
+		->select('id  alternativa')
+		->from('alternativas')
+		->where('questao', $questao)
+		->get()
+		->result_array();
+		
+		return $retorno;
+		
+	}
+
+	function alteraPergunta($data,$id){
+		
+
+		$this->db->where('id', $id);
+		$this->db->set('descricao',$data['questao']);
+		$retorno = $this->db->update('questoes');
 
 		return $retorno;
 
 	}
 
-	function alteraAlternativa($id,$data){
-		$this->db->where('questao' , $id);
-		$retorno = $this->db->update('alternativa', $data);
+	function alteraAlternativa($data,$id,$alternativa){
 
-		return $retorno;
+		    $this->db->where('questao', $id);
+			$this->db->where('id', $alternativa);
+			$retorno = $this->db->update('alternativas', $data);
 
+			return $retorno;
 	}
 	
 }
