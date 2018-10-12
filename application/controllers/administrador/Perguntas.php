@@ -46,7 +46,7 @@ class Perguntas extends CI_Controller {
 
 	public function execCadastraPergunta(){
 		
-		$aluno = $this->session->userdata('aluno');
+		$aluno = $this->session->userdata('usuario');
 
 		$this->form_validation->set_rules('questao',       'questao',          	 'required|max_length[1000]');
 		$this->form_validation->set_rules('alternativa[]', 'alternativa',        'max_length[1000]');
@@ -147,10 +147,17 @@ class Perguntas extends CI_Controller {
 
 		$alternativa = $this->Perguntas_model->getAlternativa($id);
 
-		$this->Perguntas_model->alteraPergunta($this->input->post(),$id);
+		$this->Perguntas_model->alteraPergunta($this->input->post(),$id,$this->input->post('disciplina'));
+		$this->Perguntas_model->marcaComoErrada($id);
 
-		print_r(set_value('correta'));
-		exit();
+		$correta =  $this->input->post('correta'); 
+
+
+		
+		foreach ($correta as  $alternativa){
+
+			$this->Perguntas_model->alteraAlternativaCorreta($alternativa);
+		} 
 
 		foreach (set_value('alternativas') as $alternativa => $descricao)
 		{
@@ -158,15 +165,13 @@ class Perguntas extends CI_Controller {
 				continue;
 			
 			$data = [
-				'descricao' => $descricao,
-				'correta' => (bool)set_value('correta'),
-				'questao' => $id
+				'descricao' => $descricao
 			];
 
 			$retorno = $this->Perguntas_model->alteraAlternativa($data,$id,$alternativa);
 			
 		}
-
+// exit();
 	if(!empty($retorno)){
 		redirect('administrador/perguntas/alterar/'.$id."?aviso=1");
 		}
@@ -193,8 +198,9 @@ class Perguntas extends CI_Controller {
 		if(isset($_FILES['upload'])){
   // ------ Process your file upload code -------
 			$filen = $_FILES['upload']['tmp_name'];
-			$con_images = "uploads/".$_FILES['upload']['name'];
-			move_uploaded_file($filen, $con_images );
+			$con_images = "../../uploads/".$_FILES['upload']['name'];
+			$retorno = move_uploaded_file($filen, $con_images );
+			
 			$url = $con_images;
 
 			$funcNum = $_GET['CKEditorFuncNum'] ;

@@ -95,24 +95,52 @@ class Perguntas_model extends CI_Model {
 		
 	}
 
-	function alteraPergunta($data,$id){
+	function alteraPergunta($data,$id,$disciplina){
 		
 
 		$this->db->where('id', $id);
 		$this->db->set('descricao',$data['questao']);
+		$this->db->set('disciplina',$disciplina);
 		$retorno = $this->db->update('questoes');
-
+		
 		return $retorno;
 
 	}
 
 	function alteraAlternativa($data,$id,$alternativa){
 
-		    $this->db->where('questao', $id);
-			$this->db->where('id', $alternativa);
-			$retorno = $this->db->update('alternativas', $data);
 
-			return $retorno;
+		$this->db->where('questao', $id);
+		$this->db->where('id', $alternativa);
+		$retorno = $this->db->update('alternativas', $data);
+		return $retorno;
+	}
+
+	function alteraAlternativaCorreta($id){
+		
+		$this->db->where('id', $id);
+		$this->db->set('correta',(bool)$id);
+		$retorno = $this->db->update('alternativas');
+		return $retorno;
+	}
+
+	function marcaComoErrada($id){
+		$this->db->where('questao', $id);
+		$this->db->set('correta',0);
+		$update = $this->db->update('alternativas');
+
+		
+		return $update;
+	}
+
+	function inativaPergnta($id){
+		$this->db->where('id' , $id);
+		$retorno = $this->db
+		->set('situacao','inativo')
+		->update('questoes');
+
+		return $retorno;
+
 	}
 	
 }

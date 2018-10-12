@@ -33,7 +33,7 @@ include 'index_admin_tpl.php';
 							<label>Alternativa A</label>
 							<div class="input-group">
 								<span class="input-group-addon">
-									<input type="checkbox" name="correta[<?php echo $value['id'] ?>]" id="correta[<?php echo $value['id'] ?>]" value="<?php echo $value['id'] ?>" <?php echo set_checkbox('correta[]', '<?php echo $value["id"] ?>'); ?> <?php
+									<input type="checkbox" name="correta[]" id="correta[]" value="<?php echo $value['id'] ?>" <?php echo set_checkbox('correta[]', '<?php echo $value["id"] ?>'); ?> <?php
 									if($value['correta'] == '1') { ?>
 										checked
 										<?php }?>/>
@@ -49,7 +49,7 @@ include 'index_admin_tpl.php';
 					<select class="form-control" name="disciplina">
 						<?php  foreach ($disciplinas as $key => $disciplina): ?>
 							<option value="<?php echo $disciplina["id"]; ?>" <?php
-							if($disciplina['id'] == $disciplina) { ?>
+							if($disciplina['id'] == $disciplina['id']) { ?>
 								selected="selected"
 								<?php }?>><?php echo $disciplina["nome"]; ?></option>
 							<?php  endforeach ?>
@@ -58,16 +58,13 @@ include 'index_admin_tpl.php';
 						<br/>
 
 						<div class="form-group">
-							<button type="submit"  id="cadastrar" class="btn btn-info">Cadastrar</button>
+							<button type="submit"  id="cadastrar" class="btn btn-info">Alterar</button>
 						</div>
 					</form>
 
 				</div>
 			</div>
 		</div>
-
-
-
 
 
 		<?php include 'template_footer.php' ?>
