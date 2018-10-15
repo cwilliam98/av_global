@@ -19,10 +19,12 @@ class Perguntas extends CI_Controller {
 
 	public function index(){
 		
+		$usuario = $this->session->userdata('usuario');
+		
 		$this->load->model('Perguntas_model');
 
 		$data = [
-			"questoes" => $this->Perguntas_model->getQuestoes()
+			"questoes" => $this->Perguntas_model->getQuestoesByProfessor($usuario['id'])
 		];
 
 		foreach($data['questoes'] as $id => $questao)
@@ -52,7 +54,7 @@ class Perguntas extends CI_Controller {
 
 	public function execCadastraPergunta(){
 
-		$aluno = $this->session->userdata('aluno');
+		$aluno = $this->session->userdata('usuario');
 
 		$this->form_validation->set_rules('questao',       'questao',          	 'required|max_length[1000]');
 		$this->form_validation->set_rules('alternativa[]', 'alternativa',        'max_length[1000]');
@@ -90,10 +92,10 @@ class Perguntas extends CI_Controller {
 			$this->Perguntas_model->cadastraAlternativa($data);
 		}
 		if(!empty($data)){
-			redirect('professor/admin/index?aviso=1');
+			redirect('professor/perguntas/cadastra?aviso=1');
 		}
 
-		redirect('professor/admin/index?aviso=2');
+		redirect('professor/perguntas/cadastra?aviso=2');
 
 
 	}

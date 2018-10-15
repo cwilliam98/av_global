@@ -28,7 +28,7 @@ class Provas extends CI_Controller {
 
 	public function execCadastraProva(){
 
-		$aluno = $this->session->userdata('aluno');
+		$aluno = $this->session->userdata('usuario');
 
 		$this->form_validation->set_rules('nome',          'nome',           			'trim|required|max_length[1000]');
 		$this->form_validation->set_rules('aplicacao',     'data',           			'trim|required');

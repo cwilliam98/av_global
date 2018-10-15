@@ -27,6 +27,7 @@
 						<th scope="col">Aluno</th>
 						<th scope="col">Disciplinas</th>
 						<th scope="col">Aplicação</th>
+						<th scope="col">Quantidade de questões</th>
 					</tr>
 				</thead>
 				<tbody>

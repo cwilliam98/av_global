@@ -10,8 +10,8 @@ class Alunos_model extends CI_Model {
 	    return $this->db->insert_id();
 	}
 	
-	function getAlunoById($id)
-	{
+	function getAlunoById($id){
+
 		$this->db->select('*');
 		$this->db->from('alunos');
 		$this->db->where('id',$id);
@@ -20,8 +20,8 @@ class Alunos_model extends CI_Model {
 	}
 	
 	
-	function listaAlunos()
-	{
+	function listaAlunos(){
+		
 		$this->db->select('*');
 		$this->db->from('alunos');
 		return  $this->db->get();

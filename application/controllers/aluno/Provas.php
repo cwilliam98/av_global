@@ -29,7 +29,7 @@ class Provas extends CI_Controller {
 
 	public function gerarProva(){
 
-		$aluno = $this->session->userdata('aluno');
+		$aluno = $this->session->userdata('usuario');
 
 		$this->load->model('Provas_model');
 		$this->load->model('Itens_prova_model');
@@ -39,7 +39,7 @@ class Provas extends CI_Controller {
 
 		$prova = $this->Provas_model->getProva($aluno['id']);
 
-
+		
 		if(!$prova)
 		{
 			redirect('aluno/provas/aviso');
@@ -88,7 +88,7 @@ class Provas extends CI_Controller {
 	public function fazer(){
 
 
-		$aluno = $this->session->userdata('aluno');
+		$aluno = $this->session->userdata('usuario');
 
 		$this->load->model('alunos_model');
 		$this->load->model('Disciplinas_model');
@@ -134,7 +134,7 @@ class Provas extends CI_Controller {
 
 	public function corrigir() {
 
-		$aluno = $this->session->userdata('aluno');
+		$aluno = $this->session->userdata('usuario');
 		$this->load->model('Provas_model');
 
 
@@ -152,7 +152,7 @@ class Provas extends CI_Controller {
 
 	public function resultado(){
 
-		$aluno = $this->session->userdata('aluno');
+		$aluno = $this->session->userdata('usuario');
 
 		$this->load->model('Provas_model');
 

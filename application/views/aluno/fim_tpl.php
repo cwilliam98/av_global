@@ -64,7 +64,7 @@
 </head>
 <body>
 
-  <?php $aluno = $_SESSION['aluno']; ?>
+  <?php $aluno =  $this->session->userdata('usuario'); ?>
 
   <div class="container-fluid">
     <div class="container">

@@ -14,6 +14,7 @@ class Disciplinas_model extends CI_Model {
 		$this->db->select('*');
 		$this->db->from('disciplinas');
 		$this->db->where('id',$id);
+		$this->db->where('situacao','ativo');
 		$resultado= $this->db->get()->result_array();
 		return  reset($resultado);
 	}

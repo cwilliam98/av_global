@@ -53,6 +53,10 @@
 
                 <li>
                     <a href="<?php echo base_url('administrador/disciplinas/lista')?>">Lista disciplinas</a>
+                </li> 
+
+                <li>
+                    <a href="<?php echo base_url('administrador/perguntas/geraGabarito')?>">Gera gabarito</a>
                 </li>
 
                 <li>

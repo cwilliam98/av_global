@@ -22,7 +22,8 @@
 
 					<div class="form-group <?php echo form_error('data') ? 'has-error' : '' ?>">
 						<label >Data</label>
-						<input type="date" class="form-control" id="aplicacao" name="aplicacao" placeholder="Data"  value="<?php echo set_value('data') ?>">
+						<input type="datetime-local" class="form-control" id="aplicacao"
+               name="aplicacao" value=""/>
 						<span id="helpBlock2" class="help-block"><?php echo form_error('data'); ?></span>
 					</div>
 
@@ -64,20 +65,6 @@
 						<button type="submit" class="btn btn-info">Cadastrar</button>
 					</div>
 				</form>
-
-				<?php if($this->input->get('aviso')==1) { ?>
-					<div class="alert alert-success alert-dismissible fade in" role="alert">
-						<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<strong>Sucesso!</strong> Prova cadastrada com sucesso.
-					</div>
-				<?php } ?>
-
-				<?php if($this->input->get('aviso')==2) { ?>
-					<div class="alert alert-danger alert-dismissible fade in" role="alert">
-						<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<strong>Errooo!</strong> Prova não cadastrada.
-					</div>
-				<?php } ?>
 			</div>
 		</div>
 	</div>

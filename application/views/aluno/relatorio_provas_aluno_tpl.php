@@ -24,7 +24,7 @@
 </style>
 <body>
 	
-<?php $aluno = $_SESSION['aluno'];?>
+	<?php $aluno = $this->session->userdata('usuario'); ?>
 	<div class="container classe">
 		<div class="row">
 			<div class="col-md-10 col-md-offset-1 colunas">
@@ -57,7 +57,7 @@
 		$("input").click(function(e){
 			$.ajax({
 				type: "POST",
-				url: '<?php echo base_url('provas/corrigir') ?>',
+				url: '<?php echo base_url('aluno/provas/corrigir') ?>',
 				data: $(this).serializeArray(),
 				//success: ,
 				//dataType: dataType
@@ -67,14 +67,18 @@
 		$(document).ready(function() {
 			$.ajax({
 				type: "POST",
-				url: '<?php echo base_url('provas/sessao') ?>',
+				url: '<?php echo base_url('aluno/provas/sessao') ?>',
 				data: { id: <?php echo $aluno['id']; ?>},
 				//success: ,
 				//dataType: dataType
 			});
 		});
 	</script>
-
-		<button type="submit" value="<?php echo $aluno['id'];?>" id="finalizar_prova" class="btn btn-success">Finalizar prova</button>
-
-
+	<div class="container">
+		<div class="row">
+			<div class="col-md-10">
+				<button type="submit" value="<?php echo $aluno['id'];?>" id="finalizar_prova" class="btn btn-success">Finalizar prova</button>
+			</div>
+		</div>
+	</div>
+</br>

@@ -59,6 +59,15 @@ class Perguntas_model extends CI_Model {
 		return $retorno;
 	}
 
+	function getQuestoesByProfessor($id){
+		$retorno = $this->db
+		->from('questoes')
+		->where('questoes.professor',$id)
+		->get()
+		->result_array();
+		return $retorno;
+	}
+
 	function getQuestoesPeloId($questao){
 		return $this->db
 		->from('questoes')
@@ -66,9 +75,9 @@ class Perguntas_model extends CI_Model {
 		->get()
 		->result_array();
 
-		
+
 		return $retorno;
-		
+
 	}
 
 
@@ -78,9 +87,9 @@ class Perguntas_model extends CI_Model {
 		->where('questao', $questao)
 		->get()
 		->result_array();
-		
+
 		return $retorno;
-		
+
 	}
 
 	function getAlternativa($questao){
@@ -90,19 +99,19 @@ class Perguntas_model extends CI_Model {
 		->where('questao', $questao)
 		->get()
 		->result_array();
-		
+
 		return $retorno;
-		
+
 	}
 
 	function alteraPergunta($data,$id,$disciplina){
-		
+
 
 		$this->db->where('id', $id);
 		$this->db->set('descricao',$data['questao']);
 		$this->db->set('disciplina',$disciplina);
 		$retorno = $this->db->update('questoes');
-		
+
 		return $retorno;
 
 	}
@@ -117,7 +126,7 @@ class Perguntas_model extends CI_Model {
 	}
 
 	function alteraAlternativaCorreta($id){
-		
+
 		$this->db->where('id', $id);
 		$this->db->set('correta',(bool)$id);
 		$retorno = $this->db->update('alternativas');
@@ -129,7 +138,7 @@ class Perguntas_model extends CI_Model {
 		$this->db->set('correta',0);
 		$update = $this->db->update('alternativas');
 
-		
+
 		return $update;
 	}
 
@@ -142,5 +151,5 @@ class Perguntas_model extends CI_Model {
 		return $retorno;
 
 	}
-	
+
 }

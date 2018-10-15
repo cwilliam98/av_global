@@ -33,6 +33,23 @@ class Perguntas extends CI_Controller {
 		$this->load->view('administrador/pergunta_list_tpl',$data);
 	}
 
+	public function geraGabarito(){
+		
+		$this->load->model('Perguntas_model');
+		$usuario = $this->session->userdata('usuario');
+
+		$data = [
+			"questoes" => $this->Perguntas_model->getQuestoesByProfessor($usuario['id'])
+		];
+
+		foreach($data['questoes'] as $id => $questao)
+		{
+			$data['questoes'][$id]['alternativas'] = $this->Perguntas_model->getAlternativas($questao['id']);
+		}
+
+		$this->load->view('administrador/pergunta_gabarito_tpl',$data);
+	}
+
 	public function cadastra($id=-1)
 	{
 			//if ($id != -1) {
@@ -114,10 +131,6 @@ class Perguntas extends CI_Controller {
 
 		$this->load->view('administrador/pergunta_alterar_tpl',$data);
 
-		
-
-
-
 	}
 
 	public function execAlterarPergunta($id){
@@ -196,20 +209,20 @@ class Perguntas extends CI_Controller {
 
 	public function uploadImageCKeditor() {
 		if(isset($_FILES['upload'])){
-  // ------ Process your file upload code -------
+  			// ------ Process your file upload code -------
 			$filen = $_FILES['upload']['tmp_name'];
-			$con_images = "../../uploads/".$_FILES['upload']['name'];
+			$con_images = "uploads/".$_FILES['upload']['name'];
 			$retorno = move_uploaded_file($filen, $con_images );
 			
 			$url = $con_images;
 
 			$funcNum = $_GET['CKEditorFuncNum'] ;
-   // Optional: instance name (might be used to load a specific configuration file or anything else).
+   			// Optional: instance name (might be used to load a specific configuration file or anything else).
 			$CKEditor = $_GET['CKEditor'] ;
-   // Optional: might be used to provide localized messages.
+  			 // Optional: might be used to provide localized messages.
 			$langCode = $_GET['langCode'] ;
 
-   // Usually you will only assign something here if the file could not be uploaded.
+  			 // Usually you will only assign something here if the file could not be uploaded.
 			$message = '';
 			echo "<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction($funcNum, '$url', '$message');</script>";
 		}

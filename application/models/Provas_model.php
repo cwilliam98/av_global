@@ -6,15 +6,9 @@ class Provas_model extends CI_Model {
 	function cadastraProva($data){
 		$this->db->insert('provas', $data);
 		return $this->db->insert_id();
+
 	}
 
-	function getProvasAluno($id){
-		return $this->db
-		->from('provas')
-		->where('provas.aluno',$id)
-		->get()
-		->result_array();
-	}
 	function getQuestoes($id){
 		return $this->db
 		->from('itens_prova')
@@ -94,7 +88,7 @@ class Provas_model extends CI_Model {
 		->select(['questoes.id questao', 'questoes.descricao'])
 		->from('questoes')
 		->where_in('id', array_column($questoes,'questao'))
-		->random()
+		->order_by('rand()')
 		->get()
 		->result();	
 		
