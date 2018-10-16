@@ -33,6 +33,47 @@ CREATE TABLE `alternativas` (
   `questao` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Extraindo dados da tabela `alternativas`
+--
+
+INSERT INTO `alternativas` (`id`, `descricao`, `correta`, `questao`) VALUES
+(149, 'Tem entre 2 a 4 litros. São retirados 450 mil', 0, 58),
+(150, 'Tem entre 4 a 6 litros. São retirados 450 mil', 1, 58),
+(151, 'Tem 10 litros. São retirados 2 litros.', 0, 58),
+(152, 'Tem 7 litros. São retirados 1,5 litros.', 0, 58),
+(153, 'Tem 0,5 litros. São retirados 0,5 litros.', 0, 58),
+(154, 'Platão\r\n', 0, 59),
+(155, 'Galileu Galilei\r\n', 0, 59),
+(156, 'Descartes\r\n', 1, 59),
+(157, 'Sócrates\r\n', 0, 59),
+(158, 'Francis Bacon', 0, 59),
+(159, 'França', 0, 60),
+(160, 'Inglaterra', 0, 60),
+(161, 'Brasil', 1, 60),
+(162, 'Austrália', 0, 60),
+(163, 'Itália', 0, 60),
+(164, 'Região Norte', 0, 61),
+(165, 'Região Sul', 1, 61),
+(166, 'Região Nordeste', 0, 61),
+(167, 'Gaspar, Nicolau e Natanael', 0, 62),
+(168, 'Belchior, Gaspar e Baltazar\r\n', 1, 62),
+(169, 'Belchior, Gaspar e Nataniel\r\n', 0, 62),
+(170, 'Gabriel, Benjamim e Melchior\r\n', 0, 62),
+(171, 'Melchior, Noé e Galileu', 0, 62),
+(174, 'II e III, apenas.', 1, 65),
+(175, 'I e II, apenas.', 0, 65),
+(176, 'III, apenas.', 0, 65),
+(177, 'I, apenas.', 0, 65),
+(178, 'Sistema de Suporte à Decisão (SSD), Sistema d', 0, 66),
+(179, 'Sistema de Gerenciamento da Cadeia de Suprime', 0, 66),
+(180, 'Sistema de Informação Gerencial (SIG), Sistem', 0, 66),
+(181, 'Sistema de Processamento de Transação (SPT), ', 1, 66),
+(182, '3, 4, 2, 6, 1, 5', 1, 67),
+(183, '6, 5, 1, 4, 2, 3', 0, 67),
+(184, '4, 6, 5, 1, 3, 2', 0, 67),
+(185, '5, 3, 1, 6, 2, 4', 0, 67);
+
 -- --------------------------------------------------------
 
 --
@@ -45,6 +86,20 @@ CREATE TABLE `disciplinas` (
   `professor` int(10) UNSIGNED NOT NULL,
   `situacao` varchar(45) DEFAULT 'ativo'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `disciplinas`
+--
+
+INSERT INTO `disciplinas` (`id`, `nome`, `professor`, `situacao`) VALUES
+(1, 'Redes e Servidores', 14, 'ativo'),
+(2, 'Orientação a objetos', 14, 'inativo'),
+(3, 'Estrutura de Dados', 9, 'inativo'),
+(4, 'Banco de Dados', 3, 'inativo'),
+(5, 'Sistemas de Informação', 14, 'ativo'),
+(6, 'Orientação a objetos', 14, 'inativo'),
+(7, 'Orientação a objetos', 14, 'ativo'),
+(8, 'Conhecimentos Gerais', 14, 'ativo');
 
 -- --------------------------------------------------------
 
@@ -60,6 +115,15 @@ CREATE TABLE `formularios` (
   `situacao` enum('em andamento','finalizada') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Extraindo dados da tabela `formularios`
+--
+
+INSERT INTO `formularios` (`id`, `aluno`, `disciplina`, `prova`, `situacao`) VALUES
+(13, 11, 4, 6, 'finalizada'),
+(14, 11, 5, 6, 'finalizada'),
+(15, 11, 8, 6, 'finalizada');
+
 -- --------------------------------------------------------
 
 --
@@ -72,6 +136,20 @@ CREATE TABLE `itens_prova` (
   `formulario` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Extraindo dados da tabela `itens_prova`
+--
+
+INSERT INTO `itens_prova` (`id`, `questao`, `formulario`) VALUES
+(62, 65, 14),
+(63, 66, 14),
+(64, 67, 14),
+(65, 58, 15),
+(66, 59, 15),
+(67, 60, 15),
+(68, 61, 15),
+(69, 62, 15);
+
 -- --------------------------------------------------------
 
 --
@@ -82,6 +160,19 @@ CREATE TABLE `matriculas` (
   `aluno` int(10) UNSIGNED NOT NULL,
   `disciplina` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `matriculas`
+--
+
+INSERT INTO `matriculas` (`aluno`, `disciplina`) VALUES
+(11, 4),
+(11, 5),
+(11, 8),
+(12, 1),
+(12, 2),
+(12, 3),
+(12, 4);
 
 -- --------------------------------------------------------
 
@@ -101,6 +192,13 @@ CREATE TABLE `provas` (
   `professor` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Extraindo dados da tabela `provas`
+--
+
+INSERT INTO `provas` (`id`, `nome`, `criado_em`, `aplicacao`, `qtd_questoes`, `reaproveitar`, `tipo_prova`, `nota`, `professor`) VALUES
+(6, 'Avaliação Global', '2018-10-15 20:10:21', '2018-10-15 00:00:00', 5, 0, 'Avaliação global', 0, 10);
+
 -- --------------------------------------------------------
 
 --
@@ -118,6 +216,20 @@ CREATE TABLE `questoes` (
   `situacao` varchar(45) NOT NULL DEFAULT 'ativo'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Extraindo dados da tabela `questoes`
+--
+
+INSERT INTO `questoes` (`id`, `descricao`, `criado_em`, `disciplina`, `peso`, `professor`, `imagem`, `situacao`) VALUES
+(58, '<p><strong>Normalmente, quantos litros de sangue uma pessoa tem? Em m&eacute;dia, quantos s&atilde;o retirados numa doa&ccedil;&atilde;o de sangue?</strong></p>\r\n', '2018-10-15 19:38:44', 5, 0, 10, NULL, 'ativo'),
+(59, '<p><strong>De quem &eacute; a famosa frase &ldquo;Penso, logo existo&rdquo;?</strong></p>\r\n', '2018-10-15 19:40:26', 5, 0, 10, NULL, 'ativo'),
+(60, '<p><strong>De onde &eacute; a inven&ccedil;&atilde;o do chuveiro el&eacute;trico?</strong></p>\r\n\r\n<p>&nbsp;</p>\r\n', '2018-10-15 19:41:09', 5, 0, 10, NULL, 'ativo'),
+(61, '<h4><strong>O churrasco &eacute; uma comida t&iacute;pica de qual regi&atilde;o do Brasil?</strong></h4>\r\n\r\n<p><strong><img alt="" src="https://i0.wp.com/www.selecoes.com.br/wp-content/uploads/2017/12/churras.jpg" style="height:225px; width:400px" /></strong></p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>&nbsp;</p>\r\n', '2018-10-15 19:44:29', 5, 0, 10, NULL, 'ativo'),
+(62, '<p><strong>Quais os nomes dos tr&ecirc;s Reis Magos?</strong></p>\r\n', '2018-10-15 19:48:34', 5, 0, 10, NULL, 'ativo'),
+(65, '<p><strong>No que se refere a sistema de informa&ccedil;&atilde;o, analise as afirmativas.</strong></p>\r\n\r\n<p><strong>I - Um conjunto de componentes inter-relacionados que coletam ou recuperam, processam, armazenam e distribuem informa&ccedil;&otilde;es destinadas a apoiar a tomada de decis&otilde;es, a coordena&ccedil;&atilde;o e ao controle de uma organiza&ccedil;&atilde;o &eacute; uma dimens&atilde;o do sistema de informa&ccedil;&atilde;o.</strong></p>\r\n\r\n<p><strong>II - Informa&ccedil;&atilde;o refere-se a dados apresentados em uma forma significativa e &uacute;til para seres humanos e dados s&atilde;o sequ&ecirc;ncias de fatos brutos que representam eventos que ocorrem nas organiza&ccedil;&otilde;es ou no ambiente f&iacute;sico, antes de terem sido organizados e arranjados de uma forma que as pessoas possam entend&ecirc;-los e us&aacute;-los.</strong></p>\r\n\r\n<p><strong>III - Ao implantar um sistema de informa&ccedil;&atilde;o na organiza&ccedil;&atilde;o, haver&aacute; interfer&ecirc;ncia em seu subsistema t&eacute;cnico, social e pol&iacute;tico: no t&eacute;cnico, a organiza&ccedil;&atilde;o &eacute; afetada pelas novas t&eacute;cnicas e m&eacute;todos de trabalho; no social, altera-se a forma de relacionamento das pessoas entre si mesmas e das pessoas em rela&ccedil;&atilde;o ao sistema; no pol&iacute;tico, &eacute; modificada a rela&ccedil;&atilde;o de poderes e a informa&ccedil;&atilde;o.</strong></p>\r\n\r\n<p><strong>Est&aacute; correto o que se afirma em</strong></p>\r\n', '2018-10-15 20:03:37', 5, 0, 14, NULL, 'ativo'),
+(66, '<p><strong>A classifica&ccedil;&atilde;o dos Sistemas de Informa&ccedil;&atilde;o computadorizados apresenta como crit&eacute;rio de categoriza&ccedil;&atilde;o o n&iacute;vel organizacional ao qual eles buscam atender, sendo definidos em tr&ecirc;s categorias essenciais:</strong></p>\r\n', '2018-10-15 20:04:42', 5, 0, 14, NULL, 'ativo'),
+(67, '<p><strong>Considerando os elementos componentes dos Sistemas de Informa&ccedil;&atilde;o (SI) baseados em computadores, numere a coluna da direita de acordo com a da esquerda.</strong></p>\r\n\r\n<p><strong><img alt="" src="https://www.estudegratis.com.br/images/questoes/e1b0ab7158651a83254665489.gif" style="height:228px; width:400px" /></strong></p>\r\n\r\n<p><strong>Assinale a sequ&ecirc;ncia correta.</strong></p>\r\n', '2018-10-15 20:06:31', 5, 0, 14, NULL, 'ativo');
+
 -- --------------------------------------------------------
 
 --
@@ -130,6 +242,20 @@ CREATE TABLE `respostas` (
   `criado_em` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `aluno` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `respostas`
+--
+
+INSERT INTO `respostas` (`item_prova`, `alternativa`, `criado_em`, `aluno`) VALUES
+(62, 174, '2018-10-15 21:58:14', 11),
+(63, 181, '2018-10-15 21:49:34', 11),
+(64, 182, '2018-10-15 21:58:11', 11),
+(65, 150, '2018-10-15 21:58:10', 11),
+(66, 157, '2018-10-15 21:49:40', 11),
+(67, 161, '2018-10-15 21:58:05', 11),
+(68, 165, '2018-10-15 21:58:09', 11),
+(69, 169, '2018-10-15 21:58:06', 11);
 
 -- --------------------------------------------------------
 
@@ -144,6 +270,26 @@ CREATE TABLE `sessoes` (
   `termino` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Extraindo dados da tabela `sessoes`
+--
+
+INSERT INTO `sessoes` (`id`, `usuario`, `inicio`, `termino`) VALUES
+(19, 11, '2018-10-15 20:10:33', '2018-10-15 22:10:29'),
+(20, 11, '2018-10-15 20:13:05', '2018-10-15 22:10:29'),
+(21, 11, '2018-10-15 20:14:11', '2018-10-15 22:10:29'),
+(22, 11, '2018-10-15 20:14:41', '2018-10-15 22:10:29'),
+(23, 11, '2018-10-15 20:15:30', '2018-10-15 22:10:29'),
+(24, 11, '2018-10-15 20:15:51', '2018-10-15 22:10:29'),
+(25, 11, '2018-10-15 20:26:49', '2018-10-15 22:10:29'),
+(26, 11, '2018-10-15 21:11:22', '2018-10-15 22:10:29'),
+(27, 11, '2018-10-15 21:49:27', '2018-10-15 22:10:29'),
+(28, 11, '2018-10-15 22:08:25', '2018-10-15 22:10:29'),
+(29, 11, '2018-10-15 22:09:36', '2018-10-15 22:10:29'),
+(30, 11, '2018-10-15 22:19:10', '2018-10-15 22:10:29'),
+(31, 11, '2018-10-15 22:20:12', '2018-10-15 22:10:29'),
+(32, 11, '2018-10-15 22:21:25', '2018-10-15 22:10:29');
+
 -- --------------------------------------------------------
 
 --
@@ -157,6 +303,16 @@ CREATE TABLE `usuarios` (
   `senha` varchar(200) NOT NULL,
   `contexto` enum('aluno','professor','administrador') DEFAULT 'aluno'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `usuarios`
+--
+
+INSERT INTO `usuarios` (`id`, `nome`, `codigo`, `senha`, `contexto`) VALUES
+(10, 'joão', '9090', '$2y$10$S6URNNG1tNWRDtSsmVU3YON9LnlVoJtMZlSq4a/DRLwQO2zD82t/6', 'administrador'),
+(11, 'Oda', '1234', '$2y$10$Ysfw0Xe3tdfY6QFEFwpGO.l1g9xjlqAQI44K1/JDjUTaqkfsiuWoW', 'aluno'),
+(12, 'Cristian William Albrecht', '4964', '$2y$10$UmHgPt6iBbOoszIZffHvY.GBYc4uQz1b/dqzZiVIxTuOrYEQmedi2', 'aluno'),
+(14, 'Éderson Slachta', '0740', '$2y$10$Q7Q33oR7ndoJt6r/og.HautWdKcdY.Lc2TKqDC9n5XG1c7ollLee.', 'professor');
 
 --
 -- Indexes for dumped tables
