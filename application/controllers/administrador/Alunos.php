@@ -31,7 +31,7 @@ class Alunos extends CI_Controller {
 		$this->form_validation->set_rules('aluno',  	   'aluno',			 'trim');
 		$this->form_validation->set_rules('nome',          'nome',           'trim|required|max_length[1000]');
 		$this->form_validation->set_rules('codigo',        'codigo',         'trim|required');
-		$this->form_validation->set_rules('disciplinas[]', 'Disciplinas',    'trim|required');
+		$this->form_validation->set_rules('disciplinas[]', 'Disciplinas',    'trim');
 		$this->form_validation->set_rules('jornada', 	   'jornada',        'trim');
 		$this->form_validation->set_rules('senha', 		   'senha',          'trim|required');
 		
@@ -75,7 +75,7 @@ class Alunos extends CI_Controller {
 			$data = [
 				"nome" =>	set_value('nome'),
 				"codigo" =>	set_value('codigo'),
-				"senha" =>	set_value('senha'),
+				"senha" =>	password_hash(set_value('senha'), PASSWORD_BCRYPT),
 				"contexto" => 'professor'
 
 			];

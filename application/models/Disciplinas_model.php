@@ -23,6 +23,7 @@ class Disciplinas_model extends CI_Model {
 		return $this->db
 		->select('usuarios.nome professor, disciplinas.nome, disciplinas.id, disciplinas.situacao')
 		->join('usuarios','disciplinas.professor = usuarios.id')
+		->where('disciplinas.situacao','ativo')
 		->order_by('nome')
 		->get('disciplinas')
 		->result_array();

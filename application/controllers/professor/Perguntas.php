@@ -56,7 +56,7 @@ class Perguntas extends CI_Controller {
 
 		$aluno = $this->session->userdata('usuario');
 
-		$this->form_validation->set_rules('questao',       'questao',          	 'required|max_length[1000]');
+		$this->form_validation->set_rules('questao',       'questao',          	 'required|max_length[10000]');
 		$this->form_validation->set_rules('alternativa[]', 'alternativa',        'max_length[1000]');
 		$this->form_validation->set_rules('correta[]',     'alternativa Correta','required');
 		$this->form_validation->set_rules('disciplina',    'disciplina',         'required');

@@ -80,7 +80,7 @@
             <div class="row">
               <div class="col-sm-12 col-sm-offset-3">
                 <div class="inputBox">
-                  <div class="inputText">O resultado da sua prova foi </div>
+                  <div class="inputText">Você teve <?php echo $acertos; ?> acertos! </div>
                 </div>
             </div>
 

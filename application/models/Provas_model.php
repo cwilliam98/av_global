@@ -29,18 +29,17 @@ class Provas_model extends CI_Model {
 	}
 	function getAlternativaById($alternativa,$questao,$aluno){
 		$resultado = $this->db
-		->select('alternativas.id alternativa,itens_prova.id item_prova')
+		->select('alternativas.id alternativa,itens_prova.id item_prova,formularios.aluno')
 		->from('alternativas, formularios')
 		->join('questoes','questoes.id = alternativas.questao')
 		->join('itens_prova', 'itens_prova.questao = questoes.id')
-		->join('provas','provas.id = itens_prova.formulario')
+		->join('provas','provas.id = formularios.prova')
 		->where('alternativas.id', $alternativa)
 		->where('questoes.id', $questao)
 		->where('formularios.aluno', $aluno)
 		->get()
 		->result_array();
-		// echo $this->db->last_query();
-		// exit();
+		
 		return reset($resultado);
 	}
 	function getQuestoesById($id, $qtd_questoes){
@@ -169,6 +168,24 @@ class Provas_model extends CI_Model {
 		->get()
 		->result_array();
 		return $dados;
+	}
+
+	function getResposta($aluno){
+		$dados =  $this->db
+		->from('respostas')
+		->where('aluno',$aluno)
+		->get()
+		->result_array();
+		return $dados;
+	}
+
+	function getAlternativaCorreta($alternativa){
+		$dados =  $this->db
+		->from('alternativas')
+		->where('id',$alternativa)
+		->get()
+		->result_array();
+		return reset($dados);
 	}
 
 

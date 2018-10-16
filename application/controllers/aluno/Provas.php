@@ -160,6 +160,7 @@ class Provas extends CI_Controller {
 
 		$this->Provas_model->insereFimSessao($id);
 
+
 		if(!$this->Provas_model->atualizaSituacaoProva($id)){
 			echo json_encode('erro');
 		}
@@ -172,9 +173,30 @@ class Provas extends CI_Controller {
 	
 	public function fim(){
 
+		$aluno = $this->session->userdata('usuario');
+
+		$this->load->model('Provas_model');
+
 		$this->session->sess_destroy();
 
-		$this->load->view('aluno/fim_tpl');
+		$respostas =  $this->Provas_model->getResposta($aluno['id']);
+
+		
+		$acertos['acertos'] = 0;
+		
+		foreach ($respostas as $resposta) {
+
+			$alternativa =  $this->Provas_model->getAlternativaCorreta($resposta['alternativa']);
+			
+			if ($alternativa['correta'] == '1') {
+				$acertos['acertos'] = $acertos['acertos'] + 1;
+			}
+			
+		}
+		
+
+
+		$this->load->view('aluno/fim_tpl',$acertos);
 
 	}
 
