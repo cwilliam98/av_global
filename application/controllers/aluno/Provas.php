@@ -64,9 +64,7 @@ class Provas extends CI_Controller {
 			);
 
 			$id = $this->Formularios_model->cadastra($data_formulario);
-
 			$questoes = $this->Provas_model->getQuestoesById($formulario['disciplina'], $formulario['qtd_questoes']);
-
 
 
 			foreach($questoes as $questao)

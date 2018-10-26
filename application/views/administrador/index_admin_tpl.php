@@ -13,9 +13,10 @@
     <!-- Bootstrap core CSS -->
     <link href="<?=base_url('/assets/css/bootstrap.min.css')?>" rel="stylesheet">
     <link href="<?=base_url('/assets/css/simple-sidebar.css')?>" rel="stylesheet">
+    <script src="<?php echo base_url('assets/chart/Chart.min.js'); ?>"></script>
+
 
 </head>
-
 <body>
     <div id="wrapper">
 
@@ -60,6 +61,10 @@
                 </li>
 
                 <li>
+                    <a href="<?php echo base_url('administrador/admin/acertosPorQuestoes')?>">Quantidade de acertos por Questões</a>
+                </li>
+
+                <li>
                     <form method="post" action="<?php echo base_url('login/logout')?>" id="cadastra_perguntas">                                  
                         <button type="submit"  id="cadastrar" class="btn btn-md"> 
                             <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
@@ -92,6 +97,10 @@
             <div class="container-fluid" id="coisas">
             </div>
         </div>
+        &nbsp <ol class="breadcrumb">
+            <div class="item"><a href="">Home / </a>
+            </ol>
+
         <!-- /#page-content-wrapper -->
 
     </div>
@@ -101,8 +110,9 @@
     <script src="<?php echo base_url(); ?>assets/js/jquery-3.2.1.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/js/bootstrap.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/ckeditor/ckeditor.js"></script>
- <script>
+    <script>
 
+       
         // window.onbeforeunload = function() {
             // return "Os dados do formulário serão perdidos.";
         // }
@@ -112,7 +122,21 @@
         },2000);
 
         $("#wrapper").toggleClass("toggled");
-</script>
+    </script>
 </body>
+
+<script type="text/javascript">
+     $('a').on('click', function() {
+          var $this = $(this),
+          $bc = $('<div class="item"></div>');
+
+          $this.parents('li').each(function(n, li) {
+              var $a = $(li).children('a').clone();
+              $bc.prepend(' / ', $a);
+          });
+          $('.breadcrumb').html( $bc.prepend('<a href="">Home</a>') );
+          return false;
+      });
+</script>
 
 </html>

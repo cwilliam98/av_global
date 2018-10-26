@@ -49,6 +49,9 @@ class Provas_model extends CI_Model {
 		->limit($qtd_questoes)
 		->get()
 		->result_array();
+		// echo $this->db->last_query();
+		// exit();
+
 
 	}
 
@@ -81,6 +84,8 @@ class Provas_model extends CI_Model {
 		->where('formulario', $formulario)
 		->get()
 		->result_array();
+		 // echo $this->db->last_query();
+		 // exit();
 
 
 		$questoes = $this->db
@@ -170,22 +175,79 @@ class Provas_model extends CI_Model {
 		return $dados;
 	}
 
-	function getResposta($aluno){
+	function getResposta(){
 		$dados =  $this->db
 		->from('respostas')
-		->where('aluno',$aluno)
 		->get()
 		->result_array();
 		return $dados;
 	}
 
+	function getUsuarios(){
+		$dados =  $this->db
+		->from('usuarios')
+		->get()
+		->result_array();
+		return $dados;
+	}
+
+
 	function getAlternativaCorreta($alternativa){
 		$dados =  $this->db
+		->select('id alternativa,descricao,correta,questao')
 		->from('alternativas')
 		->where('id',$alternativa)
 		->get()
 		->result_array();
+		// echo $this->db->last_query();
+		// exit();
+		return $dados;
+	}
+
+	function getQuestaoByAlternativa($id){
+		$dados =  $this->db
+		->select('id questao,descricao')
+		->from('questoes')
+		->where('id',$id)
+		->get()
+		->result_array();
+		// echo $this->db->last_query();
+		// exit();
 		return reset($dados);
+	}
+
+	function getRespostas(){
+		$dados =  $this->db
+		->select('alternativas.id alternativa,alternativas.descricao,COUNT(alternativas.correta) correta,alternativas.questao, questoes.id questao,questoes.descricao, respostas.alternativa, respostas.aluno')
+		->from('respostas')
+		->join('alternativas', 'respostas.alternativa = alternativas.id')
+		->join('questoes', 'alternativas.questao = questoes.id')
+		->group_by('alternativas.questao')
+		->get()
+		->result_array();
+		// echo $this->db->last_query();
+		// exit();
+		return $dados;
+	}
+
+	function getDadosProfessores(){
+
+		$dados =  $this->db
+		->where('contexto','professor')
+		->count_all_results('usuarios');
+		return $dados;
+
+	}
+	function getDadosQuestoes(){
+
+		return $this->db->count_all_results('questoes');
+
+	}
+	function getDadosDisciplinas(){
+
+		return $this->db->count_all_results('disciplinas');
+		
+
 	}
 
 
