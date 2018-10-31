@@ -1,28 +1,16 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Perguntas extends CI_Controller {
-
-	public function __construct(){
-		parent::__construct();
-
-		if(!$this->session->userdata('logado'))
-		{
-			redirect('login');
-		}
-		$aluno = $this->session->userdata('usuario');
-
-		if ($aluno['contexto'] == 'aluno') {
-			$this->load->view('aviso_permissao');
-		}
-	}
+class Perguntas extends MY_Controller {
 
 	public function index(){
-		
 		$this->load->model('Perguntas_model');
+		$periodo_letivo = $this->input->get('periodo');
+		// if($periodo_letivo){
 
 		$data = [
-			"questoes" => $this->Perguntas_model->getQuestoes()
+			"questoes" => $this->Perguntas_model->getQuestoesPorPeriodo($periodo_letivo),
+			"periodos_letivo" => $this->Perguntas_model->getPeriodoLetivo()
 		];
 
 		foreach($data['questoes'] as $id => $questao)
@@ -32,6 +20,8 @@ class Perguntas extends CI_Controller {
 
 		$this->load->view('administrador/pergunta_list_tpl',$data);
 	}
+
+	
 
 	public function geraGabarito(){
 		
@@ -50,14 +40,17 @@ class Perguntas extends CI_Controller {
 		$this->load->view('administrador/pergunta_gabarito_tpl',$data);
 	}
 
-	public function cadastra($id=-1)
+	public function cadastra()
 	{
-			//if ($id != -1) {
-			//	$data["dados"] = $this->model->getDados($id);
-			//}
-		
+
 		$this->load->model('Disciplinas_model');
-		$data["disciplinas"] = $this->Disciplinas_model->getTodasDisciplinas();
+		$this->load->model('Perguntas_model');
+
+		$data = [
+			"disciplinas" => $this->Disciplinas_model->getTodasDisciplinas(),
+			"periodos_letivo" => $this->Perguntas_model->getPeriodoLetivo()
+		];
+
 		$this->load->view('administrador/pergunta_cadastro_tpl', $data);
 	}
 
@@ -67,8 +60,9 @@ class Perguntas extends CI_Controller {
 
 		$this->form_validation->set_rules('questao',       'questao',          	 'required|max_length[1000]');
 		$this->form_validation->set_rules('alternativa[]', 'alternativa',        'max_length[1000]');
-		$this->form_validation->set_rules('correta[]',     'alternativa Correta','required');
+		$this->form_validation->set_rules('correta[]',     'alternativa lorreta','required');
 		$this->form_validation->set_rules('disciplina',    'disciplina',         'required');
+		$this->form_validation->set_rules('periodo_letivo','periodo letivo',      'required');
 
 		if($this->form_validation->run() == FALSE)
 		{
@@ -83,7 +77,8 @@ class Perguntas extends CI_Controller {
 		$questaoId = $this->Perguntas_model->cadastraPergunta([
 			"descricao" =>	set_value('questao'),
 			"disciplina" => set_value('disciplina'),
-			"professor"  => $aluno['id']
+			"professor"  => $aluno['id'],
+			"periodo_letivo" => set_value('periodo_letivo')
 		]);
 
 
@@ -103,10 +98,10 @@ class Perguntas extends CI_Controller {
 			$this->Perguntas_model->cadastraAlternativa($data);
 		}
 		if(!empty($data)){
-			redirect('administrador/admin/index?aviso=1');
+			redirect('administrador/admin/cadastra?aviso=1');
 		}
 
-		redirect('administrador/admin/index?aviso=2');
+		redirect('administrador/admin/cadastra?aviso=2');
 
 
 	}
@@ -127,6 +122,8 @@ class Perguntas extends CI_Controller {
 		
 		$data["disciplinas"] = $this->Disciplinas_model->getTodasDisciplinas();
 
+		$data["periodos_letivo"] = $this->Perguntas_model->getPeriodoLetivo();
+
 		//echo '<pre>'; print_r(reset($data['questoes'])); exit();		
 
 		$this->load->view('administrador/pergunta_alterar_tpl',$data);
@@ -134,13 +131,15 @@ class Perguntas extends CI_Controller {
 	}
 
 	public function execAlterarPergunta($id){
+		
 
 		$aluno = $this->session->userdata('usuario');
 		$id = (int)$id;
 		$this->form_validation->set_rules('questao',       'questao',          	 'required|max_length[10000]');
 		$this->form_validation->set_rules('alternativa[]', 'alternativa',        'max_length[1000]');
 		$this->form_validation->set_rules('correta[]',     'alternativa Correta','required');
-		$this->form_validation->set_rules('disciplina',    'disciplina',         '');
+		$this->form_validation->set_rules('disciplina',    'disciplina',         'required');
+		$this->form_validation->set_rules('periodo_letivo','periodo letivo',     'required');
 
 		if($this->form_validation->run() == FALSE)
 		{
@@ -174,19 +173,23 @@ class Perguntas extends CI_Controller {
 
 		foreach (set_value('alternativas') as $alternativa => $descricao)
 		{
+
 			if (empty($descricao))
 				continue;
 			
 			$data = [
 				'descricao' => $descricao
 			];
+			if ($alternativa == 'A') {
+				$data['questao'] = $id;
+				$teste = $this->Perguntas_model->cadastraAlternativa($data);
 
+			}
 			$retorno = $this->Perguntas_model->alteraAlternativa($data,$id,$alternativa);
 			
 		}
-// exit();
-	if(!empty($retorno)){
-		redirect('administrador/perguntas/alterar/'.$id."?aviso=1");
+		if(!empty($retorno)){
+			redirect('administrador/perguntas/alterar/'.$id."?aviso=1");
 		}
 
 		redirect('administrador/perguntas/alterar?aviso=2');	

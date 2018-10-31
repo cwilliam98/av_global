@@ -25,11 +25,11 @@ table {
 		<div class="col-md-2 col-md-offset-2">
 			<input type="button" class="btn btn-primary" id="imprimir" onclick="window.print();" value="Imprimir">
 		</div>
-		<div class="col-md-12 col-md-offset-1">
+		<div class="col-md-10 col-md-offset-2">
 
 		</br>
 
-		<table align="center" class="" id="myTable">
+		<table align="center" class="table table-striped" id="myTable">
 			<tr>
 				<td align="center">Questão</th>
 					<td align="center">A</td>

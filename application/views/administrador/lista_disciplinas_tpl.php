@@ -4,29 +4,34 @@ include 'index_admin_tpl.php';
 
 <body>
 	<div class="container">
-		<div class="col-md-12">
+		<div class="col-md-10 col-md-offset-2">
 
 		</br>
 
-		<table width="600"  align="center"  class="" id="myTable" style="border-top: groove; border-right: groove; border-left: groove; border-bottom: groove;">
+		<table width="600"  align="center"  class="table table-striped" id="myTable">
 			<tr>
 				<th class="text-center">Nome</th>
 				<th class="text-center">Professor</th>
 				<th class="text-center">Situação</th>
+				<th class="text-center">Curso</th>
 				<th class="text-center">Opções</th>
 			</tr>
 			<?php foreach ($disciplinas as $disciplina) { ?>
 				<tr>
-					<td class="btn-info text-center">
+					<td class="text-center">
 						<?php echo $disciplina['nome'];?>
 					</td>
 					
-					<td class="btn-info text-center">
+					<td class="text-center">
 						<?php echo $disciplina['professor'];?>
 					</td>
 
-					<td class="btn-info text-center">
+					<td class="text-center">
 						<?php echo $disciplina['situacao'];?>
+					</td>
+
+					<td class="text-center">
+						<?php echo $disciplina['curso'];?>
 					</td>
 
 					<td  class="btn-light text-center">

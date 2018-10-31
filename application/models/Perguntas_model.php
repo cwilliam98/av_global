@@ -41,9 +41,28 @@ class Perguntas_model extends CI_Model {
 		->get('questoes')
 		->result_array();
 	}
-	function getQuestoes(){
+	function getQuestoes($periodo_letivo=null){
 		return $this->db
 		->from('questoes')
+		->get()
+		->result_array();
+		// print_r($this->db->last_query());
+		// exit();
+	}
+	function getQuestoesPorPeriodo($periodo_letivo=null){
+		if ( !is_null($periodo_letivo) )
+			$this->db->where('periodo_letivo', $periodo_letivo);
+
+		return $this->db
+		->from('questoes')
+		->get()
+		->result_array();
+		// print_r($this->db->last_query());
+		// exit();
+	}
+	function getPeriodoLetivo(){
+		return $this->db
+		->from('periodo_letivo')
 		->get()
 		->result_array();
 	}
@@ -110,6 +129,7 @@ class Perguntas_model extends CI_Model {
 		$this->db->where('id', $id);
 		$this->db->set('descricao',$data['questao']);
 		$this->db->set('disciplina',$disciplina);
+		$this->db->set('periodo_letivo',$data['periodo_letivo']);
 		$retorno = $this->db->update('questoes');
 
 		return $retorno;

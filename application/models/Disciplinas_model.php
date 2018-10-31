@@ -21,8 +21,9 @@ class Disciplinas_model extends CI_Model {
 	
 	function getTodasDisciplinas(){
 		return $this->db
-		->select('usuarios.nome professor, disciplinas.nome, disciplinas.id, disciplinas.situacao')
+		->select('usuarios.nome professor, disciplinas.nome, disciplinas.id, disciplinas.situacao,curso.nome curso')
 		->join('usuarios','disciplinas.professor = usuarios.id')
+		->join('curso','curso.id = disciplinas.curso')
 		->where('disciplinas.situacao','ativo')
 		->order_by('nome')
 		->get('disciplinas')
@@ -35,6 +36,14 @@ class Disciplinas_model extends CI_Model {
 		->where('contexto','professor')
 		->order_by('nome')
 		->get('usuarios')
+		->result_array();
+
+	}
+
+	function getTodosCursos(){
+		return $this->db
+		->order_by('nome')
+		->get('curso')
 		->result_array();
 
 	}

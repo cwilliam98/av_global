@@ -10,9 +10,14 @@
 </style>
 <div class="container">
 	<div class="row">
+		<div class="col-md-10 col-md-offset-2">
+			<h3 class="m-1 text-center text-white">Cadastrar nova prova</h3>
+		</div>
+	</div>
+</div>
+<div class="container">
+	<div class="row">
 		<div class="col-md-10  col-md-offset-2 classe">
-			<h3>Cadastrar nova prova</h3>
-
 			<form method="post" action="<?php echo base_url('administrador/provas/execCadastraProva') ?>">
 				<div class="form-group">
 					<label >Nome</label>
@@ -22,30 +27,17 @@
 
 					<div class="form-group <?php echo form_error('data') ? 'has-error' : '' ?>">
 						<label >Data</label>
-						<input type="datetime-local" class="form-control" id="aplicacao"
-               name="aplicacao" value=""/>
+						<input type="datetime-local" class="form-control" id="aplicacao" name="aplicacao" value=""/>
 						<span id="helpBlock2" class="help-block"><?php echo form_error('data'); ?></span>
 					</div>
 
-					<div class="form-group <?php echo form_error('data') ? 'has-error' : '' ?>">
+					<div class="form-group <?php echo form_error('qtd_questoes') ? 'has-error' : '' ?>">
 						<label >Quantidade de questoes</label>
-						<input type="number" class="form-control" id="qtd_questoes" name="qtd_questoes" placeholder="Data"  value="<?php echo set_value('qtd_questoes') ?>">
+						<input type="number" class="form-control" id="qtd_questoes" name="qtd_questoes" placeholder="Quantidade de questões"  value="<?php echo set_value('qtd_questoes') ?>">
 						<span id="helpBlock2" class="help-block"><?php echo form_error('qtd_questoes'); ?></span>
 					</div>
 
-					<h4>Reaproveitar prova</h4>
-					<div  class="radio">
-						<div style="padding-left: 20px">
-							<input type="radio" id="reaproveitar_sim" name="reaproveitar" value="nao">
-							<label for="reaproveitar_sim">Sim</label>
-						</div>
-						<div style="padding-left: 20px">
-							<input type="radio" id="reaproveitar_nao" name="reaproveitar" value="sim">
-							<label for="reaproveitar_nao">Não</label>
-						</div>
-					</div>
-
-					<div class="form-group <?php echo form_error('data') ? 'has-error' : '' ?>">
+					<div class="form-group <?php echo form_error('tipo_prova') ? 'has-error' : '' ?>">
 						<label >Tipo de prova</label>
 						<input type="text" class="form-control" id="tipo_prova" name="tipo_prova" placeholder="tipo da prova"  value="<?php echo set_value('tipo_prova') ?>">
 						<span id="helpBlock2" class="help-block"><?php echo form_error('tipo_prova'); ?></span>

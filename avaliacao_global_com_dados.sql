@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 16-Out-2018 às 03:23
+-- Generation Time: 31-Out-2018 às 00:59
 -- Versão do servidor: 10.1.13-MariaDB
 -- PHP Version: 5.5.34
 
@@ -72,7 +72,30 @@ INSERT INTO `alternativas` (`id`, `descricao`, `correta`, `questao`) VALUES
 (182, '3, 4, 2, 6, 1, 5', 1, 67),
 (183, '6, 5, 1, 4, 2, 3', 0, 67),
 (184, '4, 6, 5, 1, 3, 2', 0, 67),
-(185, '5, 3, 1, 6, 2, 4', 0, 67);
+(185, '5, 3, 1, 6, 2, 4', 0, 67),
+(186, 'tste', 1, 71),
+(187, 'teste', 1, 72),
+(193, 'não teste', 0, 72),
+(194, 'b', 0, 72);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `curso`
+--
+
+CREATE TABLE `curso` (
+  `id` int(11) NOT NULL,
+  `nome` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `curso`
+--
+
+INSERT INTO `curso` (`id`, `nome`) VALUES
+(1, 'Análise e Desenvolvimento de Sistemas'),
+(2, 'Ciências Contábeis ');
 
 -- --------------------------------------------------------
 
@@ -84,22 +107,25 @@ CREATE TABLE `disciplinas` (
   `id` int(10) UNSIGNED NOT NULL,
   `nome` varchar(45) NOT NULL,
   `professor` int(10) UNSIGNED NOT NULL,
-  `situacao` varchar(45) DEFAULT 'ativo'
+  `situacao` varchar(45) DEFAULT 'ativo',
+  `curso` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Extraindo dados da tabela `disciplinas`
 --
 
-INSERT INTO `disciplinas` (`id`, `nome`, `professor`, `situacao`) VALUES
-(1, 'Redes e Servidores', 14, 'ativo'),
-(2, 'Orientação a objetos', 14, 'inativo'),
-(3, 'Estrutura de Dados', 9, 'inativo'),
-(4, 'Banco de Dados', 3, 'inativo'),
-(5, 'Sistemas de Informação', 14, 'ativo'),
-(6, 'Orientação a objetos', 14, 'inativo'),
-(7, 'Orientação a objetos', 14, 'ativo'),
-(8, 'Conhecimentos Gerais', 14, 'ativo');
+INSERT INTO `disciplinas` (`id`, `nome`, `professor`, `situacao`, `curso`) VALUES
+(1, 'Redes e Servidores', 14, 'ativo', 1),
+(2, 'Orientação a objetos', 14, 'inativo', 1),
+(3, 'Estrutura de Dados', 9, 'inativo', 1),
+(4, 'Banco de Dados', 3, 'inativo', 1),
+(5, 'Sistemas de Informação', 14, 'ativo', 1),
+(6, 'Orientação a objetos', 14, 'inativo', 1),
+(7, 'Orientação a objetos', 14, 'ativo', 2),
+(8, 'Conhecimentos Gerais', 14, 'ativo', 0),
+(9, 'TESTE', 14, 'inativo', 0),
+(10, 'TESTE', 14, 'ativo', 1);
 
 -- --------------------------------------------------------
 
@@ -115,15 +141,6 @@ CREATE TABLE `formularios` (
   `situacao` enum('em andamento','finalizada') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Extraindo dados da tabela `formularios`
---
-
-INSERT INTO `formularios` (`id`, `aluno`, `disciplina`, `prova`, `situacao`) VALUES
-(13, 11, 4, 6, 'finalizada'),
-(14, 11, 5, 6, 'finalizada'),
-(15, 11, 8, 6, 'finalizada');
-
 -- --------------------------------------------------------
 
 --
@@ -135,20 +152,6 @@ CREATE TABLE `itens_prova` (
   `questao` int(10) UNSIGNED NOT NULL,
   `formulario` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Extraindo dados da tabela `itens_prova`
---
-
-INSERT INTO `itens_prova` (`id`, `questao`, `formulario`) VALUES
-(62, 65, 14),
-(63, 66, 14),
-(64, 67, 14),
-(65, 58, 15),
-(66, 59, 15),
-(67, 60, 15),
-(68, 61, 15),
-(69, 62, 15);
 
 -- --------------------------------------------------------
 
@@ -177,6 +180,25 @@ INSERT INTO `matriculas` (`aluno`, `disciplina`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estrutura da tabela `periodo_letivo`
+--
+
+CREATE TABLE `periodo_letivo` (
+  `id` int(11) NOT NULL,
+  `codigo_periodo` varchar(45) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `periodo_letivo`
+--
+
+INSERT INTO `periodo_letivo` (`id`, `codigo_periodo`) VALUES
+(0, 'todos'),
+(1, '2018/2');
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura da tabela `provas`
 --
 
@@ -186,18 +208,20 @@ CREATE TABLE `provas` (
   `criado_em` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `aplicacao` datetime NOT NULL,
   `qtd_questoes` int(11) NOT NULL,
-  `reaproveitar` tinyint(4) NOT NULL,
   `tipo_prova` varchar(45) NOT NULL,
   `nota` float NOT NULL,
-  `professor` int(10) UNSIGNED NOT NULL
+  `professor` int(10) UNSIGNED NOT NULL,
+  `periodo_letivo` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Extraindo dados da tabela `provas`
 --
 
-INSERT INTO `provas` (`id`, `nome`, `criado_em`, `aplicacao`, `qtd_questoes`, `reaproveitar`, `tipo_prova`, `nota`, `professor`) VALUES
-(6, 'Avaliação Global', '2018-10-15 20:10:21', '2018-10-15 00:00:00', 5, 0, 'Avaliação global', 0, 10);
+INSERT INTO `provas` (`id`, `nome`, `criado_em`, `aplicacao`, `qtd_questoes`, `tipo_prova`, `nota`, `professor`, `periodo_letivo`) VALUES
+(1, 'Avaliação Global', '2018-10-18 20:37:09', '2018-10-18 00:00:00', 5, 'teste', 0, 10, 0),
+(2, 'Avaliação Global', '2018-10-20 23:30:01', '2018-10-20 00:00:00', 5, 'Semestral', 0, 10, 0),
+(3, 'teste', '2018-10-26 20:33:21', '2018-10-26 00:00:00', 12, 'Avaliação global', 0, 10, 1);
 
 -- --------------------------------------------------------
 
@@ -213,22 +237,25 @@ CREATE TABLE `questoes` (
   `peso` float NOT NULL,
   `professor` int(10) UNSIGNED NOT NULL,
   `imagem` varchar(200) DEFAULT NULL,
-  `situacao` varchar(45) NOT NULL DEFAULT 'ativo'
+  `situacao` varchar(45) NOT NULL DEFAULT 'ativo',
+  `periodo_letivo` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Extraindo dados da tabela `questoes`
 --
 
-INSERT INTO `questoes` (`id`, `descricao`, `criado_em`, `disciplina`, `peso`, `professor`, `imagem`, `situacao`) VALUES
-(58, '<p><strong>Normalmente, quantos litros de sangue uma pessoa tem? Em m&eacute;dia, quantos s&atilde;o retirados numa doa&ccedil;&atilde;o de sangue?</strong></p>\r\n', '2018-10-15 19:38:44', 5, 0, 10, NULL, 'ativo'),
-(59, '<p><strong>De quem &eacute; a famosa frase &ldquo;Penso, logo existo&rdquo;?</strong></p>\r\n', '2018-10-15 19:40:26', 5, 0, 10, NULL, 'ativo'),
-(60, '<p><strong>De onde &eacute; a inven&ccedil;&atilde;o do chuveiro el&eacute;trico?</strong></p>\r\n\r\n<p>&nbsp;</p>\r\n', '2018-10-15 19:41:09', 5, 0, 10, NULL, 'ativo'),
-(61, '<h4><strong>O churrasco &eacute; uma comida t&iacute;pica de qual regi&atilde;o do Brasil?</strong></h4>\r\n\r\n<p><strong><img alt="" src="https://i0.wp.com/www.selecoes.com.br/wp-content/uploads/2017/12/churras.jpg" style="height:225px; width:400px" /></strong></p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>&nbsp;</p>\r\n', '2018-10-15 19:44:29', 5, 0, 10, NULL, 'ativo'),
-(62, '<p><strong>Quais os nomes dos tr&ecirc;s Reis Magos?</strong></p>\r\n', '2018-10-15 19:48:34', 5, 0, 10, NULL, 'ativo'),
-(65, '<p><strong>No que se refere a sistema de informa&ccedil;&atilde;o, analise as afirmativas.</strong></p>\r\n\r\n<p><strong>I - Um conjunto de componentes inter-relacionados que coletam ou recuperam, processam, armazenam e distribuem informa&ccedil;&otilde;es destinadas a apoiar a tomada de decis&otilde;es, a coordena&ccedil;&atilde;o e ao controle de uma organiza&ccedil;&atilde;o &eacute; uma dimens&atilde;o do sistema de informa&ccedil;&atilde;o.</strong></p>\r\n\r\n<p><strong>II - Informa&ccedil;&atilde;o refere-se a dados apresentados em uma forma significativa e &uacute;til para seres humanos e dados s&atilde;o sequ&ecirc;ncias de fatos brutos que representam eventos que ocorrem nas organiza&ccedil;&otilde;es ou no ambiente f&iacute;sico, antes de terem sido organizados e arranjados de uma forma que as pessoas possam entend&ecirc;-los e us&aacute;-los.</strong></p>\r\n\r\n<p><strong>III - Ao implantar um sistema de informa&ccedil;&atilde;o na organiza&ccedil;&atilde;o, haver&aacute; interfer&ecirc;ncia em seu subsistema t&eacute;cnico, social e pol&iacute;tico: no t&eacute;cnico, a organiza&ccedil;&atilde;o &eacute; afetada pelas novas t&eacute;cnicas e m&eacute;todos de trabalho; no social, altera-se a forma de relacionamento das pessoas entre si mesmas e das pessoas em rela&ccedil;&atilde;o ao sistema; no pol&iacute;tico, &eacute; modificada a rela&ccedil;&atilde;o de poderes e a informa&ccedil;&atilde;o.</strong></p>\r\n\r\n<p><strong>Est&aacute; correto o que se afirma em</strong></p>\r\n', '2018-10-15 20:03:37', 5, 0, 14, NULL, 'ativo'),
-(66, '<p><strong>A classifica&ccedil;&atilde;o dos Sistemas de Informa&ccedil;&atilde;o computadorizados apresenta como crit&eacute;rio de categoriza&ccedil;&atilde;o o n&iacute;vel organizacional ao qual eles buscam atender, sendo definidos em tr&ecirc;s categorias essenciais:</strong></p>\r\n', '2018-10-15 20:04:42', 5, 0, 14, NULL, 'ativo'),
-(67, '<p><strong>Considerando os elementos componentes dos Sistemas de Informa&ccedil;&atilde;o (SI) baseados em computadores, numere a coluna da direita de acordo com a da esquerda.</strong></p>\r\n\r\n<p><strong><img alt="" src="https://www.estudegratis.com.br/images/questoes/e1b0ab7158651a83254665489.gif" style="height:228px; width:400px" /></strong></p>\r\n\r\n<p><strong>Assinale a sequ&ecirc;ncia correta.</strong></p>\r\n', '2018-10-15 20:06:31', 5, 0, 14, NULL, 'ativo');
+INSERT INTO `questoes` (`id`, `descricao`, `criado_em`, `disciplina`, `peso`, `professor`, `imagem`, `situacao`, `periodo_letivo`) VALUES
+(58, '<p><strong>Normalmente, quantos litros de sangue uma pessoa tem? Em m&eacute;dia, quantos s&atilde;o retirados numa doa&ccedil;&atilde;o de sangue?</strong></p>\r\n', '2018-10-15 19:38:44', 5, 0, 10, NULL, 'ativo', 1),
+(59, '<p><strong>De quem &eacute; a famosa frase &ldquo;Penso, logo existo&rdquo;?</strong></p>\r\n', '2018-10-15 19:40:26', 5, 0, 10, NULL, 'ativo', 0),
+(60, '<p><strong>De onde &eacute; a inven&ccedil;&atilde;o do chuveiro el&eacute;trico?</strong></p>\r\n\r\n<p>&nbsp;</p>\r\n', '2018-10-15 19:41:09', 5, 0, 10, NULL, 'ativo', 0),
+(61, '<h4><strong>O churrasco &eacute; uma comida t&iacute;pica de qual regi&atilde;o do Brasil?</strong></h4>\r\n\r\n<p><strong><img alt="" src="https://i0.wp.com/www.selecoes.com.br/wp-content/uploads/2017/12/churras.jpg" style="height:225px; width:400px" /></strong></p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>&nbsp;</p>\r\n', '2018-10-15 19:44:29', 5, 0, 10, NULL, 'ativo', 0),
+(62, '<p><strong>Quais os nomes dos tr&ecirc;s Reis Magos?</strong></p>\r\n', '2018-10-15 19:48:34', 5, 0, 10, NULL, 'ativo', 0),
+(65, '<p><strong>No que se refere a sistema de informa&ccedil;&atilde;o, analise as afirmativas.</strong></p>\r\n\r\n<p><strong>I - Um conjunto de componentes inter-relacionados que coletam ou recuperam, processam, armazenam e distribuem informa&ccedil;&otilde;es destinadas a apoiar a tomada de decis&otilde;es, a coordena&ccedil;&atilde;o e ao controle de uma organiza&ccedil;&atilde;o &eacute; uma dimens&atilde;o do sistema de informa&ccedil;&atilde;o.</strong></p>\r\n\r\n<p><strong>II - Informa&ccedil;&atilde;o refere-se a dados apresentados em uma forma significativa e &uacute;til para seres humanos e dados s&atilde;o sequ&ecirc;ncias de fatos brutos que representam eventos que ocorrem nas organiza&ccedil;&otilde;es ou no ambiente f&iacute;sico, antes de terem sido organizados e arranjados de uma forma que as pessoas possam entend&ecirc;-los e us&aacute;-los.</strong></p>\r\n\r\n<p><strong>III - Ao implantar um sistema de informa&ccedil;&atilde;o na organiza&ccedil;&atilde;o, haver&aacute; interfer&ecirc;ncia em seu subsistema t&eacute;cnico, social e pol&iacute;tico: no t&eacute;cnico, a organiza&ccedil;&atilde;o &eacute; afetada pelas novas t&eacute;cnicas e m&eacute;todos de trabalho; no social, altera-se a forma de relacionamento das pessoas entre si mesmas e das pessoas em rela&ccedil;&atilde;o ao sistema; no pol&iacute;tico, &eacute; modificada a rela&ccedil;&atilde;o de poderes e a informa&ccedil;&atilde;o.</strong></p>\r\n\r\n<p><strong>Est&aacute; correto o que se afirma em</strong></p>\r\n', '2018-10-15 20:03:37', 4, 0, 14, NULL, 'ativo', 0),
+(66, '<p><strong>A classifica&ccedil;&atilde;o dos Sistemas de Informa&ccedil;&atilde;o computadorizados apresenta como crit&eacute;rio de categoriza&ccedil;&atilde;o o n&iacute;vel organizacional ao qual eles buscam atender, sendo definidos em tr&ecirc;s categorias essenciais:</strong></p>\r\n', '2018-10-15 20:04:42', 4, 0, 14, NULL, 'ativo', 0),
+(67, '<p><strong>Considerando os elementos componentes dos Sistemas de Informa&ccedil;&atilde;o (SI) baseados em computadores, numere a coluna da direita de acordo com a da esquerda.</strong></p>\r\n\r\n<p><strong><img alt="" src="https://www.estudegratis.com.br/images/questoes/e1b0ab7158651a83254665489.gif" style="height:228px; width:400px" /></strong></p>\r\n\r\n<p><strong>Assinale a sequ&ecirc;ncia correta.</strong></p>\r\n', '2018-10-15 20:06:31', 8, 0, 14, NULL, 'ativo', 0),
+(71, '<p><strong>teste</strong></p>\r\n', '2018-10-26 22:11:19', 5, 0, 10, NULL, 'ativo', 0),
+(72, '<p>teste</p>\r\n', '2018-10-30 19:48:22', 7, 0, 10, NULL, 'ativo', 1);
 
 -- --------------------------------------------------------
 
@@ -248,6 +275,12 @@ CREATE TABLE `respostas` (
 --
 
 INSERT INTO `respostas` (`item_prova`, `alternativa`, `criado_em`, `aluno`) VALUES
+(3, 149, '2018-10-20 23:30:21', 11),
+(4, 157, '2018-10-20 23:30:14', 11),
+(5, 161, '2018-10-20 23:30:16', 11),
+(6, 165, '2018-10-20 23:30:22', 11),
+(7, 169, '2018-10-20 23:30:24', 11),
+(8, 185, '2018-10-20 23:30:28', 11),
 (62, 174, '2018-10-15 21:58:14', 11),
 (63, 181, '2018-10-15 21:49:34', 11),
 (64, 182, '2018-10-15 21:58:11', 11),
@@ -275,20 +308,25 @@ CREATE TABLE `sessoes` (
 --
 
 INSERT INTO `sessoes` (`id`, `usuario`, `inicio`, `termino`) VALUES
-(19, 11, '2018-10-15 20:10:33', '2018-10-15 22:10:29'),
-(20, 11, '2018-10-15 20:13:05', '2018-10-15 22:10:29'),
-(21, 11, '2018-10-15 20:14:11', '2018-10-15 22:10:29'),
-(22, 11, '2018-10-15 20:14:41', '2018-10-15 22:10:29'),
-(23, 11, '2018-10-15 20:15:30', '2018-10-15 22:10:29'),
-(24, 11, '2018-10-15 20:15:51', '2018-10-15 22:10:29'),
-(25, 11, '2018-10-15 20:26:49', '2018-10-15 22:10:29'),
-(26, 11, '2018-10-15 21:11:22', '2018-10-15 22:10:29'),
-(27, 11, '2018-10-15 21:49:27', '2018-10-15 22:10:29'),
-(28, 11, '2018-10-15 22:08:25', '2018-10-15 22:10:29'),
-(29, 11, '2018-10-15 22:09:36', '2018-10-15 22:10:29'),
-(30, 11, '2018-10-15 22:19:10', '2018-10-15 22:10:29'),
-(31, 11, '2018-10-15 22:20:12', '2018-10-15 22:10:29'),
-(32, 11, '2018-10-15 22:21:25', '2018-10-15 22:10:29');
+(19, 11, '2018-10-15 20:10:33', '2018-10-20 23:10:31'),
+(20, 11, '2018-10-15 20:13:05', '2018-10-20 23:10:31'),
+(21, 11, '2018-10-15 20:14:11', '2018-10-20 23:10:31'),
+(22, 11, '2018-10-15 20:14:41', '2018-10-20 23:10:31'),
+(23, 11, '2018-10-15 20:15:30', '2018-10-20 23:10:31'),
+(24, 11, '2018-10-15 20:15:51', '2018-10-20 23:10:31'),
+(25, 11, '2018-10-15 20:26:49', '2018-10-20 23:10:31'),
+(26, 11, '2018-10-15 21:11:22', '2018-10-20 23:10:31'),
+(27, 11, '2018-10-15 21:49:27', '2018-10-20 23:10:31'),
+(28, 11, '2018-10-15 22:08:25', '2018-10-20 23:10:31'),
+(29, 11, '2018-10-15 22:09:36', '2018-10-20 23:10:31'),
+(30, 11, '2018-10-15 22:19:10', '2018-10-20 23:10:31'),
+(31, 11, '2018-10-15 22:20:12', '2018-10-20 23:10:31'),
+(32, 11, '2018-10-15 22:21:25', '2018-10-20 23:10:31'),
+(33, 12, '2018-10-18 20:52:40', NULL),
+(34, 12, '2018-10-18 20:53:39', NULL),
+(35, 11, '2018-10-18 20:58:30', '2018-10-20 23:10:31'),
+(36, 11, '2018-10-20 23:30:09', '2018-10-20 23:10:31'),
+(37, 11, '2018-10-26 20:33:50', NULL);
 
 -- --------------------------------------------------------
 
@@ -326,11 +364,18 @@ ALTER TABLE `alternativas`
   ADD KEY `fk_alternativas_questoes1_idx` (`questao`);
 
 --
+-- Indexes for table `curso`
+--
+ALTER TABLE `curso`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `disciplinas`
 --
 ALTER TABLE `disciplinas`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `professor_usuario_idx` (`professor`);
+  ADD KEY `professor_usuario_idx` (`professor`),
+  ADD KEY `fk_disciplinas_curso1_idx` (`curso`);
 
 --
 -- Indexes for table `formularios`
@@ -356,11 +401,18 @@ ALTER TABLE `matriculas`
   ADD KEY `fk_alunos_has_disciplinas_disciplinas1_idx` (`disciplina`);
 
 --
+-- Indexes for table `periodo_letivo`
+--
+ALTER TABLE `periodo_letivo`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `provas`
 --
 ALTER TABLE `provas`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `professor_usuario_idx` (`professor`);
+  ADD KEY `professor_usuario_idx` (`professor`),
+  ADD KEY `fk_provas_periodo_letivo1_idx` (`periodo_letivo`);
 
 --
 -- Indexes for table `questoes`
@@ -368,7 +420,8 @@ ALTER TABLE `provas`
 ALTER TABLE `questoes`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_questoes_disciplinas1_idx` (`disciplina`),
-  ADD KEY `professor_usuario_idx` (`professor`);
+  ADD KEY `professor_usuario_idx` (`professor`),
+  ADD KEY `fk_questoes_periodo_letivo1_idx` (`periodo_letivo`);
 
 --
 -- Indexes for table `respostas`
@@ -400,37 +453,42 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT for table `alternativas`
 --
 ALTER TABLE `alternativas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=186;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=195;
 --
 -- AUTO_INCREMENT for table `disciplinas`
 --
 ALTER TABLE `disciplinas`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `formularios`
 --
 ALTER TABLE `formularios`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `itens_prova`
 --
 ALTER TABLE `itens_prova`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `periodo_letivo`
+--
+ALTER TABLE `periodo_letivo`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `provas`
 --
 ALTER TABLE `provas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `questoes`
 --
 ALTER TABLE `questoes`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
 --
 -- AUTO_INCREMENT for table `sessoes`
 --
 ALTER TABLE `sessoes`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 --
 -- AUTO_INCREMENT for table `usuarios`
 --
@@ -450,7 +508,8 @@ ALTER TABLE `alternativas`
 -- Limitadores para a tabela `disciplinas`
 --
 ALTER TABLE `disciplinas`
-  ADD CONSTRAINT `disciplina_professor_usuario` FOREIGN KEY (`professor`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `disciplina_professor_usuario` FOREIGN KEY (`professor`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_disciplinas_curso1` FOREIGN KEY (`curso`) REFERENCES `curso` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Limitadores para a tabela `formularios`
@@ -477,6 +536,7 @@ ALTER TABLE `matriculas`
 -- Limitadores para a tabela `provas`
 --
 ALTER TABLE `provas`
+  ADD CONSTRAINT `fk_provas_periodo_letivo1` FOREIGN KEY (`periodo_letivo`) REFERENCES `periodo_letivo` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `prova_professor_usuario` FOREIGN KEY (`professor`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
@@ -484,6 +544,7 @@ ALTER TABLE `provas`
 --
 ALTER TABLE `questoes`
   ADD CONSTRAINT `fk_questoes_disciplinas1` FOREIGN KEY (`disciplina`) REFERENCES `disciplinas` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_questoes_periodo_letivo1` FOREIGN KEY (`periodo_letivo`) REFERENCES `periodo_letivo` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `questao_professor_usuario` FOREIGN KEY (`professor`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --

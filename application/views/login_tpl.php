@@ -110,7 +110,7 @@
         </form>
         <div class="col-md-6 col-sm-offset-3">
           <h3>Instruções de Login</h3>
-          <p>Acesse com o seu Usuário e Senha do Portal Acadêmico</p>
+          <p>Acesse com o seu Usuário e Senha</p>
         </div>
       </div>
     </div>

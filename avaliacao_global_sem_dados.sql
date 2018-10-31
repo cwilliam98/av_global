@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 16-Out-2018 às 03:23
+-- Generation Time: 31-Out-2018 às 00:59
 -- Versão do servidor: 10.1.13-MariaDB
 -- PHP Version: 5.5.34
 
@@ -36,6 +36,17 @@ CREATE TABLE `alternativas` (
 -- --------------------------------------------------------
 
 --
+-- Estrutura da tabela `curso`
+--
+
+CREATE TABLE `curso` (
+  `id` int(11) NOT NULL,
+  `nome` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura da tabela `disciplinas`
 --
 
@@ -43,7 +54,8 @@ CREATE TABLE `disciplinas` (
   `id` int(10) UNSIGNED NOT NULL,
   `nome` varchar(45) NOT NULL,
   `professor` int(10) UNSIGNED NOT NULL,
-  `situacao` varchar(45) DEFAULT 'ativo'
+  `situacao` varchar(45) DEFAULT 'ativo',
+  `curso` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -86,6 +98,17 @@ CREATE TABLE `matriculas` (
 -- --------------------------------------------------------
 
 --
+-- Estrutura da tabela `periodo_letivo`
+--
+
+CREATE TABLE `periodo_letivo` (
+  `id` int(11) NOT NULL,
+  `codigo_periodo` varchar(45) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura da tabela `provas`
 --
 
@@ -95,10 +118,10 @@ CREATE TABLE `provas` (
   `criado_em` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `aplicacao` datetime NOT NULL,
   `qtd_questoes` int(11) NOT NULL,
-  `reaproveitar` tinyint(4) NOT NULL,
   `tipo_prova` varchar(45) NOT NULL,
   `nota` float NOT NULL,
-  `professor` int(10) UNSIGNED NOT NULL
+  `professor` int(10) UNSIGNED NOT NULL,
+  `periodo_letivo` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -115,7 +138,8 @@ CREATE TABLE `questoes` (
   `peso` float NOT NULL,
   `professor` int(10) UNSIGNED NOT NULL,
   `imagem` varchar(200) DEFAULT NULL,
-  `situacao` varchar(45) NOT NULL DEFAULT 'ativo'
+  `situacao` varchar(45) NOT NULL DEFAULT 'ativo',
+  `periodo_letivo` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -170,11 +194,18 @@ ALTER TABLE `alternativas`
   ADD KEY `fk_alternativas_questoes1_idx` (`questao`);
 
 --
+-- Indexes for table `curso`
+--
+ALTER TABLE `curso`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `disciplinas`
 --
 ALTER TABLE `disciplinas`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `professor_usuario_idx` (`professor`);
+  ADD KEY `professor_usuario_idx` (`professor`),
+  ADD KEY `fk_disciplinas_curso1_idx` (`curso`);
 
 --
 -- Indexes for table `formularios`
@@ -200,11 +231,18 @@ ALTER TABLE `matriculas`
   ADD KEY `fk_alunos_has_disciplinas_disciplinas1_idx` (`disciplina`);
 
 --
+-- Indexes for table `periodo_letivo`
+--
+ALTER TABLE `periodo_letivo`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `provas`
 --
 ALTER TABLE `provas`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `professor_usuario_idx` (`professor`);
+  ADD KEY `professor_usuario_idx` (`professor`),
+  ADD KEY `fk_provas_periodo_letivo1_idx` (`periodo_letivo`);
 
 --
 -- Indexes for table `questoes`
@@ -212,7 +250,8 @@ ALTER TABLE `provas`
 ALTER TABLE `questoes`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_questoes_disciplinas1_idx` (`disciplina`),
-  ADD KEY `professor_usuario_idx` (`professor`);
+  ADD KEY `professor_usuario_idx` (`professor`),
+  ADD KEY `fk_questoes_periodo_letivo1_idx` (`periodo_letivo`);
 
 --
 -- Indexes for table `respostas`
@@ -244,37 +283,42 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT for table `alternativas`
 --
 ALTER TABLE `alternativas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=186;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=195;
 --
 -- AUTO_INCREMENT for table `disciplinas`
 --
 ALTER TABLE `disciplinas`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `formularios`
 --
 ALTER TABLE `formularios`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `itens_prova`
 --
 ALTER TABLE `itens_prova`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `periodo_letivo`
+--
+ALTER TABLE `periodo_letivo`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `provas`
 --
 ALTER TABLE `provas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `questoes`
 --
 ALTER TABLE `questoes`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
 --
 -- AUTO_INCREMENT for table `sessoes`
 --
 ALTER TABLE `sessoes`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 --
 -- AUTO_INCREMENT for table `usuarios`
 --
@@ -294,7 +338,8 @@ ALTER TABLE `alternativas`
 -- Limitadores para a tabela `disciplinas`
 --
 ALTER TABLE `disciplinas`
-  ADD CONSTRAINT `disciplina_professor_usuario` FOREIGN KEY (`professor`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `disciplina_professor_usuario` FOREIGN KEY (`professor`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_disciplinas_curso1` FOREIGN KEY (`curso`) REFERENCES `curso` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Limitadores para a tabela `formularios`
@@ -321,6 +366,7 @@ ALTER TABLE `matriculas`
 -- Limitadores para a tabela `provas`
 --
 ALTER TABLE `provas`
+  ADD CONSTRAINT `fk_provas_periodo_letivo1` FOREIGN KEY (`periodo_letivo`) REFERENCES `periodo_letivo` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `prova_professor_usuario` FOREIGN KEY (`professor`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
@@ -328,6 +374,7 @@ ALTER TABLE `provas`
 --
 ALTER TABLE `questoes`
   ADD CONSTRAINT `fk_questoes_disciplinas1` FOREIGN KEY (`disciplina`) REFERENCES `disciplinas` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_questoes_periodo_letivo1` FOREIGN KEY (`periodo_letivo`) REFERENCES `periodo_letivo` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `questao_professor_usuario` FOREIGN KEY (`professor`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --

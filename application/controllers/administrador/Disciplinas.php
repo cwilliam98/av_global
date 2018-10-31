@@ -1,22 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Disciplinas extends CI_Controller {
-
-	public function __construct(){
-		parent::__construct();
-
-		if(!$this->session->userdata('logado'))
-		{
-			redirect('login');
-		}
-		$aluno = $this->session->userdata('usuario');
-
-		if ($aluno['contexto'] == 'aluno' || $aluno['contexto'] == 'professor') {
-			$this->load->view('aviso_permissao');
-		}
-	}
-
+class Disciplinas extends MY_Controller {
 
 	public function index($id=-1)
 	{
@@ -29,7 +14,11 @@ class Disciplinas extends CI_Controller {
 		$data["disciplinas"] = $this->Disciplinas_model->getDisciplinaById($id);
 
 
-		$data["professores"] = $this->Disciplinas_model->getTodosProfessores();
+		$data =[
+			"professores" => $this->Disciplinas_model->getTodosProfessores(),
+			"cursos" => $this->Disciplinas_model->getTodosCursos()
+		];
+		
 		$this->load->view('administrador/disciplina_cadastro_tpl',$data);
 		
 	}
@@ -50,6 +39,7 @@ class Disciplinas extends CI_Controller {
 
 		$this->form_validation->set_rules('disciplina',       'Disciplina',          'trim|required|max_length[1000]');
 		$this->form_validation->set_rules('professor',   	  'professor',         	 'required');
+		$this->form_validation->set_rules('curso',   	  	  'curso',         	     'required');
 
 
 
@@ -64,7 +54,8 @@ class Disciplinas extends CI_Controller {
 
 		$disciplina = $this->Disciplinas_model->cadastraDisciplina([
 			"nome" =>	set_value('disciplina'),
-			"professor" =>	set_value('professor')
+			"professor" =>	set_value('professor'),
+			"curso" =>	set_value('curso')
 		]);
 
 		if(!empty($disciplina)){
@@ -79,10 +70,13 @@ class Disciplinas extends CI_Controller {
 
 		$aluno = $this->session->userdata('aluno');
 		$this->load->model('Disciplinas_model');
-		
-		$data["disciplinas"] = $this->Disciplinas_model->getDisciplinaById($id);
 
-		$data["professores"] = $this->Disciplinas_model->getTodosProfessores();
+		$data =[
+			"professores" => $this->Disciplinas_model->getTodosProfessores(),
+			"cursos" => $this->Disciplinas_model->getTodosCursos(),
+			"disciplinas" => $this->Disciplinas_model->getDisciplinaById($id)
+		];
+
 		$this->load->view('administrador/disciplina_alterar_tpl',$data);
 	}
 
@@ -91,6 +85,7 @@ class Disciplinas extends CI_Controller {
 		$id = (int)$id;
 		$this->form_validation->set_rules('disciplina',       'Disciplina',          'trim|required|max_length[1000]');
 		$this->form_validation->set_rules('professor',   	  'professor',         	 'required');
+		$this->form_validation->set_rules('curso',   	  	  'curso',         	 	 'required');
 
 
 
@@ -105,16 +100,17 @@ class Disciplinas extends CI_Controller {
 
 		$disciplina = [
 			"nome" =>	set_value('disciplina'),
-			"professor" =>	set_value('professor')
+			"professor" =>	set_value('professor'),
+			"curso" =>	set_value('curso')
 		];
 
 		$retorno = $this->Disciplinas_model->alteraDisciplina($disciplina, $id);
 
 		if(!empty($retorno)){
-			redirect('administrador/disciplinas/alterar?aviso=1');
+			redirect('administrador/disciplinas/alterar/'.$id.'?aviso=1');
 		}
 
-		redirect('administrador/disciplinas/alterar?aviso=2');	
+		redirect('administrador/disciplinas/alterar/'.$id.'?aviso=2');	
 	}
 
 	public function inativar($id){

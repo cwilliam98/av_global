@@ -42,11 +42,13 @@ class Provas_model extends CI_Model {
 		
 		return reset($resultado);
 	}
-	function getQuestoesById($id, $qtd_questoes){
-		return $this->db
+	function getQuestoesByDisciplina($formulario){
+		$dados = $this->db
 		->from('questoes')
-		->where('disciplina', $id)
-		->limit($qtd_questoes)
+		->where('disciplina', $formulario['disciplina'])
+		->where_in('periodo_letivo', [$formulario['periodo_letivo'],0])
+		->limit($formulario['qtd_questoes'])
+		->order_by('id', 'random')
 		->get()
 		->result_array();
 		// echo $this->db->last_query();
@@ -92,7 +94,6 @@ class Provas_model extends CI_Model {
 		->select(['questoes.id questao', 'questoes.descricao'])
 		->from('questoes')
 		->where_in('id', array_column($questoes,'questao'))
-		->order_by('rand()')
 		->get()
 		->result();	
 		
@@ -102,7 +103,6 @@ class Provas_model extends CI_Model {
 	{
 		$alternativas = $this->db
 		->where('questao', $questao)
-		->order_by('id', 'random')
 		->get('alternativas')
 		->result();
 
@@ -125,7 +125,7 @@ class Provas_model extends CI_Model {
 
 	function getProvaAluno($id,$prova){
 		return $this->db
-		->select('matriculas.disciplina, matriculas.aluno, provas.id prova, provas.qtd_questoes')
+		->select('matriculas.disciplina, matriculas.aluno, provas.id prova, provas.qtd_questoes,provas.periodo_letivo')
 		->from('provas,matriculas')
 		->where('matriculas.aluno',$id)
 		->where('provas.aplicacao', date('Y-m-d'))
@@ -140,7 +140,7 @@ class Provas_model extends CI_Model {
 
 	function getProva($id){ 
 		$prova = $this->db
-		->select('provas.id, provas.nome, provas.criado_em, provas.aplicacao, provas.qtd_questoes, provas.reaproveitar, provas.tipo_prova, provas.nota, provas.professor, formularios.situacao, formularios.aluno')
+		->select('provas.id, provas.nome, provas.criado_em, provas.aplicacao, provas.qtd_questoes, provas.tipo_prova, provas.nota, provas.professor, formularios.situacao, formularios.aluno')
 		->from('provas')
 		->join('formularios','formularios.prova = provas.id AND formularios.aluno = '.$id.'','left')
 		->where('aplicacao', date('Y-m-d'))

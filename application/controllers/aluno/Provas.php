@@ -1,26 +1,9 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Provas extends CI_Controller {
+class Provas extends MY_Controller {
 
-	public function __construct(){
-		parent::__construct();
-
-		if(!$this->session->userdata('logado'))
-		{
-			redirect('login');
-		}
-		
-		$aluno = $this->session->userdata('usuario');
-
-		if ($aluno['contexto'] != 'aluno') {
-			$this->load->view('aviso_permissao');
-		}
-
-	}
-
-
-
+	
 	public function aviso(){
 
 		$this->load->view('aluno/prova_aviso');
@@ -63,8 +46,12 @@ class Provas extends CI_Controller {
 				"situacao" => 'em andamento'	
 			);
 
+			$questoes = $this->Provas_model->getQuestoesByDisciplina($formulario);
+
+			if(!$questoes){
+				redirect('aluno/provas/aviso');	
+			}
 			$id = $this->Formularios_model->cadastra($data_formulario);
-			$questoes = $this->Provas_model->getQuestoesById($formulario['disciplina'], $formulario['qtd_questoes']);
 
 
 			foreach($questoes as $questao)
