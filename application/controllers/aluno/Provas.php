@@ -198,7 +198,7 @@ class Provas extends MY_Controller {
 
 		$data = $this->Provas_model->getDataInicio($alunoId);
 		
-		print strtotime(reset($data));
+		print reset($data);
 
 	}
 }
