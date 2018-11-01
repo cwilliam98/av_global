@@ -9,6 +9,25 @@ class Admin extends MY_Controller {
 		$this->load->view('professor/index_admin_professor_tpl');
 
 	}
+	public function carregaDados() {
+
+		$aluno = $this->session->userdata('usuario');
+
+		$this->load->model('Provas_model');
+
+		$dados = $this->Provas_model->getRespostas();
+
+		print json_encode($dados);
+
+	}
+
+	
+	public function acertosPorQuestoes(){
+
+		$this->load->view('professor/index_tpl');
+
+	}
+	
 
 
 

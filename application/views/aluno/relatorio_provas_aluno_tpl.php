@@ -16,14 +16,19 @@
 	-moz-column-gap: 40px; /* Firefox */
 	column-gap: 40px;
 
-	
 }
 .colunas .questao{
 	break-inside: avoid-column;
 }
+
+.datetime {
+	position: fixed;
+	right: 20px;
+	top: 20px;
+}
 </style>
 <body>
-	
+	<span id="timer" class="datetime">31/10/2018 22:47</span>
 	<?php $aluno = $this->session->userdata('usuario'); ?>
 	<div class="container classe">
 		<div class="row">
@@ -64,15 +69,47 @@
 			});
 		});
 
-		$(document).ready(function() {
-			$.ajax({
-				type: "POST",
-				url: '<?php echo base_url('aluno/provas/sessao') ?>',
-				data: { id: <?php echo $aluno['id']; ?>},
-				//success: ,
+		var countDownDate = new Date();
+
+		$.ajax({
+			type: "POST",
+			url: '<?php echo base_url('aluno/provas/getDataInicio') ?>',
+			data: {id:<?php echo $aluno['id']; ?>},
+			success: function(result){
+				console.log(result);
+				countDownDate = result;
+
+			},
 				//dataType: dataType
 			});
-		});
+
+		// Set the date we're counting down to
+		//var countDownDate = new Date("Oct 31, 2018 22:57:00").getTime();
+
+		// Update the count down every 1 second
+		var x = setInterval(function() {
+
+		  // Get todays date and time
+		  var now = countDownDate;
+		  console.log(now);
+		  // Find the distance between now and the count down date
+		  var distance = countDownDate - now;
+
+		  // Time calculations for days, hours, minutes and seconds
+		  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+		  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+		  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+		  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+		  // Display the result in the element with id="demo"
+		  $('#timer').html(days + "d " + hours + "h " + minutes + "m " + seconds + "s ");
+
+		  // If the count down is finished, write some text 
+		  if (distance < 0) {
+		  	clearInterval(x);
+		  	$('#timer').html("EXPIRED");
+		  }
+		}, 1000);
 	</script>
 	<div class="container">
 		<div class="row">

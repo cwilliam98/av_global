@@ -53,7 +53,7 @@ class Provas_model extends CI_Model {
 		->result_array();
 		// echo $this->db->last_query();
 		// exit();
-
+return $dados;
 
 	}
 
@@ -124,31 +124,33 @@ class Provas_model extends CI_Model {
 	}
 
 	function getProvaAluno($id,$prova){
+		date_default_timezone_set('America/Sao_Paulo'); 
+		$data = date('Y-m-d');
 		return $this->db
 		->select('matriculas.disciplina, matriculas.aluno, provas.id prova, provas.qtd_questoes,provas.periodo_letivo')
 		->from('provas,matriculas')
 		->where('matriculas.aluno',$id)
-		->where('provas.aplicacao', date('Y-m-d'))
+		->where('provas.aplicacao', $data)
 		->where('provas.id', $prova)
 		->get()
 		->result_array();
-		// echo $this->db->last_query();
-			// exit();
+		echo $this->db->last_query();
+			exit();
 
 	}
 
 
-	function getProva($id){ 
+	function getProva($id){
 		$prova = $this->db
 		->select('provas.id, provas.nome, provas.criado_em, provas.aplicacao, provas.qtd_questoes, provas.tipo_prova, provas.nota, provas.professor, formularios.situacao, formularios.aluno')
 		->from('provas')
 		->join('formularios','formularios.prova = provas.id AND formularios.aluno = '.$id.'','left')
-		->where('aplicacao', date('Y-m-d'))
+		->where('aplicacao', '2018-12-01')
 		->limit(1)
 		->get()
 		->result();
-			// echo $this->db->last_query();
-			// exit();
+				// echo $this->db->last_query();
+				// exit();
 		return reset($prova);
 	}
 
@@ -157,8 +159,8 @@ class Provas_model extends CI_Model {
 		->where('aluno',$id)
 		->set('situacao','finalizada')
 		->update('formularios');
-		// echo $this->db->last_query();
-		// exit();
+		echo $this->db->last_query();
+		exit();
 	}
 
 	function getProvas(){
@@ -175,11 +177,16 @@ class Provas_model extends CI_Model {
 		return $dados;
 	}
 
-	function getResposta(){
+	function getResposta($aluno,$prova){
 		$dados =  $this->db
 		->from('respostas')
+		->join('formularios','formularios.aluno = respostas.aluno')
+		->join('itens_prova','itens_prova.formulario = formularios.id AND itens_prova.id = respostas.item_prova')
+		->where('formularios.prova',$prova)
+		->where('respostas.aluno',$aluno)
 		->get()
 		->result_array();
+		
 		return $dados;
 	}
 
@@ -201,7 +208,7 @@ class Provas_model extends CI_Model {
 		->result_array();
 		// echo $this->db->last_query();
 		// exit();
-		return $dados;
+		return reset($dados);
 	}
 
 	function getQuestaoByAlternativa($id){
@@ -252,8 +259,11 @@ class Provas_model extends CI_Model {
 
 
 	function insereSessao($data){
-		$this->db->replace('sessoes', $data);
+
+		$this->db->insert('sessoes', $data);
+		
 		return $this->db->insert_id();
+
 	}
 
 	function insereFimSessao($id){
@@ -261,5 +271,18 @@ class Provas_model extends CI_Model {
 		->where('usuario',$id)
 		->set('termino', date('Y-m-d H:m:s'))
 		->update('sessoes');
+	}
+
+	function getDataInicio($alunoId){
+		$data =$this->db
+		->select('inicio')
+		->from('sessoes')
+		->where('usuario', $alunoId)
+		->get()
+		->result_array();
+		return reset($data);
+		// echo $this->db->last_query();
+		// exit();
+
 	}
 }

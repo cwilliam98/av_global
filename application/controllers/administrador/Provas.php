@@ -18,7 +18,6 @@ class Provas extends MY_Controller {
 		$this->form_validation->set_rules('nome',          'nome',           			'trim|required|max_length[1000]');
 		$this->form_validation->set_rules('aplicacao',     'data',           			'trim|required');
 		$this->form_validation->set_rules('qtd_questoes',  'quantidade de questoes',    'trim|required');
-		$this->form_validation->set_rules('reaproveitar',  'reaproveitar',    			'trim|required');
 		$this->form_validation->set_rules('tipo_prova',    'tipo de prova',    			'trim|required');
 
 
@@ -38,7 +37,6 @@ class Provas extends MY_Controller {
 			"nome" =>	set_value('nome'),
 			"aplicacao" =>	set_value('aplicacao'),
 			"qtd_questoes" => set_value('qtd_questoes'),
-			"reaproveitar" => set_value('reaproveitar'),
 			"tipo_prova" => set_value('tipo_prova'),
 			"professor"  => $aluno['id']
 		);

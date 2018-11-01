@@ -87,6 +87,23 @@ class Perguntas extends MY_Controller {
 
 	}
 
+	public function geraGabarito(){
+		
+		$this->load->model('Perguntas_model');
+		$usuario = $this->session->userdata('usuario');
+
+		$data = [
+			"questoes" => $this->Perguntas_model->getQuestoesByProfessor($usuario['id'])
+		];
+
+		foreach($data['questoes'] as $id => $questao)
+		{
+			$data['questoes'][$id]['alternativas'] = $this->Perguntas_model->getAlternativas($questao['id']);
+		}
+
+		$this->load->view('professor/pergunta_gabarito_tpl',$data);
+	}
+
 	public function uploadImageCKeditor() {
 		if(isset($_FILES['upload'])){
   // ------ Process your file upload code -------

@@ -46,12 +46,15 @@ class Provas extends MY_Controller {
 				"situacao" => 'em andamento'	
 			);
 
+			
+			$id = $this->Formularios_model->cadastra($data_formulario);
+
 			$questoes = $this->Provas_model->getQuestoesByDisciplina($formulario);
 
+			
 			if(!$questoes){
 				redirect('aluno/provas/aviso');	
 			}
-			$id = $this->Formularios_model->cadastra($data_formulario);
 
 
 			foreach($questoes as $questao)
@@ -66,6 +69,9 @@ class Provas extends MY_Controller {
 			}
 
 		}
+
+		$data = ["usuario" => $aluno['id']];
+		$this->Provas_model->insereSessao($data);
 
 		redirect('aluno/provas/fazer');
 	}
@@ -99,15 +105,18 @@ class Provas extends MY_Controller {
 			redirect('aluno/provas/gerarProva');
 		}
 
-
 		foreach ($prova->disciplinas as $disciplina)
 		{
+
 			$disciplina->questoes = $this->Provas_model->getQuestoesByFormulario( $disciplina->formulario );
+
 			foreach ($disciplina->questoes as $questao)
 			{
 				$questao->alternativas = $this->Provas_model->getAlternativasByQuestoes( $questao->questao );
 			}
 		}
+
+
 
 		$this->load->view('aluno/relatorio_provas_aluno_tpl',$prova);
 
@@ -135,38 +144,22 @@ class Provas extends MY_Controller {
 
 	}
 
-	public function resultado(){
-
-		$aluno = $this->session->userdata('usuario');
-
-		$this->load->model('Provas_model');
-
-		$id = $this->input->post('id');
-
-		$this->Provas_model->insereFimSessao($id);
-
-
-		if(!$this->Provas_model->atualizaSituacaoProva($id)){
-			echo json_encode('erro');
-		}
-		else {
-			echo json_encode('funcionou');
-		}
-
-	}
-
 	
 	public function fim(){
 
 		$aluno = $this->session->userdata('usuario');
 
+
 		$this->load->model('Provas_model');
 
-		$this->session->sess_destroy();
+		$this->Provas_model->atualizaSituacaoProva($aluno['id']);
 
-		$respostas =  $this->Provas_model->getResposta($aluno['id']);
+		$dados = $this->Provas_model->getProva($aluno['id']);
 
-		
+
+		$respostas =  $this->Provas_model->getResposta($aluno['id'],$dados->id);
+
+
 		$acertos['acertos'] = 0;
 		
 		foreach ($respostas as $resposta) {
@@ -179,20 +172,33 @@ class Provas extends MY_Controller {
 			
 		}
 		
-
-
 		$this->load->view('aluno/fim_tpl',$acertos);
+		$this->session->sess_destroy();
 
 	}
 
-	public function sessao(){
+	public function sessao($id){
 		
+		$aluno = (int)$id;
 
 		$this->load->model('Provas_model');
 
-		$data = ["usuario" => $this->input->post('id')];	
+		$data = ["usuario" => $aluno];	
 
 		$this->Provas_model->insereSessao($data);
+
+	}
+
+	public function getDataInicio(){
+		
+		$alunoId = $this->input->post('id');
+
+
+		$this->load->model('Provas_model');
+
+		$data = $this->Provas_model->getDataInicio($alunoId);
+		
+		print strtotime(reset($data));
 
 	}
 }

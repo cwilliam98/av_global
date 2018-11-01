@@ -27,6 +27,7 @@ include 'index_admin_tpl.php';
 						<th scope="col">Aluno</th>
 						<th scope="col">Disciplinas</th>
 						<th scope="col">Aplicação</th>
+						<th scope="col">Qtd questões/disciplinas</th>
 					</tr>
 				</thead>
 				<tbody>

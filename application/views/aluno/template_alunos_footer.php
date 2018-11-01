@@ -12,15 +12,6 @@
 $('#finalizar_prova').click(function(){
 
 	var resposta = confirm("Deseja realmente encerrar a prova?");
-
-	
-	$.ajax({
-		type: "POST",
-		url: '<?php echo base_url('aluno/provas/resultado') ?>',
-		data: {id:$(this).val()},
-		//success: ,
-		//dataType: dataType
-	});
 	
 	if (resposta == true) {
           window.location.href = "<?php echo base_url('aluno/provas/fim') ?>";
