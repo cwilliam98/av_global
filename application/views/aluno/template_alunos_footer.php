@@ -18,6 +18,13 @@ $('#finalizar_prova').click(function(){
      }
 });
 
+$('#finalizar').click(function(){
+
+	var resposta = alert("Sua prova será encerrado, pois o tempo acabou!");
+	
+          window.location.href = "<?php echo base_url('aluno/provas/fim') ?>";
+});
+
 </script>
 
 </body>

@@ -64,16 +64,16 @@
 </head>
 <body>
 
-  <?php $aluno = $_SESSION['usuario']; ?>
+  <?php $usuario = $_SESSION['usuario']; ?>
 
   <div class="container-fluid">
     <div class="container">
       <div class="formBox">
-        <form method="post" action="<?php echo base_url('login/logout')?>" id="cadastra_perguntas">              
+        <form method="post" action="<?php echo base_url($usuario['contexto'].'/admin')?>" id="cadastra_perguntas">              
               <div class="col-sm-12">
                 <h2>
                 <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                <?php echo $aluno['nome']; ?> 
+                <?php echo $usuario['nome']; ?> 
                 </h2>
               </div>
 
@@ -86,9 +86,9 @@
 
             
               <div class="col-sm-6 col-sm-offset-3">
-                <button type="submit"  id="cadastrar" class="btn btn-lg btn-info btn-block"> 
+                <button type="submit"  id="voltar" class="btn btn-lg btn-info btn-block"> 
                 <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
-                Sair
+                Voltar
                 </button>
               </div>
        </form>
@@ -104,14 +104,7 @@
     <script src="<?=base_url('/assets/js/bootstrap.min.js')?>"></script>
 </body>
 <script>
-  setTimeout(function(){
-    $('button.close').click()
-  },2000)
-  
-   
-  $(".input").focus(function() {
-    $(this).parent().addClass("focus");
-  })
+
  </script>
 
 </html>

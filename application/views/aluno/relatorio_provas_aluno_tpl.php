@@ -41,7 +41,7 @@
 						<hr style="border: 1px solid;">
 					</div>
 
-					<form role="form" class="questao" name="enviar_prova" method="post" action="<?php echo site_url('aluno/provas/resultado') ?>">
+					<form role="form" class="questao" id="enviar_prova" name="enviar_prova" method="post" action="<?php echo site_url('aluno/provas/resultado') ?>">
 						<?php foreach ($questoes->questoes as $questao) : ?>
 							<div><?php echo ($count++). ' ) '. $questao->descricao;   ?></div>
 							<?php foreach ($questao->alternativas as $alternativa) : ?>
@@ -106,9 +106,10 @@
 		  $('#timer').html(days + "d " + hours + "h " + minutes + "m " + seconds + "s ");
 
 		  // If the count down is finished, write some text 
-		  if (distance > 3600000) {
+		  if (distance > 300000 ) {
 		  	clearInterval(x);
 		  	$('#timer').html("EXPIRED");
+		  	$('#finalizar').click();
 		  }
 		}, 1000);
 	</script>
@@ -116,6 +117,7 @@
 		<div class="row">
 			<div class="col-md-10">
 				<button type="submit" value="<?php echo $aluno['id'];?>" id="finalizar_prova" class="btn btn-success">Finalizar prova</button>
+				<button style="visibility: hidden;" type="submit" value="<?php echo $aluno['id'];?>" id="finalizar" class=""></button>
 			</div>
 		</div>
 	</div>

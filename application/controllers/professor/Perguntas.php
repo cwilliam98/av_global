@@ -6,12 +6,12 @@ class Perguntas extends MY_Controller {
 	
 	public function index(){
 		
-		$usuario = $this->session->userdata('usuario');
-		
 		$this->load->model('Perguntas_model');
+		$periodo_letivo = $this->input->get('periodo');
 
 		$data = [
-			"questoes" => $this->Perguntas_model->getQuestoesByProfessor($usuario['id'])
+			"questoes" => $this->Perguntas_model->getQuestoesPorPeriodo($periodo_letivo),
+			"periodos_letivo" => $this->Perguntas_model->getPeriodoLetivo()
 		];
 
 		foreach($data['questoes'] as $id => $questao)

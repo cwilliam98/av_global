@@ -24,7 +24,7 @@ class Login extends CI_Controller {
 		}
 
 		$codigo = $this->input->post('codigo');
-		$senha = password_verify($this->input->post('senha'));
+		$senha = $this->input->post('senha');
 		$this->load->model('Login_model');
 
 		$usuario = $this->Login_model->login($codigo, $senha);

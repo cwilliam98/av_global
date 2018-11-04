@@ -1,6 +1,14 @@
 <?php
 class Perguntas_model extends CI_Model {
 
+	function getAlunos(){
+		return $this->db
+		->select('nome')
+		->where('contexto','aluno')
+		->get('usuarios')
+		->result_array();
+	}
+
 	function getPerguntasID($disciplina){
 		
 		$perguntas = $this->db
@@ -81,7 +89,6 @@ class Perguntas_model extends CI_Model {
 	function getQuestoesByProfessor($id){
 		$retorno = $this->db
 		->from('questoes')
-		->where('questoes.professor',$id)
 		->get()
 		->result_array();
 		return $retorno;

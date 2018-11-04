@@ -37,11 +37,11 @@
                 <ul class="sidebar-nav">
 
                     <li class="sidebar-brand">
-                        <a href="#">
+                        <p class="text-nowrap  text-center">
                             <?php $usuario =$this->session->userdata('usuario'); 
                             echo $usuario['nome'];
                             ?>
-                        </a>
+                        </p>
                     </li>
 
                     <li>

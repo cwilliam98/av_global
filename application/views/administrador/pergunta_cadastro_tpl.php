@@ -10,7 +10,7 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-10 col-md-offset-2">
-			<h3 class="m-1 text-center text-white">Cadastrar nova Questões</h3>
+			<h3 class="m-1 text-center text-white">Cadastrar nova Questão</h3>
 		</div>
 	</div>
 </div>

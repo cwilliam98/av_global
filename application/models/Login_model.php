@@ -12,8 +12,6 @@ class Login_model extends CI_Model {
 		return  reset($resultado);
 		$usuario = $this->db->get()->result_array();
 		$usuario = reset($usuario);
-		if ( $usuario )
-			$senha = password_verify($senha, $usuario['senha']);
 		if ($senha == $usuario['senha']) {
 			return $usuario;
 		}

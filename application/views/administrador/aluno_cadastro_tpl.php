@@ -18,7 +18,7 @@ background: #f8f8f8;
 						<div class="container-fluid">
 							<div class="navbar-header">
 								<a class="navbar-brand" href="#">
-									Cadastro de Alunos
+									Cadastro de Usuários
 								</a>
 							</div>
 						</div>

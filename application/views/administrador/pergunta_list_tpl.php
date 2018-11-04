@@ -36,7 +36,6 @@ table {
 					<option value="<?php echo $periodo_letivo["id"]; ?>" <?php echo $selected?>><?php echo $periodo_letivo["codigo_periodo"]; ?></option>
 				<?php  endforeach ?>
 			</select>
-			<input type="text" class="input-search" alt="lista-clientes" placeholder="Buscar nesta lista"/>
 			<table   align="center"  class="lista-clientes table table-striped" id="myTable">
 				<thead>
 					<tr>

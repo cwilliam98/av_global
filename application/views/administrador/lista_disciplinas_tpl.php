@@ -45,7 +45,6 @@ include 'index_admin_tpl.php';
 	</div>
 </div>
 
-<script src="<?=base_url('/assets/js/bootstrap.min.js')?>"></script>
 </body>
 </html>
 <script type="text/javascript">

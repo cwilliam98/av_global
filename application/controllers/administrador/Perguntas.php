@@ -4,9 +4,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Perguntas extends MY_Controller {
 
 	public function index(){
+
 		$this->load->model('Perguntas_model');
 		$periodo_letivo = $this->input->get('periodo');
-		// if($periodo_letivo){
 
 		$data = [
 			"questoes" => $this->Perguntas_model->getQuestoesPorPeriodo($periodo_letivo),

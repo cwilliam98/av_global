@@ -26,6 +26,7 @@ class Disciplinas_model extends CI_Model {
 		->join('curso','curso.id = disciplinas.curso')
 		->where('disciplinas.situacao','ativo')
 		->order_by('nome')
+		->limit(5)
 		->get('disciplinas')
 		->result_array();
 

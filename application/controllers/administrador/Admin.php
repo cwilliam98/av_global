@@ -45,6 +45,7 @@ class Admin extends MY_Controller {
 		'disciplinas'=> $this->Provas_model->getDadosDisciplinas(),
 		'questoes'=> $this->Provas_model->getDadosQuestoes(),
 		'professores'=> $this->Provas_model->getDadosProfessores(),
+		'alunos'=> $this->Provas_model->getDadosAlunos(),
 		];
 
 		print json_encode($dados);

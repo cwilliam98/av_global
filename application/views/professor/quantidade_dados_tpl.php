@@ -1,5 +1,5 @@
 <?php
-include 'index_admin_tpl.php'; 
+include 'index_admin_professor_tpl.php'; 
 ?>
 
 <!DOCTYPE html>
@@ -12,18 +12,17 @@ include 'index_admin_tpl.php';
 		<div class="jumbotron">
 			<div class="row">
 				<div class="col-md-3">
-					<div class="panel panel-primary">
-						<div class="panel-body text-center">
+					<div class="col-md-3">
+					<div class="">
+						<div class="">
 							<h4>
-								<span class="glyphicon glyphicon glyphicon-user" aria-hidden="true"></span>
-								Professores
 							</h4>
 
 							<h3>
-								<div id="professores"></div>
 							</h3>
 						</div>
 					</div>
+				</div>
 				</div>
 				<div class="col-md-3">
 					<div class="panel panel-primary">
@@ -40,15 +39,12 @@ include 'index_admin_tpl.php';
 					</div>
 				</div>
 				<div class="col-md-3">
-					<div class="panel panel-primary">
-						<div class="panel-body text-center">
+					<div class="">
+						<div class="">
 							<h4>
-								<span class="glyphicon glyphicon glyphicon-book" aria-hidden="true"></span>
-								Disciplinas
 							</h4>
 
 							<h3>
-								<div id="disciplinas"></div>
 							</h3>
 						</div>
 					</div>
@@ -75,30 +71,16 @@ include 'index_admin_tpl.php';
 
 	<script>
 		$(document).ready(function() {
-			$.post("<?php echo base_url();?>administrador/admin/dadosAdmin",
+			$.post("<?php echo base_url();?>professor/admin/dadosAdmin",
 				function(data){
 					var obj = JSON.parse(data);
-					var professores = document.getElementById('professores');
 					var alunos = document.getElementById('alunos');
-					var disciplinas = document.getElementById('disciplinas');
 					var questoes = document.getElementById('questoes');
 					var min = 0;
-					var maxDisciplinas = obj.disciplinas;
-					var maxProfessores = obj.professores;
 					var maxAlunos = obj.alunos;
 					var maxQuestoes = obj.questoes;
 				var duração = 1000; // 5 segundos
 
-				for (var i = min; i <= maxProfessores; i++) {
-					setTimeout(function(nr) {
-						professores.innerHTML = nr;
-					}, i * 1000 / maxProfessores, i);
-				}
-				for (var i = min; i <= maxDisciplinas; i++) {
-					setTimeout(function(nr) {
-						disciplinas.innerHTML = nr;
-					}, i * 1000 / maxDisciplinas, i);
-				}
 				for (var i = min; i <= maxQuestoes; i++) {
 					setTimeout(function(nr) {
 						questoes.innerHTML = nr;

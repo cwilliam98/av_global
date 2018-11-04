@@ -53,7 +53,7 @@ class Provas_model extends CI_Model {
 		->result_array();
 		// echo $this->db->last_query();
 		// exit();
-return $dados;
+		return $dados;
 
 	}
 
@@ -86,8 +86,7 @@ return $dados;
 		->where('formulario', $formulario)
 		->get()
 		->result_array();
-		 // echo $this->db->last_query();
-		 // exit();
+		 
 
 
 		$questoes = $this->db
@@ -96,7 +95,8 @@ return $dados;
 		->where_in('id', array_column($questoes,'questao'))
 		->get()
 		->result();	
-		
+		// echo $this->db->last_query();
+		//  exit();
 		return $questoes;
 	}
 	function getAlternativasByQuestoes( $questao )
@@ -135,7 +135,7 @@ return $dados;
 		->get()
 		->result_array();
 		echo $this->db->last_query();
-			exit();
+		exit();
 
 	}
 
@@ -145,10 +145,11 @@ return $dados;
 		->select('provas.id, provas.nome, provas.criado_em, provas.aplicacao, provas.qtd_questoes, provas.tipo_prova, provas.nota, provas.professor, formularios.situacao, formularios.aluno')
 		->from('provas')
 		->join('formularios','formularios.prova = provas.id AND formularios.aluno = '.$id.'','left')
-		->where('aplicacao', '2018-12-01')
+		->where('aplicacao', date('Y-m-d'))
 		->limit(1)
 		->get()
 		->result();
+		
 				// echo $this->db->last_query();
 				// exit();
 		return reset($prova);
@@ -245,16 +246,39 @@ return $dados;
 		return $dados;
 
 	}
+	function getDadosAlunos(){
+
+		$dados =  $this->db
+		->where('contexto','aluno')
+		->count_all_results('usuarios');
+		return $dados;
+
+	}
 	function getDadosQuestoes(){
 
 		return $this->db->count_all_results('questoes');
 
 	}
+	function getDadosQuestoesDoProfessor($id){
+
+		return $this->db
+		->where('professor',$id)
+		->count_all_results('questoes');
+
+	}
+	function getDadosAlunosDoProfessor($id){
+
+		$dados =  $this->db
+		->where('contexto','aluno')
+		->where('usuarios.id',$id)
+		->count_all_results('usuarios');
+		
+		return $dados;
+
+	}
 	function getDadosDisciplinas(){
 
 		return $this->db->count_all_results('disciplinas');
-		
-
 	}
 
 
