@@ -211,15 +211,16 @@ class Perguntas extends MY_Controller {
 	}
 
 	public function uploadImageCKeditor() {
+		
 		if(isset($_FILES['upload'])){
   			// ------ Process your file upload code -------
 			$filen = $_FILES['upload']['tmp_name'];
-			$con_images = "uploads/".$_FILES['upload']['name'];
+			$con_images =  "uploads/".$_FILES['upload']['name'];
 			$retorno = move_uploaded_file($filen, $con_images );
-			
 			$url = $con_images;
 
 			$funcNum = $_GET['CKEditorFuncNum'] ;
+
    			// Optional: instance name (might be used to load a specific configuration file or anything else).
 			$CKEditor = $_GET['CKEditor'] ;
   			 // Optional: might be used to provide localized messages.

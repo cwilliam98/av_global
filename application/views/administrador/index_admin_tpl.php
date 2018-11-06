@@ -89,56 +89,58 @@
                         <li class="dropdown-header"></li>
                         <li><a href="<?php echo base_url('administrador/admin/acertosPorQuestoes')?>"> <span class="glyphicon glyphicon-stats" aria-hidden="true"></span> Quantidades de acertos</a></li>
                     </ul>
-            </li>
+                </li>
+                <li>
+                    <a href="<?php echo base_url('administrador/admin/formBackup')?>"> <span class="glyphicon glyphicon glyphicon-list-alt" aria-hidden="true"></span> Gera backup </a>
+                </li>
+                <li>
+                    <form method="post" action="<?php echo base_url('login/logout')?>" id="cadastra_perguntas">                                  
+                        <button type="submit"  id="cadastrar" class="btn btn-md"> 
+                            <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+                            Sair
+                        </button>
+                    </form>                    
+                </li>
 
-            <li>
-                <form method="post" action="<?php echo base_url('login/logout')?>" id="cadastra_perguntas">                                  
-                    <button type="submit"  id="cadastrar" class="btn btn-md"> 
-                        <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
-                        Sair
-                    </button>
-                </form>                    
-            </li>
-
-        </ul>
-    </nav>
-</div>
-<!-- /#sidebar-wrapper -->
-
-<?php if($this->input->get('aviso')==1) { ?>    
-    <div class="alert alert-success alert-dismissible fade in" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <strong>Sucesso!</strong> Registro inserido com sucesso.
+            </ul>
+        </nav>
     </div>
-<?php } ?>
+    <!-- /#sidebar-wrapper -->
 
-<?php if($this->input->get('aviso')==2) { ?>
-    <div class="alert alert-danger alert-dismissible fade in" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <strong>Errooo!</strong> Registro não inserido.
+    <?php if($this->input->get('aviso')==1) { ?>    
+        <div class="alert alert-success alert-dismissible fade in" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>Sucesso!</strong> Registro inserido com sucesso.
+        </div>
+    <?php } ?>
+
+    <?php if($this->input->get('aviso')==2) { ?>
+        <div class="alert alert-danger alert-dismissible fade in" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>Errooo!</strong> Registro não inserido.
+        </div>
+    <?php } ?>
+
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <div class="container-fluid" id="coisas">
+        </div>
     </div>
-<?php } ?>
+    &nbsp <ol class="breadcrumb">
+        <div class="item"><a href="">Home / </a>
+        </ol>
 
+        <!-- /#page-content-wrapper -->
 
-<!-- Page Content -->
-<div id="page-content-wrapper">
-    <div class="container-fluid" id="coisas">
     </div>
-</div>
-&nbsp <ol class="breadcrumb">
-    <div class="item"><a href="">Home / </a>
-    </ol>
+    <!-- /#wrapper -->
 
-    <!-- /#page-content-wrapper -->
-
-</div>
-<!-- /#wrapper -->
-
-<!-- Bootstrap core JavaScript -->
-<script src="<?php echo base_url(); ?>assets/js/jquery-3.2.1.min.js"></script>
-<script src="<?php echo base_url(); ?>assets/js/bootstrap.min.js"></script>
-<script src="<?php echo base_url(); ?>assets/ckeditor/ckeditor.js"></script>
-<script>
+    <!-- Bootstrap core JavaScript -->
+    <script src="<?php echo base_url(); ?>assets/js/jquery-3.2.1.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/js/bootstrap.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/ckeditor/ckeditor.js"></script>
+    <script>
 
 
         // window.onbeforeunload = function() {
@@ -154,45 +156,45 @@
 </body>
 
 <script type="text/javascript">
- $('a').on('click', function() {
-  var $this = $(this),
-  $bc = $('<div class="item"></div>');
+   $('a').on('click', function() {
+      var $this = $(this),
+      $bc = $('<div class="item"></div>');
 
-  $this.parents('li').each(function(n, li) {
-      var $a = $(li).children('a').clone();
-      $bc.prepend(' / ', $a);
-  });
-  $('.breadcrumb').html( $bc.prepend('<a href="">Home</a>') );
+      $this.parents('li').each(function(n, li) {
+          var $a = $(li).children('a').clone();
+          $bc.prepend(' / ', $a);
+      });
+      $('.breadcrumb').html( $bc.prepend('<a href="">Home</a>') );
           //return false;
       });
 
- $(document).ready(function () {
-  var trigger = $('.hamburger'),
-  overlay = $('.overlay'),
-  isClosed = false;
+   $(document).ready(function () {
+      var trigger = $('.hamburger'),
+      overlay = $('.overlay'),
+      isClosed = false;
 
-  trigger.click(function () {
-      hamburger_cross();      
-  });
+      trigger.click(function () {
+          hamburger_cross();      
+      });
 
-  function hamburger_cross() {
+      function hamburger_cross() {
 
-      if (isClosed == true) {          
-        overlay.hide();
-        trigger.removeClass('is-open');
-        trigger.addClass('is-closed');
-        isClosed = false;
-    } else {   
-        overlay.show();
-        trigger.removeClass('is-closed');
-        trigger.addClass('is-open');
-        isClosed = true;
+          if (isClosed == true) {          
+            overlay.hide();
+            trigger.removeClass('is-open');
+            trigger.addClass('is-closed');
+            isClosed = false;
+        } else {   
+            overlay.show();
+            trigger.removeClass('is-closed');
+            trigger.addClass('is-open');
+            isClosed = true;
+        }
     }
-}
 
-$('[data-toggle="offcanvas"]').click(function () {
-    $('#wrapper').toggleClass('toggled');
-});  
+    $('[data-toggle="offcanvas"]').click(function () {
+        $('#wrapper').toggleClass('toggled');
+    });  
 });
 </script>
 
