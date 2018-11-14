@@ -14,7 +14,7 @@ class Login extends CI_Controller {
 	public function logon(){
 
 		$this->form_validation->set_error_delimiters('<div class="alert alert-danger">','</div>');
-		$this->form_validation->set_rules('codigo', 'Codigo','required|min_length[4]|max_length[8]');
+		$this->form_validation->set_rules('codigo', 'Codigo','required|min_length[3]|max_length[8]');
 		$this->form_validation->set_rules('senha', 'Senha','required');
 
 		if($this->form_validation->run() == FALSE)

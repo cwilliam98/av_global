@@ -24,9 +24,10 @@ class Disciplinas extends MY_Controller {
 	}
 
 	public function lista(){
+		$usuario = $this->session->userdata('usuario');
 
 		$this->load->model('Disciplinas_model');
-		$data["disciplinas"] = $this->Disciplinas_model->getTodasDisciplinas();
+		$data["disciplinas"] = $this->Disciplinas_model->getTodasDisciplinasAdmin();
 		$this->load->view('administrador/lista_disciplinas_tpl',$data);
 
 	}
@@ -38,8 +39,8 @@ class Disciplinas extends MY_Controller {
 		$disciplina = $this->input->post('disciplina');
 
 		$this->form_validation->set_rules('disciplina',       'Disciplina',          'trim|required|max_length[1000]');
-		$this->form_validation->set_rules('professor',   	  'professor',         	 'required');
-		$this->form_validation->set_rules('curso',   	  	  'curso',         	     'required');
+		$this->form_validation->set_rules('professor',   	  'professor',         	 'trim|required');
+		$this->form_validation->set_rules('curso',   	  	  'curso',         	     'trim|required');
 
 
 
@@ -68,7 +69,7 @@ class Disciplinas extends MY_Controller {
 
 	public function alterar($id=-1){
 
-		$aluno = $this->session->userdata('aluno');
+		$aluno = $this->session->userdata('usuario');
 		$this->load->model('Disciplinas_model');
 
 		$data =[

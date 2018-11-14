@@ -33,7 +33,7 @@
 
 					<div class="form-group <?php echo form_error('qtd_questoes') ? 'has-error' : '' ?>">
 						<label >Quantidade de questoes</label>
-						<input type="number" class="form-control" id="qtd_questoes" name="qtd_questoes" placeholder="Quantidade de questões"  value="<?php echo set_value('qtd_questoes') ?>">
+						<input type="tel" class="form-control" id="qtd_questoes" name="qtd_questoes" placeholder="Quantidade de questões"  value="<?php echo set_value('qtd_questoes') ?>">
 						<span id="helpBlock2" class="help-block"><?php echo form_error('qtd_questoes'); ?></span>
 					</div>
 

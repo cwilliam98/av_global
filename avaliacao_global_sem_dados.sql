@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 31-Out-2018 às 00:59
+-- Generation Time: 14-Nov-2018 às 02:51
 -- Versão do servidor: 10.1.13-MariaDB
 -- PHP Version: 5.5.34
 
@@ -283,12 +283,12 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT for table `alternativas`
 --
 ALTER TABLE `alternativas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=195;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `disciplinas`
 --
 ALTER TABLE `disciplinas`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10299;
 --
 -- AUTO_INCREMENT for table `formularios`
 --
@@ -303,27 +303,27 @@ ALTER TABLE `itens_prova`
 -- AUTO_INCREMENT for table `periodo_letivo`
 --
 ALTER TABLE `periodo_letivo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=221;
 --
 -- AUTO_INCREMENT for table `provas`
 --
 ALTER TABLE `provas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `questoes`
 --
 ALTER TABLE `questoes`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `sessoes`
 --
 ALTER TABLE `sessoes`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6087;
 --
 -- Constraints for dumped tables
 --

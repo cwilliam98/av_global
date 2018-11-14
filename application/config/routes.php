@@ -53,3 +53,4 @@ $route['default_controller'] = 'login';
 $route['default_controller'] = 'login/index';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+$route['administrador/perguntas/alterar/uploadImageCKeditor'] = 'administrador/perguntas/uploadImageCKeditor';

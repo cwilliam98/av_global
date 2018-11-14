@@ -86,8 +86,10 @@ class Provas_model extends CI_Model {
 		->where('formulario', $formulario)
 		->get()
 		->result_array();
-		 
 
+		if(!$questoes){
+			return;
+		}
 
 		$questoes = $this->db
 		->select(['questoes.id questao', 'questoes.descricao'])
@@ -134,9 +136,27 @@ class Provas_model extends CI_Model {
 		->where('provas.id', $prova)
 		->get()
 		->result_array();
-		echo $this->db->last_query();
-		exit();
 
+		// echo "<pre>";
+		// print_r($data);
+		// // echo $this->db->last_query();
+		// exit();
+
+	}
+
+	function verificaQuestoesByDisciplina($disciplina)
+	{
+
+		return $this->db
+		->from('questoes')
+		->where('questoes.disciplina',$disciplina)
+		->get()
+		->result_array();
+
+		// echo "<pre>";
+		// print_r($data);
+		// // echo $this->db->last_query();
+		// exit();
 	}
 
 
@@ -293,7 +313,7 @@ class Provas_model extends CI_Model {
 	function insereFimSessao($id){
 		return $this->db
 		->where('usuario',$id)
-		->set('termino', date('Y-m-d H:m:s'))
+		->set('termino', date('Y-m-d H:i:s'))
 		->update('sessoes');
 	}
 
@@ -308,5 +328,13 @@ class Provas_model extends CI_Model {
 		// echo $this->db->last_query();
 		// exit();
 
+	}
+
+	function getTodasProvas(){
+		return $this->db
+		->from('provas')
+		->order_by('aplicacao','DESC')
+		->get()
+		->result_array();
 	}
 }

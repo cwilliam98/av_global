@@ -24,11 +24,11 @@
 .datetime {
 	position: fixed;
 	right: 20px;
-	top: 20px;
+	top: 0px;
 }
 </style>
 <body>
-	<span id="timer" class="datetime">31/10/2018 22:47</span>
+	<span id="timer" class="datetime alert alert-success"></span>
 	<?php $aluno = $this->session->userdata('usuario'); ?>
 	<div class="container classe">
 		<div class="row">
@@ -97,13 +97,12 @@
 		  var distance = now - countDownDate;
 
 		  // Time calculations for days, hours, minutes and seconds
-		  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
 		  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
 		  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
 		  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
 		  // Display the result in the element with id="demo"
-		  $('#timer').html(days + "d " + hours + "h " + minutes + "m " + seconds + "s ");
+		  $('#timer').html(hours + "h " + minutes + "m " + seconds + "s ");
 
 		  // If the count down is finished, write some text 
 		  if (distance > 300000 ) {

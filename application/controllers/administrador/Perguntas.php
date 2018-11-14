@@ -6,6 +6,7 @@ class Perguntas extends MY_Controller {
 	public function index(){
 
 		$this->load->model('Perguntas_model');
+		$this->load->helper('text');
 		$periodo_letivo = $this->input->get('periodo');
 
 		$data = [
@@ -42,12 +43,15 @@ class Perguntas extends MY_Controller {
 
 	public function cadastra()
 	{
+		$usuario = $this->session->userdata('usuario');
+
+		$this->load->model('Disciplinas_model');
 
 		$this->load->model('Disciplinas_model');
 		$this->load->model('Perguntas_model');
 
 		$data = [
-			"disciplinas" => $this->Disciplinas_model->getTodasDisciplinas(),
+			"disciplinas" => $this->Disciplinas_model->getTodasDisciplinasAdmin(),
 			"periodos_letivo" => $this->Perguntas_model->getPeriodoLetivo()
 		];
 
@@ -58,11 +62,11 @@ class Perguntas extends MY_Controller {
 		
 		$aluno = $this->session->userdata('usuario');
 
-		$this->form_validation->set_rules('questao',       'questao',          	 'required|max_length[1000]');
-		$this->form_validation->set_rules('alternativa[]', 'alternativa',        'max_length[1000]');
-		$this->form_validation->set_rules('correta[]',     'alternativa lorreta','required');
-		$this->form_validation->set_rules('disciplina',    'disciplina',         'required');
-		$this->form_validation->set_rules('periodo_letivo','periodo letivo',      'required');
+		$this->form_validation->set_rules('questao',       'questao',          	 'trim|required|max_length[1000]');
+		$this->form_validation->set_rules('alternativa[]', 'alternativa',        'trim|max_length[1000]');
+		$this->form_validation->set_rules('correta[]',     'alternativa lorreta','trim|required');
+		$this->form_validation->set_rules('disciplina',    'disciplina',         'trim|required');
+		$this->form_validation->set_rules('periodo_letivo','periodo letivo',     'trim|required');
 
 		if($this->form_validation->run() == FALSE)
 		{
@@ -98,10 +102,10 @@ class Perguntas extends MY_Controller {
 			$this->Perguntas_model->cadastraAlternativa($data);
 		}
 		if(!empty($data)){
-			redirect('administrador/admin/cadastra?aviso=1');
+			redirect('administrador/perguntas/cadastra?aviso=1');
 		}
 
-		redirect('administrador/admin/cadastra?aviso=2');
+		redirect('administrador/perguntas/cadastra?aviso=2');
 
 
 	}
@@ -150,16 +154,18 @@ class Perguntas extends MY_Controller {
 		$this->load->model('Perguntas_model');
 
 
+
 		$data = [
-			"descricao" =>	set_value('questao'),
+			"descricao"  =>	set_value('questao'),
 			"disciplina" => set_value('disciplina'),
-			"professor"  => $aluno['id']
+			"professor"  => $aluno['id'],
+			"periodo_letivo" => set_value('periodo_letivo')
 		];
 
 
 		$alternativa = $this->Perguntas_model->getAlternativa($id);
 
-		$this->Perguntas_model->alteraPergunta($this->input->post(),$id,$this->input->post('disciplina'));
+		$this->Perguntas_model->alteraPergunta($data,$id,$this->input->post('disciplina'));
 		$this->Perguntas_model->marcaComoErrada($id);
 
 		$correta =  $this->input->post('correta'); 
@@ -211,25 +217,33 @@ class Perguntas extends MY_Controller {
 	}
 
 	public function uploadImageCKeditor() {
-		
-		if(isset($_FILES['upload'])){
-  			// ------ Process your file upload code -------
-			$filen = $_FILES['upload']['tmp_name'];
-			$con_images =  "uploads/".$_FILES['upload']['name'];
-			$retorno = move_uploaded_file($filen, $con_images );
-			$url = $con_images;
+
+
+		$config['upload_path']   = './uploads/';
+		$config['allowed_types'] = 'gif|jpg|png';
+		$config['max_size']      = 1024;
+
+		$this->load->library('upload', $config);
+
+		if ($this->upload->do_upload('upload'))
+		{
+
+			$data = $this->upload->data();
+
+			$url = site_url('uploads/'.$data['file_name']);
 
 			$funcNum = $_GET['CKEditorFuncNum'] ;
 
    			// Optional: instance name (might be used to load a specific configuration file or anything else).
-			$CKEditor = $_GET['CKEditor'] ;
+			$CKEditor = $_GET['CKEditor'];
   			 // Optional: might be used to provide localized messages.
-			$langCode = $_GET['langCode'] ;
-
+			$langCode = $_GET['langCode'];
+			
   			 // Usually you will only assign something here if the file could not be uploaded.
 			$message = '';
 			echo "<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction($funcNum, '$url', '$message');</script>";
 		}
+		
 	}
 
 

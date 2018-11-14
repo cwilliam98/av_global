@@ -17,7 +17,7 @@ include 'index_admin_tpl.php';
 				<div class="container-fluid">
 					<div class="navbar-header">
 						<a class="navbar-brand" href="#">
-							Backup somente dados
+							Backup Full
 						</a>
 					</div>
 				</div>
@@ -31,18 +31,9 @@ include 'index_admin_tpl.php';
 	<div class="row">
 		<div class="col-md-6  col-md-offset-3 classe">
 
-			<form method="post" action="<?php echo base_url('administrador/admin/backup') ?>">
-				<h4>Selecione a tabela</h4>
-
-				<div class="form-group <?php echo form_error('table') ? 'has-error' : '' ?>">
-					<select class="form-control" name="table" id="table">
-						<?php  foreach ($tables as $key => $value): ?>
-							<option id="table" name="table" value="<?php echo $value; ?>"><?php echo $value; ?></option>
-						<?php  endforeach ?>
-					</select>
-				</div>
+			<form method="post" action="<?php echo base_url('administrador/admin/backupFull') ?>">
 				<div class="form-group">
-					<button type="submit" class="btn btn-info">gerar</button>
+					<button type="submit" class="btn btn-info">Gerar</button>
 				</div>
 			</form>
 

@@ -4,9 +4,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Provas extends MY_Controller {
 
 	public function index(){
+		$usuario = $this->session->userdata('usuario');
 
 		$this->load->model('Disciplinas_model');
-		$data["disciplinas"] = $this->Disciplinas_model->getTodasDisciplinas();
+		$data["disciplinas"] = $this->Disciplinas_model->getTodasDisciplinas($usuario['id']);
 		$this->load->view('professor/prova_cadastro_tpl', $data);
 	}
 

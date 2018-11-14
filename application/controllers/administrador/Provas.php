@@ -7,7 +7,7 @@ class Provas extends MY_Controller {
 
 
 		$this->load->model('Disciplinas_model');
-		$data["disciplinas"] = $this->Disciplinas_model->getTodasDisciplinas();
+		$data["disciplinas"] = $this->Disciplinas_model->getTodasDisciplinasAdmin();
 		$this->load->view('administrador/prova_cadastro_tpl', $data);
 	}
 
@@ -51,13 +51,13 @@ class Provas extends MY_Controller {
 	
 	public function acompanhaProvas(){
 
-			$this->load->model('Provas_model');
+		$this->load->model('Provas_model');
 
-			$provas['prova'] = $this->Provas_model->getProvas();
+		$provas['prova'] = $this->Provas_model->getProvas();
 
-			$prova['prova'] = $provas['prova'];
+		$prova['prova'] = $provas['prova'];
 
-			$this->load->view('administrador/acompanhamento_provas_tpl', $prova);
+		$this->load->view('administrador/acompanhamento_provas_tpl', $prova);
 
 	}
 

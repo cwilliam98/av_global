@@ -32,10 +32,10 @@ class Perguntas extends MY_Controller {
 			redirect('login');
 		}
 
-		$aluno = $this->session->userdata('aluno');
-		
+		$aluno = $this->session->userdata('usuario');
+
 		$this->load->model('Disciplinas_model');
-		$data["disciplinas"] = $this->Disciplinas_model->getTodasDisciplinas();
+		$data["disciplinas"] = $this->Disciplinas_model->getTodasDisciplinas($aluno['id']);
 		$this->load->view('professor/pergunta_cadastro_tpl', $data);
 	}
 

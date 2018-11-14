@@ -11,5 +11,7 @@
 	config.filebrowserUploadMethod = 'form';
 	config.extraPlugins = 'popup';
 	config.extraPlugins = 'filebrowser';
+	config.filebrowserImageBrowseUrl = '../../uploadImageCKeditor';
+	config.filebrowserUploadUrl = '../../uploadImageCKeditor';
 	config.filebrowserImageUploadUrl = 'uploadImageCKeditor';
 };

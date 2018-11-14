@@ -132,9 +132,8 @@ class Perguntas_model extends CI_Model {
 
 	function alteraPergunta($data,$id,$disciplina){
 
-
 		$this->db->where('id', $id);
-		$this->db->set('descricao',$data['questao']);
+		$this->db->set('descricao',$data['descricao']);
 		$this->db->set('disciplina',$disciplina);
 		$this->db->set('periodo_letivo',$data['periodo_letivo']);
 		$retorno = $this->db->update('questoes');
