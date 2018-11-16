@@ -65,6 +65,13 @@ class Disciplinas_model extends CI_Model {
 
 	}
 
+	function getPeriodosLetivos(){
+		return $this->db
+		->get('periodo_letivo')
+		->result_array();
+
+	}
+
 	function alteraDisciplina($data,$id){
 		$this->db->where('id' , $id);
 		$retorno = $this->db->update('disciplinas', $data);

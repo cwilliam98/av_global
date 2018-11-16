@@ -34,6 +34,28 @@ class Admin extends MY_Controller {
 
 		print json_encode($dados);
 
+	} 
+	public function acertosAlunos() {
+
+		$aluno = $this->session->userdata('usuario');
+
+		$this->load->model('Provas_model');
+
+		$dados = $this->Provas_model->getRespostasAluno($aluno['id']);
+
+		print json_encode($dados);
+
+	} 
+	public function acertosProvas() {
+
+		$aluno = $this->session->userdata('usuario');
+
+		$this->load->model('Provas_model');
+
+		$dados = $this->Provas_model->getRespostasProva();
+
+		print json_encode($dados);
+
 	}
 
 	public function dadosAdmin() {
@@ -56,9 +78,14 @@ class Admin extends MY_Controller {
 	}
 
 	public function acertosPorQuestoes(){
-
 		$this->load->view('administrador/index_tpl');
+	}
 
+	public function acertosPorAluno(){
+		$this->load->view('administrador/acertos_alunos_tpl');
+	}
+	public function acertosPorProva(){
+		$this->load->view('administrador/acertos_provas_tpl');
 	}
 	public function formBackup(){
 		

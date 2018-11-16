@@ -28,6 +28,20 @@ class Admin extends MY_Controller {
 
 	}
 
+	public function acertosAlunos() {
+
+		$aluno = $this->session->userdata('usuario');
+
+		$this->load->model('Provas_model');
+
+		$dados = $this->Provas_model->getRespostasAluno($aluno['id']);
+
+		print json_encode($dados);
+
+	} 
+	public function acertosPorAluno(){
+		$this->load->view('professor/acertos_alunos_tpl');
+	}
 	public function dadosAdmin() {
 
 		$aluno = $this->session->userdata('usuario');

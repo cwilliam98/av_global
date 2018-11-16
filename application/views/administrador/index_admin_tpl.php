@@ -104,7 +104,15 @@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-collapse-down"></span> Relatórios</a>
                 <ul class="dropdown-menu" role="menu">
                     <li class="dropdown-header"></li>
-                    <li><a href="<?php echo base_url('administrador/admin/acertosPorQuestoes')?>"> <span class="glyphicon glyphicon-stats" aria-hidden="true"></span> Quantidades de acertos</a></li>
+                    <li>
+                        <a href="<?php echo base_url('administrador/admin/acertosPorQuestoes')?>"> <span class="glyphicon glyphicon-stats" aria-hidden="true"></span> Quantidades de acertos</a>
+                    </li> 
+                    <li>
+                        <a href="<?php echo base_url('administrador/admin/acertosPorAluno')?>"> <span class="glyphicon glyphicon-stats" aria-hidden="true"></span> Acertos por aluno</a>
+                    </li>
+                    <li>
+                        <a href="<?php echo base_url('administrador/admin/acertosPorProva')?>"> <span class="glyphicon glyphicon-stats" aria-hidden="true"></span> Acertos por prova</a>
+                    </li>
                 </ul>
             </li>
             <li class="dropdown">
@@ -117,6 +125,7 @@
                     <li>
                         <a href="<?php echo base_url('administrador/admin/formBackupfull')?>"> <span class="glyphicon glyphicon glyphicon-list-alt" aria-hidden="true"></span> Gerar backup full</a>
                     </li>
+
                 </ul>
             </li>
         </ul>
@@ -208,8 +217,9 @@
             }
         }
 
-        $('[data-toggle="offcanvas"]').click(function () {
+        $('[data-toggle="offcanvas"]').click(function (e) {
             $('#wrapper').toggleClass('toggled');
+
         });  
     });
 </script>

@@ -5,9 +5,6 @@
 	<!-- /.container -->
 </footer>
 <script>
-	setTimeout(function(){
-		$('button.close').click()
-	},2000);
 
 $('#finalizar_prova').click(function(){
 

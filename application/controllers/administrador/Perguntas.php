@@ -62,8 +62,8 @@ class Perguntas extends MY_Controller {
 		
 		$aluno = $this->session->userdata('usuario');
 
-		$this->form_validation->set_rules('questao',       'questao',          	 'trim|required|max_length[1000]');
-		$this->form_validation->set_rules('alternativa[]', 'alternativa',        'trim|max_length[1000]');
+		$this->form_validation->set_rules('questao',       'questao',          	 'trim|required|max_length[10000]');
+		$this->form_validation->set_rules('alternativa[]', 'alternativa',        'trim|max_length[10000]');
 		$this->form_validation->set_rules('correta[]',     'alternativa lorreta','trim|required');
 		$this->form_validation->set_rules('disciplina',    'disciplina',         'trim|required');
 		$this->form_validation->set_rules('periodo_letivo','periodo letivo',     'trim|required');

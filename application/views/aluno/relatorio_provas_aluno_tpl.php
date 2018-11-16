@@ -35,15 +35,13 @@
 			<div class="col-md-10 col-md-offset-1 colunas">
 				<?php foreach ($disciplinas as $count => $questoes) :  ?>
 
-					<div class="row">
-						<hr style="border: 1px solid;">
-						Disciplina de <?php echo  $questoes->nome;   ?>
-						<hr style="border: 1px solid;">
-					</div>
+					<hr style="border: 1px solid;">
+					Disciplina de <?php echo  $questoes->nome;   ?>
+					<hr style="border: 1px solid;">
 
 					<form role="form" class="questao" id="enviar_prova" name="enviar_prova" method="post" action="<?php echo site_url('aluno/provas/resultado') ?>">
 						<?php foreach ($questoes->questoes as $questao) : ?>
-							<div><?php echo ($count++). ' ) '. $questao->descricao;   ?></div>
+							<div><?php echo ($count++). ' ) '. html_entity_decode($questao->descricao); ?></div>
 							<?php foreach ($questao->alternativas as $alternativa) : ?>
 								<div class="radio radio-info">
 									<input type="radio"  name="questao[<?php echo $questao->questao ?>]"  value="<?php echo 
@@ -53,6 +51,7 @@
 							<?php endforeach; ?>
 						<?php endforeach; ?>
 					</form>
+					
 				<?php endforeach; ?>
 			</div>
 		</div>
@@ -70,45 +69,24 @@
 		});
 
 		var countDownDate = new Date();
+		var dataFim = new Date(countDownDate.toDateString() + ' 19:51:00');
+		var distance = Math.floor((dataFim - countDownDate) / 1000);
 
-		$.ajax({
-			type: "POST",
-			url: '<?php echo base_url('aluno/provas/getDataInicio') ?>',
-			data: {id:<?php echo $aluno['id']; ?>},
-			success: function(result){
-				console.log(result);
-				countDownDate = new Date(result).getTime();
-				console.log(countDownDate);
-
-			},
-				//dataType: dataType
-			});
-
-		// Set the date we're counting down to
-		//var countDownDate = new Date("Oct 31, 2018 22:57:00").getTime();
-
-		// Update the count down every 1 second
 		var x = setInterval(function() {
+		  distance--;
 
-		  // Get todays date and time
-		  var now = new Date().getTime();
-		  console.log(now);
-		  // Find the distance between now and the count down date
-		  var distance = now - countDownDate;
-
-		  // Time calculations for days, hours, minutes and seconds
-		  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-		  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-		  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+		  var horas   = Math.floor(distance / 3600);
+		  var minutos = Math.floor((distance / 60) % 60);
+		  var segundos = distance % 60;
 
 		  // Display the result in the element with id="demo"
-		  $('#timer').html(hours + "h " + minutes + "m " + seconds + "s ");
+		  $('#timer').html(horas + ':' + minutos + ':' + segundos);
 
 		  // If the count down is finished, write some text 
-		  if (distance > 300000 ) {
-		  	clearInterval(x);
-		  	$('#timer').html("EXPIRED");
+		  if (distance <= 0) {
+		  	$('#timer').html("Terminouuu!");
 		  	$('#finalizar').click();
+		  	clearInterval(x);
 		  }
 		}, 1000);
 	</script>

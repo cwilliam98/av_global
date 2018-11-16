@@ -34,22 +34,22 @@
 </head>
 <body>.
     <nav class="navbar navbar-inverse navbar-fixed-top dropdown-toggle">
-     <ul class="sidebar-nav">
+       <ul class="sidebar-nav">
         <li class="sidebar-brand">
-           <a> <span class="glyphicon glyphicon glyphicon-user" aria-hidden="true"></span> <?php $usuario =$this->session->userdata('usuario'); 
-            echo $usuario['nome'];
-            ?></a>
-        </li>
-    </ul>
-    <div class="text-right">
-        <br>
-        <form method="post" action="<?php echo base_url('login/logout')?>" id="cadastra_perguntas">                                  
-            <button type="submit"  id="cadastrar" class="btn btn-md"> 
-                <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
-                Sair
-            </button>
-        </form>                    
-    </div>
+         <a> <span class="glyphicon glyphicon glyphicon-user" aria-hidden="true"></span> <?php $usuario =$this->session->userdata('usuario'); 
+         echo $usuario['nome'];
+         ?></a>
+     </li>
+ </ul>
+ <div class="text-right">
+    <br>
+    <form method="post" action="<?php echo base_url('login/logout')?>" id="cadastra_perguntas">                                  
+        <button type="submit"  id="cadastrar" class="btn btn-md"> 
+            <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+            Sair
+        </button>
+    </form>                    
+</div>
 </nav>
 <div id="wrapper">
 
@@ -100,7 +100,12 @@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-collapse-down"></span> Relatórios</a>
                 <ul class="dropdown-menu" role="menu">
                     <li class="dropdown-header"></li>
-                    <li><a href="<?php echo base_url('professor/admin/acertosPorQuestoes')?>"> <span class="glyphicon glyphicon-stats" aria-hidden="true"></span> Quantidades de acertos</a></li>
+                    <li>
+                        <a href="<?php echo base_url('professor/admin/acertosPorQuestoes')?>"> <span class="glyphicon glyphicon-stats" aria-hidden="true"></span> Quantidades de acertos</a>
+                    </li>
+                    <li>
+                        <a href="<?php echo base_url('professor/admin/acertosPorAluno')?>"> <span class="glyphicon glyphicon-stats" aria-hidden="true"></span> Acertos por aluno</a>
+                    </li>
                 </ul>
             </li>
 
@@ -141,14 +146,14 @@
 </div>
 &nbsp <ol class="breadcrumb">
     <div class="item">
-     <a href=""> <?php print_r($this->uri->segment(1)) ?></a>
-     /
-     <a href=""> <?php print_r($this->uri->segment(2)) ?></a>
-     /
-     <a href=""> <?php print_r($this->uri->segment(3)) ?></a>
- </ol>
+       <a href=""> <?php print_r($this->uri->segment(1)) ?></a>
+       /
+       <a href=""> <?php print_r($this->uri->segment(2)) ?></a>
+       /
+       <a href=""> <?php print_r($this->uri->segment(3)) ?></a>
+   </ol>
 
- <!-- /#page-content-wrapper -->
+   <!-- /#page-content-wrapper -->
 
 </div>
 <!-- /#wrapper -->

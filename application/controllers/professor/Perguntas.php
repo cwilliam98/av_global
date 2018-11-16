@@ -7,6 +7,7 @@ class Perguntas extends MY_Controller {
 	public function index(){
 		
 		$this->load->model('Perguntas_model');
+		$this->load->helper('text');
 		$periodo_letivo = $this->input->get('periodo');
 
 		$data = [
@@ -105,20 +106,28 @@ class Perguntas extends MY_Controller {
 	}
 
 	public function uploadImageCKeditor() {
-		if(isset($_FILES['upload'])){
-  // ------ Process your file upload code -------
-			$filen = $_FILES['upload']['tmp_name'];
-			$con_images = "uploads/".$_FILES['upload']['name'];
-			move_uploaded_file($filen, $con_images );
-			$url = $con_images;
+		
+		$config['upload_path']   = './uploads/';
+		$config['allowed_types'] = 'gif|jpg|png';
+		$config['max_size']      = 1024;
+
+		$this->load->library('upload', $config);
+
+		if ($this->upload->do_upload('upload'))
+		{
+
+			$data = $this->upload->data();
+
+			$url = site_url('uploads/'.$data['file_name']);
 
 			$funcNum = $_GET['CKEditorFuncNum'] ;
-   // Optional: instance name (might be used to load a specific configuration file or anything else).
-			$CKEditor = $_GET['CKEditor'] ;
-   // Optional: might be used to provide localized messages.
-			$langCode = $_GET['langCode'] ;
 
-   // Usually you will only assign something here if the file could not be uploaded.
+   			// Optional: instance name (might be used to load a specific configuration file or anything else).
+			$CKEditor = $_GET['CKEditor'];
+  			 // Optional: might be used to provide localized messages.
+			$langCode = $_GET['langCode'];
+			
+  			 // Usually you will only assign something here if the file could not be uploaded.
 			$message = '';
 			echo "<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction($funcNum, '$url', '$message');</script>";
 		}

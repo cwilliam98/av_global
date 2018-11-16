@@ -1,5 +1,5 @@
 <?php
-	include 'index_admin_tpl.php'; 
+include 'index_admin_tpl.php'; 
 ?>
 <title>Cadastro de Provas</title>
 
@@ -42,15 +42,19 @@
 						<input type="text" class="form-control" id="tipo_prova" name="tipo_prova" placeholder="tipo da prova"  value="<?php echo set_value('tipo_prova') ?>">
 						<span id="helpBlock2" class="help-block"><?php echo form_error('tipo_prova'); ?></span>
 					</div>
+					<div class="form-group <?php echo form_error('tipo_prova') ? 'has-error' : '' ?>">
+						<label >Periodo Letivo</label>
 
-					<h4>Selecione as disciplinas</h4>
-					<div  class="checkbox" style="column-count:2">
-						<?php  foreach ($disciplinas as $key => $value): ?>
-							<div style="padding-left: 20px">
-								<input type="checkbox" id="disciplinas_<?php echo $key ?>" name="disciplinas[]" value="<?php echo $value["id"]; ?>">
-								<label for="disciplinas_<?php echo $key ?>"><?php echo $value["nome"]; ?></label>
-							</div>
-						<?php  endforeach ?>
+						<select class="form-control" name="disciplina" id="periodo_letivo">
+							<option value="" >Selecione...</option>
+							<?php  foreach ($periodos_letivo as $periodo_letivo): 
+								$selected =  "";
+								if ($this->input->get('periodo') == $periodo_letivo['id']) {
+									$selected =  "selected";
+								} ?>
+								<option value="<?php echo $periodo_letivo["id"]; ?>" <?php echo $selected?>><?php echo $periodo_letivo["codigo_periodo"]; ?></option>
+							<?php  endforeach ?>
+						</select>
 					</div>
 
 					<div class="form-group">

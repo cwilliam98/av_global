@@ -7,7 +7,9 @@ class Provas extends MY_Controller {
 
 
 		$this->load->model('Disciplinas_model');
-		$data["disciplinas"] = $this->Disciplinas_model->getTodasDisciplinasAdmin();
+		$data = [
+			"periodos_letivo" => $this->Disciplinas_model->getPeriodosLetivos(),
+		];
 		$this->load->view('administrador/prova_cadastro_tpl', $data);
 	}
 

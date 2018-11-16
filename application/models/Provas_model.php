@@ -42,11 +42,11 @@ class Provas_model extends CI_Model {
 		
 		return reset($resultado);
 	}
-	function getQuestoesByDisciplina($formulario){
+	function getQuestoesByDisciplina($formulario,$questao){
 		$dados = $this->db
 		->from('questoes')
 		->where('disciplina', $formulario['disciplina'])
-		->where_in('periodo_letivo', [$formulario['periodo_letivo'],0])
+		->where_in('periodo_letivo', [$questao['periodo_letivo'],'0'])
 		->limit($formulario['qtd_questoes'])
 		->order_by('id', 'random')
 		->get()
@@ -132,14 +132,15 @@ class Provas_model extends CI_Model {
 		->select('matriculas.disciplina, matriculas.aluno, provas.id prova, provas.qtd_questoes,provas.periodo_letivo')
 		->from('provas,matriculas')
 		->where('matriculas.aluno',$id)
-		->where('provas.aplicacao', $data)
+		->where('provas.aplicacao >=', $data)
 		->where('provas.id', $prova)
+		->order_by('provas.id','DESC')
 		->get()
 		->result_array();
 
 		// echo "<pre>";
 		// print_r($data);
-		// // echo $this->db->last_query();
+		//  echo $this->db->last_query();
 		// exit();
 
 	}
@@ -148,6 +149,7 @@ class Provas_model extends CI_Model {
 	{
 
 		return $this->db
+		->select('id,periodo_letivo')
 		->from('questoes')
 		->where('questoes.disciplina',$disciplina)
 		->get()
@@ -155,7 +157,7 @@ class Provas_model extends CI_Model {
 
 		// echo "<pre>";
 		// print_r($data);
-		// // echo $this->db->last_query();
+		//  echo $this->db->last_query();
 		// exit();
 	}
 
@@ -165,13 +167,14 @@ class Provas_model extends CI_Model {
 		->select('provas.id, provas.nome, provas.criado_em, provas.aplicacao, provas.qtd_questoes, provas.tipo_prova, provas.nota, provas.professor, formularios.situacao, formularios.aluno')
 		->from('provas')
 		->join('formularios','formularios.prova = provas.id AND formularios.aluno = '.$id.'','left')
-		->where('aplicacao', date('Y-m-d'))
+		->where('aplicacao >=', date('Y-m-d'))
 		->limit(1)
+		->order_by('provas.id','DESC')
 		->get()
 		->result();
 		
-				// echo $this->db->last_query();
-				// exit();
+		// echo $this->db->last_query();
+		// exit();
 		return reset($prova);
 	}
 
@@ -258,6 +261,40 @@ class Provas_model extends CI_Model {
 		return $dados;
 	}
 
+	function getRespostasAluno($aluno){
+		$dados =  $this->db
+		->select('alternativas.id alternativa,alternativas.descricao,COUNT(alternativas.correta) correta,alternativas.questao, questoes.id questao,questoes.descricao, respostas.alternativa, respostas.aluno')
+		->from('respostas')
+		->join('alternativas', 'respostas.alternativa = alternativas.id')
+		->join('questoes', 'alternativas.questao = questoes.id')
+		->join('itens_prova', 'questoes.id = itens_prova.questao')
+		->join('formularios', 'formularios.id = itens_prova.formulario')
+		->where('respostas.aluno = 4964')
+		->group_by('alternativas.questao')
+		->get()
+		->result_array();
+		// echo $this->db->last_query();
+		// exit();
+		return $dados;
+	}
+
+	function getRespostasProva(){
+		$dados =  $this->db
+		->select('alternativas.id alternativa,alternativas.descricao,COUNT(alternativas.correta) correta,alternativas.questao, questoes.id questao,questoes.descricao, respostas.alternativa, respostas.aluno')
+		->from('respostas')
+		->join('alternativas', 'respostas.alternativa = alternativas.id')
+		->join('questoes', 'alternativas.questao = questoes.id')
+		->join('itens_prova', 'questoes.id = itens_prova.questao')
+		->join('formularios', 'formularios.id = itens_prova.formulario')
+		->where('formularios.prova = 1')
+		->group_by('alternativas.questao')
+		->get()
+		->result_array();
+		// echo $this->db->last_query();
+		// exit();
+		return $dados;
+	}
+
 	function getDadosProfessores(){
 
 		$dados =  $this->db
@@ -287,11 +324,11 @@ class Provas_model extends CI_Model {
 
 	}
 	function getDadosAlunosDoProfessor($id){
-
 		$dados =  $this->db
-		->where('contexto','aluno')
-		->where('usuarios.id',$id)
-		->count_all_results('usuarios');
+		->join('matriculas','matriculas.disciplina = disciplinas.id')
+		->join('usuarios','usuarios.id = matriculas.aluno')
+		->where('disciplinas.professor',$id)
+		->count_all_results('disciplinas');
 		
 		return $dados;
 
