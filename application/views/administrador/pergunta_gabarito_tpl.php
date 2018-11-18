@@ -17,13 +17,25 @@ table {
 	padding:1px;
 	_width: 495px;
 }
+
+@media print {
+      * {
+        visibility:hidden;
+      }
+ 
+      #imprimir {
+        visibility:visible;
+        position: absolute;
+        top:0;
+        left:0;                                     
+      }     
 -->
 </style>
 
 <body>
 	<div class="container" id="print">
 		<div class="col-md-2 col-md-offset-2">
-			<input type="button" class="btn btn-primary" id="imprimir" onclick="window.print();" value="Imprimir">
+			<input type="button" class="btn btn-primary" id="imprimir" onclick="window.print();" value="Imprimir" media="print">
 		</div>
 		<div class="col-md-10 col-md-offset-2">
 
@@ -47,13 +59,13 @@ table {
 							<?php if ($alternativa['correta'] == '1'){ ?> 
 
 								<td  align="center">
-									<button class="btn btn-primary"> <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
+									<button class="btn btn-success"> <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
 								</td>
 
 							<?php } else { ?>
 
 								<td  align="center">
-									<button class="btn btn-primary"> <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+									<button class="btn btn-danger"> <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
 								</td>
 
 							<?php } ?>

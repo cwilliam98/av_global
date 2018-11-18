@@ -1,54 +1,68 @@
 <?php
 include 'index_admin_tpl.php';
 ?>
+<style type="text/css">
+.celula1 {
+  width: 800px;
+  padding:100px;
+  _width: 55px;
+}
+</style>
 
 <body>
-	<div class="container">
-		<div class="col-md-10 col-md-offset-2">
+  <div class="container">
+    <div class="col-md-10 col-md-offset-2">
 
-		</br>
+    </br>
+    <div class="panel-heading" role="tab" id="">
+      <table   align="center"  class="lista-clientes table table-striped" id="myTable">
+        <thead>
+          <tr>
+            <th class="celula1">disciplinas</th>
+            <th>Opções</th>
+          </tr>
+        </thead>
 
-		<table width="600"  align="center"  class="table table-striped" id="myTable">
-			<tr>
-				<th class="text-center">Nome</th>
-				<th class="text-center">Professor</th>
-				<th class="text-center">Situação</th>
-				<th class="text-center">Curso</th>
-				<th class="text-center">Opções</th>
-			</tr>
-			<?php foreach ($disciplinas as $disciplina) { ?>
-				<tr>
-					<td class="text-center">
-						<?php echo $disciplina['nome'];?>
-					</td>
-					
-					<td class="text-center">
-						<?php echo $disciplina['professor'];?>
-					</td>
+      </div>
+      <?php foreach ($disciplinas as $disciplinas) { ?>
 
-					<td class="text-center">
-						<?php echo $disciplina['situacao'];?>
-					</td>
+        <tr>
+          <td class="celula1">
+            <div class="panel-heading" role="tab" id="questao-painel-<?php echo $disciplinas['id']; ?>">
+              <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#questao-<?php echo $disciplinas['id']; ?>" aria-expanded="true" aria-controls="questao-<?php echo $disciplinas['id']; ?>">
+                  <?php echo character_limiter(strip_tags($disciplinas['curso']),20); ?>
+                </a>
+              </h4>
 
-					<td class="text-center">
-						<?php echo $disciplina['curso'];?>
-					</td>
+            </div>
 
-					<td  class="btn-light text-center">
-					 <a href="<?=base_url('administrador/disciplinas/inativar/' .$disciplina['id'])?>" class="btn-sm btn-danger"  onclick="return confirm ('Têm certeza que deseja excluir esse registro?') "><span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></a>
-					 <a href="<?=base_url('administrador/disciplinas/alterar/' .$disciplina['id'])?>" class="btn-sm btn-info"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
-					</td>
-				<?php } ?>
-			</tr>
+            <div id="questao-<?php echo $disciplinas['id']; ?>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="questao-painel-<?php echo $disciplinas['id']; ?>">
+              <div class="panel-body">
 
-		</table>
-	</div>
+                Código: <?php echo $disciplinas['nome'];?><br>
+
+                Nome: <?php echo $disciplinas['professor'];?><br>
+
+                Disciplina: <?php echo $disciplinas['situacao'];?>
+
+              </div>
+            </div>
+          </td>
+          <td class="celula2">
+            <p class=" text-right">
+
+              <a href="<?=base_url('administrador/disciplinas/inativar/' .$disciplinas['id'])?>" class="btn-sm btn-danger"  onclick="return confirm ('Têm certeza que deseja excluir esse registro?') "><span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></a>
+              <a href="<?=base_url('administrador/disciplinas/alterar/' .$disciplinas['id'])?>" class="btn-sm btn-info"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+            </p>
+          </td>
+        </tr>
+      <?php } ?>
+
+    </table>
+ </div>
 </div>
 
 </body>
 </html>
-<script type="text/javascript">
-	$('#descricao_<?php echo $pergunta['id']?>').click( function () {
-		$('#alternativa_').toggle();
-	} );
-</script>
+

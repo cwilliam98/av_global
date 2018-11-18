@@ -10,6 +10,14 @@ class Matriculas_model extends CI_Model {
 	function cadastraMatricula($data){
 		$this->db->insert('matriculas',$data);
 	}
+
+	function alteraMatricula($data,$aluno){
+		$this->db->delete('matriculas', $data);
+
+		$retorno = $this->db->insert('matriculas', $data);
+	    return $retorno;
+	}
+
 	function getAlunosID($disciplina)
 	{
 		$this->db->select('aluno');

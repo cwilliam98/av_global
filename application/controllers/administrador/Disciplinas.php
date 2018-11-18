@@ -24,6 +24,9 @@ class Disciplinas extends MY_Controller {
 	}
 
 	public function lista(){
+		
+		$this->load->helper('text');
+
 		$usuario = $this->session->userdata('usuario');
 
 		$this->load->model('Disciplinas_model');
@@ -33,8 +36,7 @@ class Disciplinas extends MY_Controller {
 	}
 
 	public function execCadastraDisciplina(){
-		
-
+	
 		
 		$disciplina = $this->input->post('disciplina');
 

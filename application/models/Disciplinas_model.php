@@ -42,7 +42,7 @@ class Disciplinas_model extends CI_Model {
 		->join('usuarios','disciplinas.professor = usuarios.id')
 		->join('curso','curso.id = disciplinas.curso')
 		->where('disciplinas.situacao','ativo')
-		->order_by('nome')
+		->order_by('usuarios.nome')
 		->get('disciplinas')
 		->result_array();
 		

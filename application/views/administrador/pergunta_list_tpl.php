@@ -45,7 +45,7 @@ table {
 						</tr>
 					</thead>
 
-				</div>
+			</div>
 				<?php foreach ($questoes as $pergunta) { ?>
 
 					<tr>

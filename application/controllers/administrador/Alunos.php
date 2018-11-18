@@ -5,9 +5,40 @@ class Alunos extends MY_Controller {
 
 	public function index()
 	{
+
 		$this->load->model('Disciplinas_model');
-		$data["disciplinas"] = $this->Disciplinas_model->getTodasDisciplinas();
+		$data["disciplinas"] = $this->Disciplinas_model->getTodasDisciplinasAdmin();
 		$this->load->view('administrador/aluno_cadastro_tpl', $data);
+		
+	}
+
+	public function lista()
+	{
+		$this->load->helper('text');
+		
+		$this->load->model('Alunos_model');
+		$data["alunos"] = $this->Alunos_model->listaAlunos();
+		$this->load->view('administrador/lista_alunos_tpl', $data);
+		
+	}
+
+	public function listaProfessores()
+	{
+		$this->load->helper('text');
+		
+		$this->load->model('Alunos_model');
+		$dados["professores"] =  $this->Alunos_model->listaTodosProfessor();
+		
+		
+		foreach (reset($dados) as $professor) {
+
+			$data =	[
+				"professores" =>  $this->Alunos_model->listaProfessor(),
+				"disciplinas_professor" =>  $this->Alunos_model->listaDisciplinasById($professor)
+			];
+		}
+		
+		$this->load->view('administrador/lista_professores_tpl', $data);
 		
 	}
 
@@ -79,6 +110,128 @@ class Alunos extends MY_Controller {
 		
 		
 		
-	}		
+	}
+
+	public function alterar($id){
+
+		$aluno = $this->session->userdata('usuario');
+		$this->load->model('Disciplinas_model');
+		$this->load->model('Alunos_model');
+
+		$data =[
+			"disciplinas" => $this->Disciplinas_model->getTodasDisciplinasAdmin(),
+			"disciplinas_aluno" => $this->Alunos_model->listaDisciplinasByIdAluno($id),
+			"aluno" => $this->Alunos_model->getAlunoById($id),
+		];
+
+		$this->load->view('administrador/usuario_alterar_tpl',$data);
+	}
+
+
+	public function execAlteraAluno($id){
+
+		$this->form_validation->set_rules('nome',          'nome',           'trim|required|max_length[1000]');
+		$this->form_validation->set_rules('codigo',        'codigo',         'trim|required');
+		$this->form_validation->set_rules('disciplinas[]', 'Disciplinas',    'trim');
+		$this->form_validation->set_rules('senha', 		   'senha',          'trim|required');
+		
+		if($this->form_validation->run() == FALSE)
+		{
+			
+			redirect('administrador/alunos/alterar/'.$id);
+		}
+		
+		$this->load->model('Alunos_model');
+		$this->load->model('Matriculas_model');
+		
+		$professor = set_value('professor');
+		$aluno = set_value('aluno');
+		
+		
+
+		$data = [
+			"nome" =>	set_value('nome'),
+			"codigo" =>	set_value('codigo'),
+			"senha" =>	password_hash(set_value('senha'), PASSWORD_BCRYPT),
+			"contexto" => 'aluno'
+		];
+
+		$alunoId = $this->Alunos_model->alteraUsuario($data,$id);
+
+		foreach (set_value('disciplinas') as  $disciplina)
+		{
+
+			$data = [
+				'aluno' => $id,
+				'disciplina' => $disciplina
+			];
+
+			$this->Matriculas_model->alteraMatricula($data,$id);
+
+		}
+
+		if(!empty($data)){
+			redirect('administrador/alunos/alterar/'.$id.'?aviso=1');
+		}
+		
+		redirect('administrador/alunos/alterar/'.$id.'?aviso=2');	
+
+	}
+
+
+	public function alterarProfessor($id){
+
+		$aluno = $this->session->userdata('usuario');
+		$this->load->model('Disciplinas_model');
+		$this->load->model('Alunos_model');
+
+		$data = [
+			"disciplinas" => $this->Disciplinas_model->getTodasDisciplinasAdmin(),
+			"disciplinas_aluno" => $this->Alunos_model->listaDisciplinasById($id),
+			"professor" => $this->Alunos_model->getProfessorById($id),
+		];
+
+		$this->load->view('administrador/usuario_alterar_professor_tpl',$data);
+	}
+
+	public function execAlteraProfessor($id){
+
+		$this->form_validation->set_rules('nome',          'nome',           'trim|required|max_length[1000]');
+		$this->form_validation->set_rules('codigo',        'codigo',         'trim|required');
+		$this->form_validation->set_rules('senha', 		   'senha',          'trim|required');
+		
+		if($this->form_validation->run() == FALSE)
+		{
+			
+			redirect('administrador/alunos/alterar/'.$id);
+		}
+		
+		$this->load->model('Alunos_model');
+		$this->load->model('Matriculas_model');
+		
+		$professor = set_value('professor');
+		$aluno = set_value('aluno');
+		
+		
+
+		$data = [
+			"nome" =>	set_value('nome'),
+			"codigo" =>	set_value('codigo'),
+			"senha" =>	password_hash(set_value('senha'), PASSWORD_BCRYPT),
+			"contexto" => 'aluno'
+		];
+
+		$professor = $this->Alunos_model->alteraUsuario($data,$id);
+
+
+		if(!empty($professor)){
+			redirect('administrador/alunos/alterar/'.$id.'?aviso=1');
+		}
+		
+		redirect('administrador/alunos/alterar/'.$id.'?aviso=2');	
+
+	}
+
+
 	
 }
