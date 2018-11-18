@@ -6,16 +6,24 @@ class Admin extends MY_Controller {
 	
 	public function index() {
 
-		$this->load->view('professor/quantidade_dados_tpl');
+		$this->load->model('Provas_model');
+		$this->load->helper('date');
+		$usuario = $this->session->userdata('usuario');
+		
+
+		$provas = ["provas" => $this->Provas_model->getTodasProvasProfessor($usuario['id'])];
+
+
+		$this->load->view('professor/quantidade_dados_tpl',$provas);
 
 	}
 	public function carregaDados() {
 
-		$aluno = $this->session->userdata('usuario');
+		$usuario = $this->session->userdata('usuario');
 
 		$this->load->model('Provas_model');
 
-		$dados = $this->Provas_model->getRespostas();
+		$dados = $this->Provas_model->getRespostas($usuario['id']);
 
 		print json_encode($dados);
 

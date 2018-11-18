@@ -72,8 +72,8 @@ table {
 						<td class="celula2">
 							<p class=" text-right">
 
-								<a href="<?=base_url('administrador/perguntas/inativar/' .$pergunta['id'])?>" class="btn-sm btn-danger"  onclick="return confirm ('Têm certeza que deseja excluir esse registro?') "><span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></a>
-								<a href="<?=base_url('administrador/perguntas/alterar/' .$pergunta['id'])?>" class="btn-sm btn-info"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+								<a href="<?=base_url('professor/perguntas/inativar/' .$pergunta['id'])?>" class="btn-sm btn-danger"  onclick="return confirm ('Têm certeza que deseja excluir esse registro?') "><span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></a>
+								<a href="<?=base_url('professor/perguntas/alterar/' .$pergunta['id'])?>" class="btn-sm btn-info"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
 							</p>
 						</td>
 					</tr>

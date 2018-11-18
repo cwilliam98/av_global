@@ -134,6 +134,9 @@
                     <ul class="dropdown-menu" role="menu">
                         <li class="dropdown-header"></li>
                         <li>
+                            <a href="<?php echo base_url('administrador/admin/upload')?>"> <span class="glyphicon glyphicon glyphicon-list-alt" aria-hidden="true"></span> Restore</a>
+                        </li>
+                        <li>
                             <a href="<?php echo base_url('administrador/admin/formBackup')?>"> <span class="glyphicon glyphicon glyphicon-list-alt" aria-hidden="true"></span> Gerar backup parcial</a>
                         </li>
                         <li>
@@ -158,8 +161,9 @@
 <!-- /#sidebar-wrapper -->
 <br>
 <br>
+<br>
 <?php if($this->input->get('aviso')==1) { ?>  
- <div class="container">
+   <div class="container">
     <div class="row">
         <div class="col-md-10 col-md-offset-2">  
             <div class="alert alert-success alert-dismissible fade in" role="alert">
@@ -172,9 +176,15 @@
 <?php } ?>
 
 <?php if($this->input->get('aviso')==2) { ?>
-    <div class="alert alert-danger alert-dismissible fade in" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <strong>Errooo!</strong> Registro não inserido.
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-2">  
+                <div class="alert alert-danger alert-dismissible fade in" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>Errooo!</strong> Registro não inserido.
+                </div>
+            </div>
+        </div>
     </div>
 <?php } ?>
 
@@ -186,15 +196,15 @@
         <div class="col-md-10 col-md-offset-2">
             &nbsp <ol class="breadcrumb">
                 <div class="item">
-                   <a href=""> <?php print_r($this->uri->segment(1)) ?></a>
-                   /
-                   <a href=""> <?php print_r($this->uri->segment(2)) ?></a>
-                   /
-                   <a href=""> <?php print_r($this->uri->segment(3)) ?></a>
-               </ol>
-           </div>
-       </div>
-   </div>
+                 <a href=""> <?php print_r($this->uri->segment(1)) ?></a>
+                 /
+                 <a href=""> <?php print_r($this->uri->segment(2)) ?></a>
+                 /
+                 <a href=""> <?php print_r($this->uri->segment(3)) ?></a>
+             </ol>
+         </div>
+     </div>
+ </div>
 
 
 

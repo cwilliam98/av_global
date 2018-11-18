@@ -1,16 +1,15 @@
 <?php
-	include 'index_admin_professor_tpl.php'; 
+include 'index_admin_professor_tpl.php'; 
 ?>
 <style>	
 .classe {
 	background: #f8f8f8;
 }
 </style>
-<title>Cadastro de Questões</title>
 <div class="container">
 	<div class="row">
-		<div class="col-md-6  col-md-offset-2 classe">
-			<h3 class="m-1 text-center text-white">Cadastro de Perguntas</h3>
+		<div class="col-md-10 col-md-offset-2">
+			<h3 class="m-1 text-center">Cadastrar nova Questão</h3>
 		</div>
 	</div>
 </div>
@@ -20,11 +19,29 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-10  col-md-offset-2 classe">
-			
+
 			<form method="post" action="<?php echo base_url('professor/perguntas/execCadastraPergunta') ?>">
+				<div class="form-group <?php echo form_error('disciplina') ? 'has-error' : '' ?>">
+
+					<h4>Selecione a disciplina</h4>
+					<select class="form-control" name="disciplina">
+						<?php  foreach ($disciplinas as $key => $value): ?>
+							<option value="<?php echo $value["id"]; ?>"><?php echo $value["nome"]; ?></option>
+						<?php  endforeach ?>
+					</select>
+				</div>
+				<div class="form-group <?php echo form_error('periodo_letivo') ? 'has-error' : '' ?>">
+
+					<h4>Selecione o periodo letivo</h4>
+					<select class="form-control" name="periodo_letivo">
+						<?php  foreach ($periodos_letivo as $key => $value): ?>
+							<option value="<?php echo $value["id"]; ?>"><?php echo $value["codigo_periodo"]; ?></option>
+						<?php  endforeach ?>
+					</select>
+				</div>
 				<div class="form-group <?php echo form_error('questao') ? 'has-error' : '' ?>">
 					<label >Pergunta 1</label>
-					<textarea style=" resize: vertical;" rows="4" type="text" class="form-control" id="questao" name="questao" placeholder="Questão" autofocus ><?php echo set_value('questao'); ?></textarea>
+					<textarea style=" resize: vertical;" rows="4" type="text" class="form-control" id="questao" name="questao" value="<?php echo set_value('questao'); ?>" placeholder="Questão" autofocus ></textarea>
 					<span id="helpBlock2" class="help-block"><?php echo form_error('questao'); ?></span>
 				</div>
 
@@ -77,13 +94,6 @@
 						<textarea type="text" class="form-control" id="alternativaE" name="alternativa[E]" placeholder="alternativa E"></textarea>
 					</div><!-- /input-group -->
 				</div>
-
-				<h4>Selecione a disciplina</h4>
-				<select class="form-control" name="disciplina">
-					<?php  foreach ($disciplinas as $key => $value): ?>
-						<option value="<?php echo $value["id"]; ?>"><?php echo $value["nome"]; ?></option>
-					<?php  endforeach ?>
-				</select>
 
 				<br/>
 

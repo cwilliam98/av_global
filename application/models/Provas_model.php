@@ -9,6 +9,24 @@ class Provas_model extends CI_Model {
 
 	}
 
+	function alteraProva($data,$id){
+
+		$this->db->where('id', $id);
+		return $this->db->update('provas', $data);
+
+	}
+
+	function restore($data){
+		// print_r($data);
+		// exit();
+		$this->db->insert('provas', $data);
+		return $this->db->insert_id();
+
+		print_r($this->db->last_query());
+		exit();
+
+	}
+
 	function getQuestoes($id){
 		return $this->db
 		->from('itens_prova')
@@ -247,12 +265,13 @@ class Provas_model extends CI_Model {
 		return reset($dados);
 	}
 
-	function getRespostas(){
+	function getRespostas($id){
 		$dados =  $this->db
 		->select('alternativas.id alternativa,alternativas.descricao,COUNT(alternativas.correta) correta,alternativas.questao, questoes.id questao,questoes.descricao, respostas.alternativa, respostas.aluno')
 		->from('respostas')
 		->join('alternativas', 'respostas.alternativa = alternativas.id')
 		->join('questoes', 'alternativas.questao = questoes.id')
+		->where('questoes.professor', $id)
 		->group_by('alternativas.questao')
 		->get()
 		->result_array();
@@ -369,9 +388,33 @@ class Provas_model extends CI_Model {
 
 	function getTodasProvas(){
 		return $this->db
+		->select('provas.id, provas.nome, provas.aplicacao, usuarios.nome professor,periodo_letivo.codigo_periodo')
 		->from('provas')
+		->join('usuarios','usuarios.id = provas.professor')
+		->join('periodo_letivo','periodo_letivo.id = provas.periodo_letivo')
 		->order_by('aplicacao','DESC')
 		->get()
 		->result_array();
+	}
+
+	function getTodasProvasProfessor($id){
+		return $this->db
+		->select('provas.id, provas.nome, provas.aplicacao, usuarios.nome professor,periodo_letivo.codigo_periodo')
+		->from('provas')
+		->join('usuarios','usuarios.id = provas.professor')
+		->join('periodo_letivo','periodo_letivo.id = provas.periodo_letivo')
+		->where('provas.professor',$id)
+		->order_by('aplicacao','DESC')
+		->get()
+		->result_array();
+	}
+	function getProvaById($id){
+		$prova = $this->db
+		->from('provas')
+		->where('id',$id)
+		->get()
+		->result_array();
+
+		return reset($prova);
 	}
 }

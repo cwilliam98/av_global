@@ -29,188 +29,158 @@
     .navbar-inverse{border-color:#222}
     .text-white{color:#fff;}
     .sidebar-nav li a{color:#fff;}
-    .sidebar-nav {width: 400px;}
+
+    .navbar-toggle{color: white;}
+    .btn{padding-left: 20px;}
 </style>
 </head>
-<body>.
-    <nav class="navbar navbar-inverse navbar-fixed-top dropdown-toggle">
-       <ul class="sidebar-nav">
-        <li class="sidebar-brand">
-         <a> <span class="glyphicon glyphicon glyphicon-user" aria-hidden="true"></span> <?php $usuario =$this->session->userdata('usuario'); 
-         echo $usuario['nome'];
-         ?></a>
-     </li>
- </ul>
- <div class="text-right">
-    <br>
-    <form method="post" action="<?php echo base_url('login/logout')?>" id="cadastra_perguntas">                                  
-        <button type="submit"  id="cadastrar" class="btn btn-md"> 
-            <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
-            Sair
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <button type="button" class="navbar-toggle collapsed" id="abrir" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
         </button>
-    </form>                    
-</div>
-</nav>
-<div id="wrapper">
-
-    <!-- Sidebar -->
-    <div id="sidebar-wrapper overlay">
-        <nav class="navbar navbar-inverse navbar-fixed-top" id="sidebar-wrapper" role="navigation">
-            <ul class="sidebar-nav navbar-collapse collapse">
-
-                <li class="sidebar-brand">
-                    <p class="text-nowrap  text-center">
-                        <?php $usuario =$this->session->userdata('usuario'); 
-                        echo $usuario['nome'];
-                        ?>
-                    </p>
+        <ul class="sidebar-nav">
+            <li class="sidebar-brand">
+                <a href="<?php echo base_url('administrador/admin')?>" id="cadastra_pergunta"><span class="glyphicon glyphicon glyphicon-user" aria-hidden="true"></span> <?php $usuario =$this->session->userdata('usuario'); 
+                    echo $usuario['nome'];
+                    ?> </a>
                 </li>
+            </ul>
 
-                <li>
-                    <a href="<?php echo base_url('professor/admin')?>" id="cadastra_pergunta"><span class="glyphicon glyphicon glyphicon-home" aria-hidden="true"></span> Home </a>
-                </li>
+        </nav>
+        <div id="wrapper">
 
-                <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-collapse-down"></span> Cadastrar</a>
-                  <ul class="dropdown-menu" role="menu">
-                    <li class="dropdown-header"></li>
-                    <li>
-                        <a href="<?php echo base_url('professor/perguntas/cadastra')?>" id="cadastra_pergunta"><span class="glyphicon glyphicon glyphicon-pencil" aria-hidden="true"></span> Questões</a>
-                    </li> 
-                    <li>
-                        <a href="<?php echo base_url('professor/provas/index')?>" id="cadastrar_provas"><span class="glyphicon glyphicon glyphicon-book" aria-hidden="true"></span> Provas</a>
-                    </li>            
-                </ul>
-            </li>
+            <!-- Sidebar -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <nav class="navbar navbar-inverse" id="sidebar-wrapper" role="navigation">
+                    <ul class="sidebar-nav">
 
-            <li>
-                <a href="<?php echo base_url('professor/perguntas/index')?>" id="perguntas_cadastradas"> <span class="glyphicon glyphicon glyphicon-list" aria-hidden="true"></span> Perguntas cadastradas </a>
-            </li>
+                        <li class="sidebar-brand">
 
-            <li>
-                <a href="<?php echo base_url('professor/provas/acompanhaProvas')?>" id="acompanha_provas"> <span class="glyphicon glyphicon glyphicon-zoom-in" aria-hidden="true"></span> Acompanhar provas </a>
-            </li>
+                        </li>
 
+                        <li>
+                            <a href="<?php echo base_url('professor/admin')?>" id="cadastra_pergunta"><span class="glyphicon glyphicon glyphicon-home" aria-hidden="true"></span> Home </a>
+                        </li>
 
-            <li>
-                <a href="<?php echo base_url('professor/perguntas/geraGabarito')?>"> <span class="glyphicon glyphicon glyphicon-list-alt" aria-hidden="true"></span> Gera gabarito </a>
-            </li>
-
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-collapse-down"></span> Relatórios</a>
-                <ul class="dropdown-menu" role="menu">
-                    <li class="dropdown-header"></li>
-                    <li>
-                        <a href="<?php echo base_url('professor/admin/acertosPorQuestoes')?>"> <span class="glyphicon glyphicon-stats" aria-hidden="true"></span> Quantidades de acertos</a>
+                        <li class="dropdown">
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-collapse-down"></span> Cadastrar</a>
+                          <ul class="dropdown-menu" role="menu">
+                            <li class="dropdown-header"></li>
+                            <li>
+                                <a href="<?php echo base_url('professor/perguntas/cadastra')?>" id="cadastra_pergunta"><span class="glyphicon glyphicon glyphicon-pencil" aria-hidden="true"></span> Questões</a>
+                            </li> 
+                            <li>
+                                <a href="<?php echo base_url('professor/provas/index')?>" id="cadastrar_provas"><span class="glyphicon glyphicon glyphicon-book" aria-hidden="true"></span> Provas</a>
+                            </li>            
+                        </ul>
                     </li>
+
                     <li>
-                        <a href="<?php echo base_url('professor/admin/acertosPorAluno')?>"> <span class="glyphicon glyphicon-stats" aria-hidden="true"></span> Acertos por aluno</a>
+                        <a href="<?php echo base_url('professor/perguntas/index')?>" id="perguntas_cadastradas"> <span class="glyphicon glyphicon glyphicon-list" aria-hidden="true"></span> Perguntas cadastradas </a>
                     </li>
+
+                    <li>
+                        <a href="<?php echo base_url('professor/provas/acompanhaProvas')?>" id="acompanha_provas"> <span class="glyphicon glyphicon glyphicon-zoom-in" aria-hidden="true"></span> Acompanhar provas </a>
+                    </li>
+
+
+                    <li>
+                        <a href="<?php echo base_url('professor/perguntas/geraGabarito')?>"> <span class="glyphicon glyphicon glyphicon-list-alt" aria-hidden="true"></span> Gera gabarito </a>
+                    </li>
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-collapse-down"></span> Relatórios</a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li class="dropdown-header"></li>
+                            <li>
+                                <a href="<?php echo base_url('professor/admin/acertosPorQuestoes')?>"> <span class="glyphicon glyphicon-stats" aria-hidden="true"></span> Quantidades de acertos</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo base_url('professor/admin/acertosPorAluno')?>"> <span class="glyphicon glyphicon-stats" aria-hidden="true"></span> Acertos por aluno</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <form method="post" action="<?php echo base_url('login/logout')?>" id="cadastra_perguntas">                                  
+                            <button type="submit"  id="cadastrar" class="btn btn-link"> 
+                                <span class="glyphicon glyphicon-log-out"></span>
+                                Sair
+                            </button>
+                        </form>  
+                    </li>                  
                 </ul>
-            </li>
-
-            <li>
-                <form method="post" action="<?php echo base_url('login/logout')?>" id="cadastra_perguntas">                                  
-                    <button type="submit"  id="cadastrar" class="btn btn-md"> 
-                        <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
-                        Sair
-                    </button>
-                </form>                    
-            </li>
-
-        </ul>
-    </nav>
-</div>
-<!-- /#sidebar-wrapper -->
-<br>
-<br>
-<?php if($this->input->get('aviso')==1) { ?>    
-    <div class="alert alert-success alert-dismissible fade in" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <strong>Sucesso!</strong> Registro inserido com sucesso.
+            </nav>
+        </div>
     </div>
-<?php } ?>
 
-<?php if($this->input->get('aviso')==2) { ?>
-    <div class="alert alert-danger alert-dismissible fade in" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <strong>Errooo!</strong> Registro não inserido.
+    <!-- /#sidebar-wrapper -->
+    <br>
+    <br>
+    <br>
+    <?php if($this->input->get('aviso')==1) { ?>  
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-2">  
+                <div class="alert alert-success alert-dismissible fade in" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>Sucesso!</strong> Registro inserido com sucesso.
+                </div>
+            </div>
+        </div>
     </div>
-<?php } ?>
+    <?php } ?>
 
-
-<!-- Page Content -->
-<div id="page-content-wrapper">
-    <div class="container-fluid" id="coisas">
+    <?php if($this->input->get('aviso')==2) { ?>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-2">  
+                <div class="alert alert-danger alert-dismissible fade in" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>Errooo!</strong> Registro não inserido.
+                </div>
+            </div>
+        </div>
     </div>
-</div>
-&nbsp <ol class="breadcrumb">
-    <div class="item">
-       <a href=""> <?php print_r($this->uri->segment(1)) ?></a>
-       /
-       <a href=""> <?php print_r($this->uri->segment(2)) ?></a>
-       /
-       <a href=""> <?php print_r($this->uri->segment(3)) ?></a>
-   </ol>
+    <?php } ?>
 
-   <!-- /#page-content-wrapper -->
 
-</div>
-<!-- /#wrapper -->
+    <!-- Page Content -->
 
-<!-- Bootstrap core JavaScript -->
-<script src="<?php echo base_url(); ?>assets/js/jquery-3.2.1.min.js"></script>
-<script src="<?php echo base_url(); ?>assets/js/bootstrap.min.js"></script>
-<script src="<?php echo base_url(); ?>assets/ckeditor/ckeditor.js"></script>
-<script>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-2">
+                &nbsp <ol class="breadcrumb">
+                    <div class="item">
+                       <a href=""> <?php print_r($this->uri->segment(1)) ?></a>
+                       /
+                       <a href=""> <?php print_r($this->uri->segment(2)) ?></a>
+                       /
+                       <a href=""> <?php print_r($this->uri->segment(3)) ?></a>
+                   </ol>
+               </div>
+           </div>
+       </div>
+
+
+
+   </body>
+   <script src="<?php echo base_url(); ?>assets/js/jquery-3.2.1.min.js"></script>
+   <script src="<?php echo base_url(); ?>assets/js/bootstrap.min.js"></script>
+   <script src="<?php echo base_url(); ?>assets/ckeditor/ckeditor.js"></script>
+   <script>
     setTimeout(function(){
         $('button.close').click()
     },2000);
 
-    $("#wrapper").toggleClass("toggled");
 </script>
-</body>
 <script type="text/javascript">
- // $('a').on('click', function() {
-  // var $this = $(this),
-  // $bc = $('<div class="item"></div>');
 
-  // $this.parents('li').each(function(n, li) {
-      // var $a = $(li).children('a').clone();
-      // $bc.prepend(' / ', $a);
-  // });
-  // $('.breadcrumb').html( $bc.prepend('<a href="">Home</a>') );
-          //return false;
-      // });
-
-      $(document).ready(function () {
-          var trigger = $('.hamburger'),
-          overlay = $('.overlay'),
-          isClosed = false;
-
-          trigger.click(function () {
-              hamburger_cross();      
-          });
-
-          function hamburger_cross() {
-
-              if (isClosed == true) {          
-                overlay.hide();
-                trigger.removeClass('is-open');
-                trigger.addClass('is-closed');
-                isClosed = false;
-            } else {   
-                overlay.show();
-                trigger.removeClass('is-closed');
-                trigger.addClass('is-open');
-                isClosed = true;
-            }
-        }
-
-        $('[data-toggle="offcanvas"]').click(function () {
-            $('#wrapper').toggleClass('toggled');
-        });  
-    });
+    $('#wrapper').toggleClass('toggled');
 </script>
 
 </html>

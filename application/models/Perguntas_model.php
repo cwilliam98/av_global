@@ -57,12 +57,13 @@ class Perguntas_model extends CI_Model {
 		// print_r($this->db->last_query());
 		// exit();
 	}
-	function getQuestoesPorPeriodo($periodo_letivo=null){
+	function getQuestoesPorPeriodo($periodo_letivo=null,$id){
 		if ( !is_null($periodo_letivo) )
 			$this->db->where('periodo_letivo', $periodo_letivo);
 
 		return $this->db
 		->from('questoes')
+		->where('professor',$id)
 		->get()
 		->result_array();
 		// print_r($this->db->last_query());
@@ -89,6 +90,7 @@ class Perguntas_model extends CI_Model {
 	function getQuestoesByProfessor($id){
 		$retorno = $this->db
 		->from('questoes')
+		->where('professor',$id)
 		->get()
 		->result_array();
 		return $retorno;

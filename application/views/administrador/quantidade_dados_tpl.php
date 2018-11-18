@@ -95,6 +95,7 @@ include 'index_admin_tpl.php';
 								<th class="text-center">Data aplicação</th>
 								<th class="text-center">Professor</th>
 								<th class="text-center">Periodo Letivo</th>
+								<th class="text-center">Opções</th>
 							</tr>
 							<?php foreach ($provas as $prova) { ?>
 
@@ -112,33 +113,41 @@ include 'index_admin_tpl.php';
 									</td>
 
 									<td class="text-center">
-										<?php echo $prova['periodo_letivo']; ?>
+										<?php echo $prova['codigo_periodo']; ?>
 									</td>
+									<?php if ($prova['aplicacao'] >= date('d/m/Y H:i:s')) { ?>
+										<td>
+											<p class=" text-right">
 
-								</tr>
-							<?php }?>
-						</table>
+												<a href="<?=base_url('administrador/provas/inativar/' .$prova['id'])?>" class="btn-sm btn-danger"  onclick="return confirm ('Têm certeza que deseja excluir esse registro?') "><span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></a>
+												<a href="<?=base_url('administrador/provas/alterar/' .$prova['id'])?>" class="btn-sm btn-info"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+											</p>
+										</td>
+										<?php } ?>
+									</tr>
+								<?php }?>
+							</table>
+						</div>
 					</div>
+
 				</div>
-				
 			</div>
 		</div>
-	</div>
 
-	<script>
-		$(document).ready(function() {
-			$.post("<?php echo base_url();?>administrador/admin/dadosAdmin",
-				function(data){
-					var obj = JSON.parse(data);
-					var professores = document.getElementById('professores');
-					var alunos = document.getElementById('alunos');
-					var disciplinas = document.getElementById('disciplinas');
-					var questoes = document.getElementById('questoes');
-					var min = 0;
-					var maxDisciplinas = obj.disciplinas;
-					var maxProfessores = obj.professores;
-					var maxAlunos = obj.alunos;
-					var maxQuestoes = obj.questoes;
+		<script>
+			$(document).ready(function() {
+				$.post("<?php echo base_url();?>administrador/admin/dadosAdmin",
+					function(data){
+						var obj = JSON.parse(data);
+						var professores = document.getElementById('professores');
+						var alunos = document.getElementById('alunos');
+						var disciplinas = document.getElementById('disciplinas');
+						var questoes = document.getElementById('questoes');
+						var min = 0;
+						var maxDisciplinas = obj.disciplinas;
+						var maxProfessores = obj.professores;
+						var maxAlunos = obj.alunos;
+						var maxQuestoes = obj.questoes;
 				var duração = 1000; // 5 segundos
 
 				for (var i = min; i <= maxProfessores; i++) {
@@ -162,9 +171,9 @@ include 'index_admin_tpl.php';
 					}, i * 1000 / maxAlunos, i);
 				}
 			});
-		});
+			});
 
-	</script>
+		</script>
 
-</body>
-</html>
+	</body>
+	</html>

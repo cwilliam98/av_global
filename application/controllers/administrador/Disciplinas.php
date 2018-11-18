@@ -48,7 +48,10 @@ class Disciplinas extends MY_Controller {
 
 		if($this->form_validation->run() == FALSE)
 		{
-			redirect('administrador/disciplinas/index');
+			$this->index();
+
+			return;
+			
 		}
 
 
@@ -94,7 +97,10 @@ class Disciplinas extends MY_Controller {
 
 		if($this->form_validation->run() == FALSE)
 		{
-			redirect('administrador/disciplinas/index');
+			$this->alterar();
+
+			return;
+			
 		}
 
 

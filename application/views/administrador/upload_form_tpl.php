@@ -25,13 +25,11 @@ include 'index_admin_tpl.php';
 </div>
 
 
-
-
 <div class="container">
 	<div class="row">
 		<div class="col-md-6  col-md-offset-3 classe">
 
-			<form method="post" action="<?php echo base_url('administrador/admin/do_upload') ?>">
+			<form method="post" enctype="multipart/form-data" action="<?php echo base_url('administrador/admin/do_upload') ?>">
 
 				Arquivo: 
 				<input class="form-control" type="file" name="userfile" size="20" />

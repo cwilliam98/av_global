@@ -69,9 +69,10 @@ class Perguntas extends MY_Controller {
 		$this->form_validation->set_rules('periodo_letivo','periodo letivo',     'trim|required');
 
 		if($this->form_validation->run() == FALSE)
-		{
-			
-			redirect('administrador/perguntas/index');
+		{			
+			$this->cadastra();
+
+			return;
 		}
 		
 		$this->load->model('Perguntas_model');
@@ -123,8 +124,7 @@ class Perguntas extends MY_Controller {
 		$data["alternativas"] = $this->Perguntas_model->getAlternativas($id);
 		
 		
-		
-		$data["disciplinas"] = $this->Disciplinas_model->getTodasDisciplinas();
+		$data["disciplinas"] = $this->Disciplinas_model->getTodasDisciplinasAdmin();
 
 		$data["periodos_letivo"] = $this->Perguntas_model->getPeriodoLetivo();
 
@@ -147,8 +147,9 @@ class Perguntas extends MY_Controller {
 
 		if($this->form_validation->run() == FALSE)
 		{
-			
-			redirect('administrador/perguntas/alterar');
+			$this->alterar();
+
+			return;
 		}
 		
 		$this->load->model('Perguntas_model');

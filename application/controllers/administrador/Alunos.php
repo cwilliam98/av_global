@@ -49,13 +49,14 @@ class Alunos extends MY_Controller {
 		$this->form_validation->set_rules('nome',          'nome',           'trim|required|max_length[1000]');
 		$this->form_validation->set_rules('codigo',        'codigo',         'trim|required');
 		$this->form_validation->set_rules('disciplinas[]', 'Disciplinas',    'trim');
-		$this->form_validation->set_rules('jornada', 	   'jornada',        'trim');
 		$this->form_validation->set_rules('senha', 		   'senha',          'trim|required');
 		
 		if($this->form_validation->run() == FALSE)
 		{
+			$this->index();
+
+			return;
 			
-			redirect('administrador/alunos/index');
 		}
 		
 		$this->load->model('Alunos_model');
@@ -67,6 +68,7 @@ class Alunos extends MY_Controller {
 		if ($aluno == "aluno"){
 			
 			$data = [
+				"id" =>	set_value('codigo'),
 				"nome" =>	set_value('nome'),
 				"codigo" =>	set_value('codigo'),
 				"senha" =>	password_hash(set_value('senha'), PASSWORD_BCRYPT),
@@ -88,8 +90,9 @@ class Alunos extends MY_Controller {
 			}
 			
 		}
-		else if ($professor == "professor"){
+		if ($professor == "professor"){
 			$data = [
+				"id" =>	set_value('codigo'),
 				"nome" =>	set_value('nome'),
 				"codigo" =>	set_value('codigo'),
 				"senha" =>	password_hash(set_value('senha'), PASSWORD_BCRYPT),
@@ -137,8 +140,9 @@ class Alunos extends MY_Controller {
 		
 		if($this->form_validation->run() == FALSE)
 		{
-			
-			redirect('administrador/alunos/alterar/'.$id);
+			$this->alterar();
+
+			return;
 		}
 		
 		$this->load->model('Alunos_model');
@@ -150,6 +154,7 @@ class Alunos extends MY_Controller {
 		
 
 		$data = [
+			"id" =>	set_value('codigo'),
 			"nome" =>	set_value('nome'),
 			"codigo" =>	set_value('codigo'),
 			"senha" =>	password_hash(set_value('senha'), PASSWORD_BCRYPT),
@@ -202,8 +207,10 @@ class Alunos extends MY_Controller {
 		
 		if($this->form_validation->run() == FALSE)
 		{
+			$this->alterarProfessor();
+
+			return;
 			
-			redirect('administrador/alunos/alterar/'.$id);
 		}
 		
 		$this->load->model('Alunos_model');
@@ -215,6 +222,7 @@ class Alunos extends MY_Controller {
 		
 
 		$data = [
+			"id" =>	set_value('codigo'),
 			"nome" =>	set_value('nome'),
 			"codigo" =>	set_value('codigo'),
 			"senha" =>	password_hash(set_value('senha'), PASSWORD_BCRYPT),

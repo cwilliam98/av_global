@@ -118,11 +118,14 @@ class Admin extends MY_Controller {
 		        'add_drop'      => TRUE,                        // Whether to add DROP TABLE statements to backup file
 		        'add_insert'    => TRUE,                        // Whether to add INSERT data to backup file
 		    );
-		$backup=& $this->dbutil->backup($db_format);
+		$backup= $this->dbutil->backup($db_format);
 		$dbname='backup-'.date('Y-m-d').'-'.$data.'.sql';
 		$save='application/backups/'.$dbname;
-		write_file($save,$backup);
-		force_download($dbname,$backup);
+		if(write_file($save,$backup)){
+			redirect('administrador/admin/formBackup?aviso=1');
+		}
+		redirect('administrador/admin/formBackup?aviso=2');
+
 
 
 	}
@@ -149,7 +152,7 @@ class Admin extends MY_Controller {
 		if(write_file($save,$backup)){
 			redirect('administrador/admin/formBackupFull?aviso=1');
 		}
-		redirect('administrador/admin/formBackupFull?aviso=1');
+		redirect('administrador/admin/formBackupFull?aviso=2');
 
 	}
 

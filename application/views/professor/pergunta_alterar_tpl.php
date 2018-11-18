@@ -1,5 +1,5 @@
 <?php
-include 'index_admin_tpl.php'; 
+include 'index_admin_professor_tpl.php'; 
 ?>
 <style>	
 .classe {
@@ -9,8 +9,8 @@ include 'index_admin_tpl.php';
 <title>Cadastro de Questões</title>
 <div class="container">
 	<div class="row">
-		<div class="col-md-6  col-md-offset-2 classe">
-			<h3 class="m-1 text-center text-white">Alterar questão</h3>
+		<div class="col-md-6  col-md-offset-4">
+			<h3 class="m-1 text-center">Alterar questão</h3>
 		</div>
 	</div>
 </div>
@@ -20,7 +20,7 @@ include 'index_admin_tpl.php';
 		<div class="col-md-10  col-md-offset-2 classe">	
 			<?php foreach ($questoes as $key => $questao) { ?>
 
-				<form method="post"  action="<?php echo base_url('administrador/perguntas/execAlterarPergunta/'.$questao['id']) ?>">
+				<form method="post"  action="<?php echo base_url('professor/perguntas/execAlterarPergunta/'.$questao['id']) ?>">
 					<div class="form-group <?php echo form_error('disciplina') ? 'has-error' : '' ?>">
 						<h4>Selecione a disciplina</h4>
 						<select class="form-control" name="disciplina">
