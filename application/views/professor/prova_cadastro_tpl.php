@@ -10,14 +10,14 @@ include 'index_admin_professor_tpl.php';
 </style>
 <div class="container">
 	<div class="row">
-		<div class="col-md-10 col-md-offset-2">
+		<div class="col-md-10 ">
 			<h3 class="m-1 text-center">Cadastrar nova prova</h3>
 		</div>
 	</div>
 </div>
 <div class="container">
 	<div class="row">
-		<div class="col-md-10  col-md-offset-2 classe">
+		<div class="col-md-10   classe">
 			<form method="post" action="<?php echo base_url('professor/provas/execCadastraProva') ?>">
 				<div class="form-group <?php echo form_error('nome') ? 'has-error' : '' ?>">
 					<label >Nome</label>

@@ -124,5 +124,18 @@ class Provas extends MY_Controller {
 
 	}
 
-	
+	public function inativar($id){
+		$id = (int)$id;
+		
+		$this->load->model('Provas_model');
+
+
+		$retorno = $this->Alunos_model->inativarProva($id);
+
+		if(!empty($retorno)){
+			redirect('administrador/admin/index?aviso=1');
+		}
+
+		redirect('administrador/admin/index?aviso=2');	
+	}
 }

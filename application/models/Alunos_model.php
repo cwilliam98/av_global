@@ -22,6 +22,7 @@ class Alunos_model extends CI_Model {
 		$this->db->select('*');
 		$this->db->from('usuarios');
 		$this->db->where('id',$id);
+		$this->db->where('situacao','ativo');
 		$resultado = $this->db->get()->result_array();
 		return  reset($resultado);
 	}
@@ -31,6 +32,7 @@ class Alunos_model extends CI_Model {
 		$this->db->select('*');
 		$this->db->from('usuarios');
 		$this->db->where('id',$id);
+		$this->db->where('situacao','ativo');
 		$resultado = $this->db->get()->result_array();
 		return  reset($resultado);
 	}
@@ -42,6 +44,7 @@ class Alunos_model extends CI_Model {
 		->from('usuarios')
 		->join('disciplinas','disciplinas.professor = usuarios.id')
 		->where('contexto','professor')
+		->where('usuarios.situacao','ativo')
 		->group_by('usuarios.nome')
 		->get()
 		->result_array();
@@ -54,6 +57,7 @@ class Alunos_model extends CI_Model {
 		->select('id')
 		->from('usuarios')
 		->where('contexto','professor')
+		->where('situacao','ativo')
 		->get()
 		->result_array();
 		return $resultado;
@@ -78,12 +82,24 @@ class Alunos_model extends CI_Model {
 		->from('disciplinas')
 		->join('curso','curso.id = disciplinas.curso')
 		->where_in('professor',$id)
+		->where('disciplinas.situacao','ativo')
 		->get()
 		->result_array();
 
 
 		return  $retorno;
 	}
+
+	function inativarUsuario($id){
+		$this->db->where('id' , $id);
+		$retorno = $this->db
+		->set('situacao','inativo')
+		->update('usuarios');
+
+		return $retorno;
+
+	}
+
 
 	function listaAlunos(){
 
@@ -94,6 +110,7 @@ class Alunos_model extends CI_Model {
 		->join('disciplinas','matriculas.disciplina = disciplinas.id')
 		->join('curso','disciplinas.curso = curso.id')
 		->where('contexto','aluno')
+		->where('usuarios.situacao','ativo')
 		->group_by('usuarios.nome')
 		->get()
 		->result_array();

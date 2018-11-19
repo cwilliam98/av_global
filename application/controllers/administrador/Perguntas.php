@@ -10,7 +10,7 @@ class Perguntas extends MY_Controller {
 		$periodo_letivo = $this->input->get('periodo');
 
 		$data = [
-			"questoes" => $this->Perguntas_model->getQuestoesPorPeriodo($periodo_letivo),
+			"questoes" => $this->Perguntas_model->getQuestoesPorPeriodoAdmin($periodo_letivo),
 			"periodos_letivo" => $this->Perguntas_model->getPeriodoLetivo()
 		];
 

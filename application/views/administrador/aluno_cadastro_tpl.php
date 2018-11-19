@@ -52,7 +52,7 @@ select[multiple], select[size] {
 
 <div class="container">
 	<div class="row">
-		<div class="col-md-6  col-md-offset-3 classe">
+		<div class="col-md-12 classe">
 			<h3>Cadastrar novo usuário</h3>
 
 			<form method="post" action="<?php echo base_url('administrador/alunos/execCadastraAluno') ?>">

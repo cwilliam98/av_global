@@ -12,7 +12,7 @@ include 'index_admin_tpl.php';
 
 <div class="container">
 	<div class="row">
-		<div class="col-md-10 col-md-offset-2">
+		<div class="col-md-12 ">
 			<nav class="navbar navbar-default">
 				<div class="container-fluid">
 					<div class="navbar-header">
@@ -29,7 +29,7 @@ include 'index_admin_tpl.php';
 
 <div class="container">
 	<div class="row">
-		<div class="col-md-6  col-md-offset-3 classe">
+		<div class="col-md-6   classe">
 
 			<form method="post" action="<?php echo base_url('administrador/admin/backup') ?>">
 				<h4>Selecione a tabela</h4>

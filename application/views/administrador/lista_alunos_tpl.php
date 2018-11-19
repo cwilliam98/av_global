@@ -11,7 +11,7 @@ include 'index_admin_tpl.php';
 
 <body>
   <div class="container">
-    <div class="col-md-10 col-md-offset-2">
+    <div class="col-md-12 ">
 
     </br>
     <div class="panel-heading" role="tab" id="">
@@ -50,7 +50,7 @@ include 'index_admin_tpl.php';
           <td class="celula2">
             <p class=" text-right">
 
-              <a href="<?=base_url('administrador/aluno/inativar/' .$aluno['id'])?>" class="btn-sm btn-danger"  onclick="return confirm ('Têm certeza que deseja excluir esse registro?') "><span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></a>
+              <a href="<?=base_url('administrador/aluno/inativarAluno/' .$aluno['id'])?>" class="btn-sm btn-danger"  onclick="return confirm ('Têm certeza que deseja excluir esse registro?') "><span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></a>
               <a href="<?=base_url('administrador/alunos/alterar/' .$aluno['id'])?>" class="btn-sm btn-info"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
             </p>
           </td>

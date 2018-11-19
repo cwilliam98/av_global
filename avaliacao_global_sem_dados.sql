@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 14-Nov-2018 às 02:51
+-- Generation Time: 19-Nov-2018 às 01:53
 -- Versão do servidor: 10.1.13-MariaDB
 -- PHP Version: 5.5.34
 
@@ -121,7 +121,8 @@ CREATE TABLE `provas` (
   `tipo_prova` varchar(45) NOT NULL,
   `nota` float NOT NULL,
   `professor` int(10) UNSIGNED NOT NULL,
-  `periodo_letivo` int(11) NOT NULL
+  `periodo_letivo` int(11) NOT NULL,
+  `situacao` enum('ativo','inativo') DEFAULT 'ativo'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -179,7 +180,8 @@ CREATE TABLE `usuarios` (
   `nome` varchar(75) NOT NULL,
   `codigo` varchar(4) NOT NULL,
   `senha` varchar(200) NOT NULL,
-  `contexto` enum('aluno','professor','administrador') DEFAULT 'aluno'
+  `contexto` enum('aluno','professor','administrador') DEFAULT 'aluno',
+  `situacao` enum('ativo','inativo') DEFAULT 'ativo'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -283,7 +285,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT for table `alternativas`
 --
 ALTER TABLE `alternativas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
 --
 -- AUTO_INCREMENT for table `disciplinas`
 --
@@ -293,37 +295,37 @@ ALTER TABLE `disciplinas`
 -- AUTO_INCREMENT for table `formularios`
 --
 ALTER TABLE `formularios`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT for table `itens_prova`
 --
 ALTER TABLE `itens_prova`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=231;
 --
 -- AUTO_INCREMENT for table `periodo_letivo`
 --
 ALTER TABLE `periodo_letivo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=221;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=222;
 --
 -- AUTO_INCREMENT for table `provas`
 --
 ALTER TABLE `provas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `questoes`
 --
 ALTER TABLE `questoes`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 --
 -- AUTO_INCREMENT for table `sessoes`
 --
 ALTER TABLE `sessoes`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 --
 -- AUTO_INCREMENT for table `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6087;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6088;
 --
 -- Constraints for dumped tables
 --

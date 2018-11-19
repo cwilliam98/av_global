@@ -240,6 +240,35 @@ class Alunos extends MY_Controller {
 
 	}
 
+	public function inativarAluno($id){
+		$id = (int)$id;
+		
+		$this->load->model('Alunos_model');
+
+
+		$retorno = $this->Alunos_model->inativarUsuario($id);
+
+		if(!empty($retorno)){
+			redirect('administrador/alunos/lista?aviso=1');
+		}
+
+		redirect('administrador/alunos/lista?aviso=2');	
+	}
+
+	public function inativarProfessor($id){
+		$id = (int)$id;
+		
+		$this->load->model('Alunos_model');
+
+
+		$retorno = $this->Alunos_model->inativarUsuario($id);
+
+		if(!empty($retorno)){
+			redirect('administrador/alunos/listaProfessores?aviso=1');
+		}
+
+		redirect('administrador/alunos/listaProfessores?aviso=2');	
+	}
 
 	
 }

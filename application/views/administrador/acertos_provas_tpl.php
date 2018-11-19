@@ -9,7 +9,7 @@ include 'index_admin_tpl.php';
 
 	<div class="container">
 		<div class="row">
-			<div class="col-md-10 col-md-offset-2" id="contenedor_grafico">
+			<div class="col-md-12 " id="contenedor_grafico">
 				<canvas id="myChart"></canvas>
 			</div>
 		</div>

@@ -7,7 +7,7 @@ include 'index_admin_professor_tpl.php';
 
 <body>
 
-	<div class="container col-md-offset-2">
+	<div class="container ">
 		
 		<div class="jumbotron">
 			<div class="row">
@@ -70,11 +70,11 @@ include 'index_admin_professor_tpl.php';
 
 
 
-	<div class="container col-md-offset-2">
+	<div class="container ">
 		
 		<div class="jumbotron">
 			<div class="row">
-				<div class="col-md-6 col-md-offset-3">
+				<div class="col-md-6 ">
 					<div class="panel panel-primary">
 						<p class="text-center">Últimas provas</p>
 					</div>

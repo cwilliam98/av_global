@@ -17,7 +17,7 @@ include 'index_admin_professor_tpl.php';
 
 <div class="container">
 	<div class="row">
-		<div class="col-md-10  col-md-offset-2 classe">	
+		<div class="col-md-10   classe">	
 			<?php foreach ($questoes as $key => $questao) { ?>
 
 				<form method="post"  action="<?php echo base_url('professor/perguntas/execAlterarPergunta/'.$questao['id']) ?>">

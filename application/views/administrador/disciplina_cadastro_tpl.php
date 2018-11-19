@@ -5,7 +5,7 @@ include 'index_admin_tpl.php';
 <title>Cadastro de Disciplinas</title>
 <div class="container">
 	<div class="row">
-		<div class="col-md-10 col-md-offset-2">
+		<div class="col-md-12 ">
 			<h3 class="m-1 text-center text-white">Cadastrar no disciplina</h3>
 		</div>
 	</div>
@@ -13,7 +13,7 @@ include 'index_admin_tpl.php';
 
 <div class="container">
 	<div class="row">
-		<div class="col-md-10  col-md-offset-2">
+		<div class="col-md-12  ">
 			<h3>Cadastrar nova Disciplina</h3>
 
 			<form method="post" action="<?php echo site_url('administrador/disciplinas/execCadastraDisciplina') ?>">

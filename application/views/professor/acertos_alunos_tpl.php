@@ -9,7 +9,7 @@ include 'index_admin_professor_tpl.php';
 
 	<div class="container">
 		<div class="row">
-			<div class="col-md-10 col-md-offset-2" id="contenedor_grafico">
+			<div class="col-md-10 " id="contenedor_grafico">
 				<canvas id="myChart"></canvas>
 			</div>
 		</div>

@@ -5,6 +5,7 @@ class Perguntas_model extends CI_Model {
 		return $this->db
 		->select('nome')
 		->where('contexto','aluno')
+		->where('situacao','ativo')
 		->get('usuarios')
 		->result_array();
 	}
@@ -14,6 +15,7 @@ class Perguntas_model extends CI_Model {
 		$perguntas = $this->db
 		->select('id')
 		->where('disciplina', $disciplina)
+		->where('situacao','ativo')
 		->order_by('id','random')
 		->limit(5)
 		->get('questoes')
@@ -37,6 +39,7 @@ class Perguntas_model extends CI_Model {
 		$this->db
 		->select('*')
 		->from('itens_prova')
+		->where('situacao','ativo')
 		->where('questao',$questao);
 		
 	}
@@ -44,19 +47,34 @@ class Perguntas_model extends CI_Model {
 	function getTodasAlternativas()
 	{
 		return $this->db
-		->select('*')
 		->join('alternativas', 'questoes.id = alternativas.questao')
+		->where('situacao','ativo')
 		->get('questoes')
 		->result_array();
 	}
 	function getQuestoes($periodo_letivo=null){
 		return $this->db
 		->from('questoes')
+		->where('situacao','ativo')
 		->get()
 		->result_array();
 		// print_r($this->db->last_query());
 		// exit();
 	}
+
+	function getQuestoesPorPeriodoAdmin($periodo_letivo=null){
+		if ( !is_null($periodo_letivo) )
+			$this->db->where('periodo_letivo', $periodo_letivo);
+
+		return $this->db
+		->from('questoes')
+		->where('situacao','ativo')
+		->get()
+		->result_array();
+		// print_r($this->db->last_query());
+		// exit();
+	}
+
 	function getQuestoesPorPeriodo($periodo_letivo=null,$id){
 		if ( !is_null($periodo_letivo) )
 			$this->db->where('periodo_letivo', $periodo_letivo);
@@ -64,6 +82,7 @@ class Perguntas_model extends CI_Model {
 		return $this->db
 		->from('questoes')
 		->where('professor',$id)
+		->where('situacao','ativo')
 		->get()
 		->result_array();
 		// print_r($this->db->last_query());
@@ -82,6 +101,7 @@ class Perguntas_model extends CI_Model {
 		->from('questoes')
 		->join('alternativas','alternativas.questao = "'.$id.'"')
 		->where('questoes.id',$id)
+		->where('situacao','ativo')
 		->get()
 		->result_array();
 		return $retorno;
@@ -91,6 +111,7 @@ class Perguntas_model extends CI_Model {
 		$retorno = $this->db
 		->from('questoes')
 		->where('professor',$id)
+		->where('situacao','ativo')
 		->get()
 		->result_array();
 		return $retorno;
@@ -100,6 +121,7 @@ class Perguntas_model extends CI_Model {
 		return $this->db
 		->from('questoes')
 		->where('id', $questao)
+		->where('situacao', 'ativo')
 		->get()
 		->result_array();
 

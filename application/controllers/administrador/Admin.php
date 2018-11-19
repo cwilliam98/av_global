@@ -30,7 +30,7 @@ class Admin extends MY_Controller {
 
 		$this->load->model('Provas_model');
 
-		$dados = $this->Provas_model->getRespostas();
+		$dados = $this->Provas_model->getRespostasAdmin();
 
 		print json_encode($dados);
 
@@ -165,7 +165,7 @@ class Admin extends MY_Controller {
 
 		$config['upload_path'] = 'C:\xampp\htdocs\av_global\application\uploads';
 		$config['allowed_types'] = '*';
-		$config['max_size']	= '100';
+		$config['max_size']	= '10000';
 		$config['max_width']  = '1024';
 		$config['max_height']  = '768';
 
@@ -182,28 +182,43 @@ class Admin extends MY_Controller {
 			$this->load->database();
 			
 			$dados = $this->upload->data();
+			// print_r($dados['full_path']);
+			// exit();
+			// $path   = 'application/backups/backup-'.date('Y-m-d').'.sql';
+			$handle = fopen($dados['full_path'], "r");
+			if ($handle) {
+				$this->db->query('SET FOREIGN_KEY_CHECKS = 0');
 
-			$arquivo = fopen($dados['full_path'], "r");
+				$templine = '';
+				while (($line = fgets($handle)) !== false) {
+					$line = trim($line);
 
-			$linha = 1;
-			
-			while (($data = fgetcsv($arquivo, 1000, "\n")) !== FALSE) {
+					if ( empty($line) )
+						continue;
 
-				if ($linha++ == 1)
+					if ( substr($line, 0, 2) == '--')
+						continue;
+
+					if ( substr($line, 0, 1) == '#')
+						continue;
+
+					$templine .= $line;
+
+					if (substr($line, -1, 1) != ';')
 					continue;
-				
-			  //  $sql = "INSERT INTO TABELA(NOME, EMAIL) VALUES('". $data[0] ."', '". $data[1] ."')";
-				$this->load->model('Disciplinas_model');
-				$this->Disciplinas_model->cadastraBackupDisciplina($data);
-			}
-			
-			fclose ($arquivo);
-			
-			$variaveis['status'] = "Importação concluída com sucesso.";
-			
-			$variaveis['upload_data'] = $this->upload->data();
 
-			$this->load->view('aviso_permissao', $variaveis);
+					$this->db->query($templine);
+
+					$templine = '';
+				}
+
+				if(fclose($handle)){
+					redirect('administrador/admin/do_upload?aviso=1');
+				}
+				redirect('administrador/admin/do_upload?aviso=2');
+			} else {
+				die('foreud');
+			}
 		}
 	}
 

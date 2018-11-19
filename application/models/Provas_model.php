@@ -280,6 +280,19 @@ class Provas_model extends CI_Model {
 		return $dados;
 	}
 
+	function getRespostasAdmin(){
+		$dados =  $this->db
+		->select('alternativas.id alternativa,alternativas.descricao,COUNT(alternativas.correta) correta,alternativas.questao, questoes.id questao,questoes.descricao, respostas.alternativa, respostas.aluno')
+		->from('respostas')
+		->join('alternativas', 'respostas.alternativa = alternativas.id')
+		->join('questoes', 'alternativas.questao = questoes.id')
+		->group_by('alternativas.questao')
+		->get()
+		->result_array();
+		// echo $this->db->last_query();
+		// exit();
+		return $dados;
+	}
 	function getRespostasAluno($aluno){
 		$dados =  $this->db
 		->select('alternativas.id alternativa,alternativas.descricao,COUNT(alternativas.correta) correta,alternativas.questao, questoes.id questao,questoes.descricao, respostas.alternativa, respostas.aluno')
@@ -288,7 +301,7 @@ class Provas_model extends CI_Model {
 		->join('questoes', 'alternativas.questao = questoes.id')
 		->join('itens_prova', 'questoes.id = itens_prova.questao')
 		->join('formularios', 'formularios.id = itens_prova.formulario')
-		->where('respostas.aluno = 4964')
+		->where('respostas.aluno',$aluno)
 		->group_by('alternativas.questao')
 		->get()
 		->result_array();
@@ -416,5 +429,15 @@ class Provas_model extends CI_Model {
 		->result_array();
 
 		return reset($prova);
+	}
+
+	function inativarUsuario($id){
+		$this->db->where('id' , $id);
+		$retorno = $this->db
+		->set('situacao','inativo')
+		->update('provas');
+
+		return $retorno;
+
 	}
 }

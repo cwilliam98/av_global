@@ -22,10 +22,10 @@ table {
 
 <body>
 	<div class="container" id="print">
-		<div class="col-md-2 col-md-offset-2">
+		<div class="col-md-2 ">
 			<input type="button" class="btn btn-primary" id="imprimir" onclick="window.print();" value="Imprimir">
 		</div>
-		<div class="col-md-10 col-md-offset-2">
+		<div class="col-md-10 ">
 
 		</br>
 

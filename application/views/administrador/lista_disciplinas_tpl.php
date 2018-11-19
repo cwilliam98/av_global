@@ -11,7 +11,7 @@ include 'index_admin_tpl.php';
 
 <body>
   <div class="container">
-    <div class="col-md-10 col-md-offset-2">
+    <div class="col-md-12 ">
 
     </br>
     <div class="panel-heading" role="tab" id="">

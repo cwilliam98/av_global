@@ -5,7 +5,7 @@ include 'index_admin_tpl.php';
 <?php if (!$prova) { ?>
 <div class="container">
 	<div class="row">
-		<div class="col col-md-4 col-md-offset-2">
+		<div class="col col-md-4 ">
 			<p> Você não tem provas para acompanhar hoje!</p>
 		</div>
 	</div>
@@ -19,7 +19,7 @@ include 'index_admin_tpl.php';
 	
 	<div class="row">
 		
-		<div class="col col-md-10 col-md-offset-2">
+		<div class="col col-md-12 ">
 			<table class="table">
 				<thead>
 					<tr>

@@ -9,7 +9,7 @@ include 'index_admin_tpl.php';
 <title>Cadastro de Questões</title>
 <div class="container">
 	<div class="row">
-		<div class="col-md-6  col-md-offset-2 classe">
+		<div class="col-md-6   classe">
 			<h3 class="m-1 text-center text-white">Alterar questão</h3>
 		</div>
 	</div>
@@ -17,7 +17,7 @@ include 'index_admin_tpl.php';
 
 <div class="container">
 	<div class="row">
-		<div class="col-md-10  col-md-offset-2 classe">	
+		<div class="col-md-12   classe">	
 			<?php foreach ($questoes as $key => $questao) { ?>
 
 				<form method="post"  action="<?php echo base_url('administrador/perguntas/execAlterarPergunta/'.$questao['id']) ?>">
