@@ -89,7 +89,7 @@ include 'index_admin_tpl.php';
 			<div class="row">
 				<div class="col-md-12">
 					<div class="panel panel-primary">
-						<table width="600"  align="center"  class="table table-striped" id="myTable">
+						<table  align="center"  class="table table-striped" id="myTable">
 							<tr>
 								<th class="text-center">Nome</th>
 								<th class="text-center">Data aplicação</th>

@@ -29,7 +29,7 @@ include 'index_admin_tpl.php';
 
 				<div class="form-group <?php echo form_error('aplicacao') ? 'has-error' : '' ?>">
 					<label >Data</label>
-					<input type="datetime-local" class="form-control" id="aplicacao" name="aplicacao" value="<?php echo $prova['aplicacao']; ?>"/>
+					<input type="datetime-local" class="form-control" id="aplicacao" name="aplicacao" value="<?php str_replace(' ', 'T',$prova['aplicacao']) ?>"/>
 					<span id="helpBlock2" class="help-block"><?php echo form_error('aplicacao'); ?></span>
 				</div>
 

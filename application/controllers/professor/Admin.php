@@ -48,7 +48,18 @@ class Admin extends MY_Controller {
 
 	} 
 	public function acertosPorAluno(){
-		$this->load->view('professor/acertos_alunos_tpl');
+
+		$this->load->helper('text');
+		$aluno = $this->input->get('aluno');
+		
+
+		$this->load->model('Provas_model');
+		$this->load->model('Alunos_model');
+
+		$dados['dados'] = $this->Provas_model->getRespostasAluno($aluno);
+		$dados['alunos'] = $this->Alunos_model->alunos();
+
+		$this->load->view('professor/acertos_alunos_tpl',$dados);
 	}
 	public function dadosAdmin() {
 

@@ -23,7 +23,7 @@ table {
 <body>
 	<div class="container">
 		<div class="row">
-			<div class="col-md-10 ">
+			<div class="col-md-12">
 
 			</br>
 			<select class="form-control" name="disciplina" id="periodo_letivo">

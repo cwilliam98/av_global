@@ -18,8 +18,8 @@ include 'index_admin_tpl.php';
       <table   align="center"  class="lista-clientes table table-striped" id="myTable">
         <thead>
           <tr>
-            <th class="celula1">Aluno</th>
-            <th>Opções</th>
+            <th class="">Aluno</th>
+            <th class="text-right">Opções</th>
           </tr>
         </thead>
 
@@ -27,7 +27,7 @@ include 'index_admin_tpl.php';
       <?php foreach ($alunos as $aluno) { ?>
 
         <tr>
-          <td class="celula1">
+          <td class="">
             <div class="panel-heading" role="tab" id="questao-painel-<?php echo $aluno['id']; ?>">
               <h4 class="panel-title">
                 <a role="button" data-toggle="collapse" data-parent="#accordion" href="#questao-<?php echo $aluno['id']; ?>" aria-expanded="true" aria-controls="questao-<?php echo $aluno['id']; ?>">

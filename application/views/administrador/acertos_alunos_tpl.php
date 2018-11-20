@@ -7,9 +7,9 @@ include 'index_admin_tpl.php';
 
 <body>
 
-<div class="container">
+	<div class="container">
 		<div class="row">
-			<div class="col-md-12 ">
+			<div class="col-md-6 col-md-offset-3">
 
 			</br>
 			<select class="form-control" name="aluno" id="aluno">
@@ -22,6 +22,12 @@ include 'index_admin_tpl.php';
 					<option value="<?php echo $aluno["id"]; ?>" <?php echo $selected?>><?php echo $aluno["nome"];?></option>
 				<?php  endforeach ?>
 			</select>
+		</div>
+	</div>
+</div>
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
 			<div class="panel-heading" role="tab" id="">
 				<table   align="center"  class="lista-clientes table table-striped" id="myTable">
 					<thead>
@@ -55,7 +61,7 @@ include 'index_admin_tpl.php';
 						</td>
 						<td class="celula2">
 							<?php   echo $aluno['correta']; ?><br>
-							
+
 						</td>
 					</tr>
 				<?php } ?>

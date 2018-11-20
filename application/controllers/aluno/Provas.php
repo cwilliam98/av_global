@@ -161,26 +161,15 @@ class Provas extends MY_Controller {
 
 		$this->load->model('Provas_model');
 
-		$this->Provas_model->atualizaSituacaoProva($aluno['id']);
+		//$this->Provas_model->atualizaSituacaoProva($aluno['id']);
 
 		$dados = $this->Provas_model->getProva($aluno['id']);
 
 
-		$respostas =  $this->Provas_model->getResposta($aluno['id'],$dados->id);
+		$respostas['respostas'] =  $this->Provas_model->getRespostasAluno($aluno['id']);
 
 
-
-		$acertos['acertos'] = 0;
-
-		foreach ($respostas as $resposta) {
-
-			$alternativa =  $this->Provas_model->getAlternativaCorreta($resposta['alternativa']);
-
-			if ($alternativa['correta'] == '1') {
-				$acertos['acertos'] = $acertos['acertos'] + 1;
-			}
-
-		}
+		$acertos['acertos'] = count($respostas['respostas']);
 
 		$this->Provas_model->insereFimSessao($aluno['id']);
 

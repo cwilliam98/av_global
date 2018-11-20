@@ -46,7 +46,7 @@ include 'index_admin_tpl.php';
 				<div class="form-group <?php echo form_error('periodo_letivo') ? 'has-error' : '' ?>">
 					<label >Periodo Letivo</label>
 
-					<select class="form-control" name="disciplina" id="periodo_letivo">
+					<select class="form-control" name="periodo_letivo" id="periodo_letivo">
 						<option value="" >Selecione...</option>
 						<?php  foreach ($periodos_letivo as $periodo_letivo): 
 							$selected =  "";

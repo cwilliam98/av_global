@@ -10,7 +10,7 @@ include 'index_admin_professor_tpl.php';
 </style>
 <div class="container">
 	<div class="row">
-		<div class="col-md-10 ">
+		<div class="col-md-12">
 			<h3 class="m-1 text-center">Alterar prova</h3>
 		</div>
 	</div>
@@ -29,7 +29,7 @@ include 'index_admin_professor_tpl.php';
 
 				<div class="form-group <?php echo form_error('aplicacao') ? 'has-error' : '' ?>">
 					<label >Data</label>
-					<input type="datetime" class="form-control" id="aplicacao" name="aplicacao" value="<?php echo $prova['aplicacao']; ?>"/>
+					<input type="datetime-local" class="form-control" id="aplicacao" name="aplicacao" value="<?php echo str_replace(' ', 'T',$prova['aplicacao']); ?>"/>
 					<span id="helpBlock2" class="help-block"><?php echo form_error('aplicacao'); ?></span>
 				</div>
 

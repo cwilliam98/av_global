@@ -46,39 +46,60 @@ include 'index_admin_tpl.php';
 				<table   align="center"  class="lista-clientes table table-striped" id="myTable">
 					<thead>
 						<tr>
-							<th class="celula1">Descricao</th>
+							<th class="">Descricao</th>
 							<th>Acertos</th>
 						</tr>
 					</thead>
 
 				</div>
-				<?php foreach ($dados as $pergunta) { ?>
+				<?php $count = 0;
+				foreach ($dados as $pergunta) { ?>
+					<?php if($pergunta['alternativa_correta'] == '1') {
+						$count++;
+						?>
+						<tr>
+							<td class="">
+								<div class="panel-heading" role="tab" id="questao-painel-<?php echo $pergunta['questao']; ?>">
+									<h4 class="panel-title">
+										<a role="button" data-toggle="collapse" data-parent="#accordion" href="#questao-<?php echo $pergunta['questao']; ?>" aria-expanded="true" aria-controls="questao-<?php echo $pergunta['questao']; ?>">
+											Questão <?php echo $pergunta['questao'];?> : <?php echo character_limiter(strip_tags(html_entity_decode($pergunta['descricacao_questao'])),50); ?>
+										</a>
+									</h4>
 
-					<tr>
-						<td class="celula1">
-							<div class="panel-heading" role="tab" id="questao-painel-<?php echo $pergunta['questao']; ?>">
-								<h4 class="panel-title">
-									<a role="button" data-toggle="collapse" data-parent="#accordion" href="#questao-<?php echo $pergunta['questao']; ?>" aria-expanded="true" aria-controls="questao-<?php echo $pergunta['questao']; ?>">
-										Questão <?php echo $pergunta['questao'];?> : <?php echo character_limiter(strip_tags(html_entity_decode($pergunta['descricacao_questao'])),50); ?>
-									</a>
-								</h4>
-
-							</div>
-
-							<div id="questao-<?php echo $pergunta['questao']; ?>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="questao-painel-<?php echo $pergunta['questao']; ?>">
-								<div class="panel-body">
-									<?php echo html_entity_decode($pergunta['descricacao_questao']); ?><br>
-
-									<?php  echo $pergunta['alternativa']; echo ") "; echo $pergunta['descricao']; ?><br>
 								</div>
-							</div>
-						</td>
-						<td class="celula2">
-							<?php   echo $pergunta['correta']; ?><br>
 
-						</td>
-					</tr>
+								<div id="questao-<?php echo $pergunta['questao']; ?>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="questao-painel-<?php echo $pergunta['questao']; ?>">
+									<div class="panel-body">
+										<?php echo html_entity_decode($pergunta['descricacao_questao']); ?><br>
+
+										<?php  echo $pergunta['alternativa']; echo ") "; echo $pergunta['descricao']; ?><br>
+									</div>
+								</div>
+							</td>
+							<td class="celula2">
+								<?php   echo $pergunta['qtd_correta']; ?><br>
+
+							</td>
+						</tr>
+
+					<?php } ?>
 				<?php } ?>
+				<br>
+				<div class="col-md-6 col-md-offset-3">
+					<div class="panel panel-primary">
+						<div class="panel-body text-center">
+							<h4>
+								Nota do Aluno: <?php   echo number_format(($qtd_peso * $count),2);?><br>
+								
+							</h4>
+
+							<h3>
+								<div id="alunos"></div>
+							</h3>
+						</div>
+					</div>
+				</div>
+
 
 			</table>
 

@@ -100,13 +100,19 @@ class Admin extends MY_Controller {
 
 		$dados['dados'] = $this->Provas_model->getRespostasProva($filtro);
 
-		// echo "<pre>";
-		// print_r($dados);
-		// exit();
+
+		$qtd_peso = 0;
+		$qtd_questoes = count($dados['dados']);
+		if ($qtd_questoes) {
+			$qtd_peso = (10 / $qtd_questoes);
+		}
+		
 
 		$dados['provas'] = $this->Provas_model->Provas();
 
 		$dados['alunos'] = $this->Alunos_model->alunos();
+
+		$dados['qtd_peso'] = $qtd_peso;
 
 
 		$this->load->view('administrador/acertos_provas_tpl',$dados);

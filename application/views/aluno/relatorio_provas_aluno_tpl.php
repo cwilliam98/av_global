@@ -69,7 +69,7 @@
 		});
 
 		var countDownDate = new Date();
-		var dataFim = new Date(countDownDate.toDateString() + ' 22:00:00');
+		var dataFim = new Date(countDownDate.toDateString() + ' 08:00:00');
 		var distance = Math.floor((dataFim - countDownDate) / 1000);
 
 		var x = setInterval(function() {

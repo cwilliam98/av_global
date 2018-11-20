@@ -309,6 +309,7 @@ class Provas_model extends CI_Model {
 		->join('formularios', 'formularios.id = itens_prova.formulario')
 		->join('usuarios', 'usuarios.id = respostas.aluno')
 		->where('respostas.aluno',$aluno)
+		->where('alternativas.correta','1')
 		->group_by('alternativas.questao')
 		->order_by('correta','DESC')
 		->get()
@@ -323,8 +324,10 @@ class Provas_model extends CI_Model {
 			$this->db->where('formularios.prova', $filtro[1]);
 		if ( !is_null($filtro) )
 			$this->db->where('usuarios.id', $filtro[0]);
+			$this->db->where('respostas.aluno', $filtro[0]);
+			$this->db->where('formularios.aluno', $filtro[0]);
 		$dados =  $this->db
-		->select('alternativas.id alternativa,alternativas.descricao,COUNT(alternativas.correta) correta,alternativas.questao, questoes.id questao,questoes.descricao descricacao_questao, respostas.alternativa, respostas.aluno')
+		->select('alternativas.id alternativa,alternativas.descricao,COUNT(alternativas.correta) qtd_correta,alternativas.correta alternativa_correta,alternativas.questao, questoes.id questao,questoes.descricao descricacao_questao, respostas.alternativa, respostas.aluno')
 		->from('respostas')
 		->join('alternativas', 'respostas.alternativa = alternativas.id')
 		->join('questoes', 'alternativas.questao = questoes.id')

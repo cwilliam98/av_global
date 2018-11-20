@@ -9,83 +9,78 @@ include 'index_admin_professor_tpl.php';
 
 	<div class="container">
 		<div class="row">
-			<div class="col-md-10 " id="contenedor_grafico">
-				<canvas id="myChart"></canvas>
-			</div>
+			<div class="col-md-6 col-md-offset-3">
+
+			</br>
+			<select class="form-control" name="aluno" id="aluno">
+				<option value="" >Selecione...</option>
+				<?php  foreach ($alunos as $aluno): 
+					$selected =  "";
+					if ($this->input->get('aluno') == $aluno['id']) {
+						$selected =  "selected";
+					} ?>
+					<option value="<?php echo $aluno["id"]; ?>" <?php echo $selected?>><?php echo $aluno["nome"];?></option>
+				<?php  endforeach ?>
+			</select>
 		</div>
 	</div>
-	
+</div>
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="panel-heading" role="tab" id="">
+				<table   align="center"  class="lista-clientes table table-striped" id="myTable">
+					<thead>
+						<tr>
+							<th class="celula1">Descricao</th>
+							<th>Acertos</th>
+						</tr>
+					</thead>
 
-	<script>
+				</div>
+				<?php foreach ($dados as $aluno) { ?>
 
-		var	pametro1 = [];
-		var	pametro2 = [];
-		$(document).ready(function(){
+					<tr>
+						<td class="celula1">
+							<div class="panel-heading" role="tab" id="questao-painel-<?php echo $aluno['aluno']; ?>">
+								<h4 class="panel-title">
+									<a role="button" data-toggle="collapse" data-parent="#accordion" href="#questao-<?php echo $aluno['aluno']; ?>" aria-expanded="true" aria-controls="questao-<?php echo $aluno['aluno']; ?>">
+										<?php echo character_limiter(strip_tags(html_entity_decode($aluno['descricao'])),50); ?>
+									</a>
+								</h4>
 
-			$.post("<?php echo base_url();?>professor/admin/acertosAlunos",
-		function(data){
+							</div>
 
-			var obj = JSON.parse(data);
+							<div id="questao-<?php echo $aluno['aluno']; ?>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="questao-painel-<?php echo $aluno['aluno']; ?>">
+								<div class="panel-body">
+									<?php echo html_entity_decode($aluno['descricao_alternativa']); ?><br>
+									<?php echo html_entity_decode($aluno['alternativa']); ?>
 
+								</div>
+							</div>
+						</td>
+						<td class="celula2">
+							<?php   echo $aluno['correta']; ?><br>
 
-			questao = [];
-			correta = [];
-				
-			$.each(obj, function(i,item){
-			console.log(item);
+						</td>
+					</tr>
+				<?php } ?>
 
-				questao.push(item.questao);
-				correta.push(item.correta);
-			});
-			
-			//Eliminamos y creamos la etiqueta canvas
-			$('#myChart').remove();
-			$('#contenedor_grafico').append("<canvas id='myChart'></canvas>");
+			</table>
 
-			var ctx = $("#myChart");
-			var myChart = new Chart(ctx, {
-			    type: 'bar',
-			    data: {
-			    	labels: questao, //paramMeses,//horizontal
-			    	datasets: [
-			        	{
-				            label: "acertos",
-				            fill: true,
-				            lineTension: 0.1,
-				            backgroundColor: "rgba(75,192,192,0.4)",
-				            borderColor: "rgba(75,192,192,1)",
-				            borderCapStyle: 'butt',
-				            borderDash: [],
-				            borderDashOffset: 0.1,
-				            borderJoinStyle: 'miter',
-				            pointBorderColor: "rgba(75,192,192,1)",
-				            pointBackgroundColor: "#fff",
-				            pointBorderWidth: 5,
-				            pointHoverRadius: 2,
-				            pointHoverBackgroundColor: "rgba(75,192,192,1)",
-				            pointHoverBorderColor: "rgba(220,220,220,1)",
-				            pointHoverBorderWidth: 2,
-				            pointRadius: 1,
-				            pointHitRadius: 2,
-				            data: correta, //paramValores,//vertical
-				            spanGaps: false,
-				        }
-			    	]
-				},
-			    options: {
-			        scales: {
-			            yAxes: [{
-			                ticks: {
-			                    beginAtZero:true
-			                }
-			            }]
-			        }
-			    }
-			});
-		});
-		});
-
-	</script>
-
+		</div>
+	</div>
+</div>
 </body>
+<script type="text/javascript">
+
+	$('#aluno').change(function(){
+		var id = $(this).val();
+		if(id != ""){
+			location.href = '<?php echo base_url('professor/admin/acertosPorAluno') ?>?aluno='+id;			
+		} else {
+			location.href = '<?php echo base_url('professor/admin/acertosPorAluno') ?>';			
+		}
+	});
+</script>
 </html>
