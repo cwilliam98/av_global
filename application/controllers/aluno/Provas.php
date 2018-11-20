@@ -161,7 +161,7 @@ class Provas extends MY_Controller {
 
 		$this->load->model('Provas_model');
 
-		//$this->Provas_model->atualizaSituacaoProva($aluno['id']);
+		$this->Provas_model->atualizaSituacaoProva($aluno['id']);
 
 		$dados = $this->Provas_model->getProva($aluno['id']);
 

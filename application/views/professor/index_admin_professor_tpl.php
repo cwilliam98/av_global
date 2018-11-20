@@ -244,6 +244,9 @@
             <li>
               <a href="<?php echo base_url('professor/admin/acertosPorAluno')?>"> <span class="glyphicon glyphicon-stats" aria-hidden="true"></span> Acertos por aluno</a>
             </li>
+             <li>
+              <a href="<?php echo base_url('professor/admin/acertosPorProva')?>"> <span class="glyphicon glyphicon-stats" aria-hidden="true"></span> Acertos por prova</a>
+            </li>
           </ul>
         </li>
 

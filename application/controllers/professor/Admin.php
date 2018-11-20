@@ -47,6 +47,39 @@ class Admin extends MY_Controller {
 		print json_encode($dados);
 
 	} 
+	public function acertosPorProva(){
+
+		$this->load->helper('text');
+		$prova = $this->input->get('prova');
+		$filtro = $prova;
+
+		if ($prova){
+			$filtro = explode('?', $prova);
+		}
+		$usuario = $this->session->userdata('usuario');
+		$this->load->model('Alunos_model');
+
+		$this->load->model('Provas_model');
+
+		$dados['dados'] = $this->Provas_model->getRespostasProva($filtro);
+
+
+		$qtd_peso = 0;
+		$qtd_questoes = count($dados['dados']);
+		if ($qtd_questoes) {
+			$qtd_peso = (10 / $qtd_questoes);
+		}
+		
+
+		$dados['provas'] = $this->Provas_model->Provas();
+
+		$dados['alunos'] = $this->Alunos_model->alunos();
+
+		$dados['qtd_peso'] = $qtd_peso;
+
+
+		$this->load->view('professor/acertos_provas_tpl',$dados);
+	}
 	public function acertosPorAluno(){
 
 		$this->load->helper('text');
