@@ -45,7 +45,7 @@ table {
 						</tr>
 					</thead>
 
-			</div>
+				</div>
 				<?php foreach ($questoes as $pergunta) { ?>
 
 					<tr>
@@ -81,17 +81,19 @@ table {
 
 			</table>
 
+		</div>
+	</div>
+</div>
+</body>
+</html>
+<script type="text/javascript">
 
-		</body>
-		</html>
-		<script type="text/javascript">
-
-			$('#periodo_letivo').change(function(){
-				var id = $(this).val();
-				if(id != ""){
-					location.href = '<?php echo base_url('administrador/perguntas') ?>?periodo='+id;			
-				} else {
-					location.href = '<?php echo base_url('administrador/perguntas') ?>';			
-				}
-			});
-		</script>
+	$('#periodo_letivo').change(function(){
+		var id = $(this).val();
+		if(id != ""){
+			location.href = '<?php echo base_url('administrador/perguntas') ?>?periodo='+id;			
+		} else {
+			location.href = '<?php echo base_url('administrador/perguntas') ?>';			
+		}
+	});
+</script>

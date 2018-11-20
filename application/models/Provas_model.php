@@ -62,6 +62,7 @@ class Provas_model extends CI_Model {
 	}
 	function getQuestoesByDisciplina($formulario,$questao){
 		$dados = $this->db
+		->select('id,periodo_letivo')
 		->from('questoes')
 		->where('disciplina', $formulario['disciplina'])
 		->where_in('periodo_letivo', [$questao['periodo_letivo'],'0'])
@@ -145,12 +146,13 @@ class Provas_model extends CI_Model {
 
 	function getProvaAluno($id,$prova){
 		date_default_timezone_set('America/Sao_Paulo'); 
-		$data = date('Y-m-d');
+		$data = date('Y-m-d H:i:s');
+
 		return $this->db
 		->select('matriculas.disciplina, matriculas.aluno, provas.id prova, provas.qtd_questoes,provas.periodo_letivo')
 		->from('provas,matriculas')
 		->where('matriculas.aluno',$id)
-		->where('provas.aplicacao >=', $data)
+		->where('aplicacao >=', date('Y-m-d H:i:00'))
 		->where('provas.id', $prova)
 		->order_by('provas.id','DESC')
 		->get()
@@ -166,13 +168,15 @@ class Provas_model extends CI_Model {
 	function verificaQuestoesByDisciplina($disciplina)
 	{
 
-		return $this->db
+		$retorno = $this->db
 		->select('id,periodo_letivo')
 		->from('questoes')
 		->where('questoes.disciplina',$disciplina)
 		->get()
 		->result_array();
-
+		
+		return $retorno;
+		
 		// echo "<pre>";
 		// print_r($data);
 		//  echo $this->db->last_query();
@@ -185,7 +189,7 @@ class Provas_model extends CI_Model {
 		->select('provas.id, provas.nome, provas.criado_em, provas.aplicacao, provas.qtd_questoes, provas.tipo_prova, provas.nota, provas.professor, formularios.situacao, formularios.aluno')
 		->from('provas')
 		->join('formularios','formularios.prova = provas.id AND formularios.aluno = '.$id.'','left')
-		->where('aplicacao >=', date('Y-m-d'))
+		->where('aplicacao >=', date('Y-m-d H:i:00'))
 		->limit(1)
 		->order_by('provas.id','DESC')
 		->get()
@@ -201,8 +205,8 @@ class Provas_model extends CI_Model {
 		->where('aluno',$id)
 		->set('situacao','finalizada')
 		->update('formularios');
-		echo $this->db->last_query();
-		exit();
+		// echo $this->db->last_query();
+		// exit();
 	}
 
 	function getProvas(){
@@ -212,10 +216,11 @@ class Provas_model extends CI_Model {
 		->join('usuarios','usuarios.id = formularios.aluno')
 		->join('disciplinas','disciplinas.id = formularios.disciplina')
 		->join('provas','provas.id = formularios.prova')
-		->where('provas.aplicacao', date('Y-m-d'))
+		->where('aplicacao >=', date('Y-m-d H:i:00'))
 		->where('disciplinas.situacao','ativo')
 		->get()
 		->result_array();
+
 		return $dados;
 	}
 
@@ -228,7 +233,8 @@ class Provas_model extends CI_Model {
 		->where('respostas.aluno',$aluno)
 		->get()
 		->result_array();
-		
+		// print_r($this->db->last_query());
+		// exit();
 		return $dados;
 	}
 
@@ -295,14 +301,16 @@ class Provas_model extends CI_Model {
 	}
 	function getRespostasAluno($aluno){
 		$dados =  $this->db
-		->select('alternativas.id alternativa,alternativas.descricao,COUNT(alternativas.correta) correta,alternativas.questao, questoes.id questao,questoes.descricao, respostas.alternativa, respostas.aluno')
+		->select('alternativas.id alternativa,alternativas.descricao descricao_alternativa,COUNT(alternativas.correta) correta,alternativas.questao, questoes.id questao,questoes.descricao, respostas.alternativa, respostas.aluno, usuarios.nome')
 		->from('respostas')
 		->join('alternativas', 'respostas.alternativa = alternativas.id')
 		->join('questoes', 'alternativas.questao = questoes.id')
 		->join('itens_prova', 'questoes.id = itens_prova.questao')
 		->join('formularios', 'formularios.id = itens_prova.formulario')
+		->join('usuarios', 'usuarios.id = respostas.aluno')
 		->where('respostas.aluno',$aluno)
 		->group_by('alternativas.questao')
+		->order_by('correta','DESC')
 		->get()
 		->result_array();
 		// echo $this->db->last_query();
@@ -310,16 +318,21 @@ class Provas_model extends CI_Model {
 		return $dados;
 	}
 
-	function getRespostasProva(){
+	function getRespostasProva($filtro=null){
+		if ( !is_null($filtro) )
+			$this->db->where('formularios.prova', $filtro[1]);
+		if ( !is_null($filtro) )
+			$this->db->where('usuarios.id', $filtro[0]);
 		$dados =  $this->db
-		->select('alternativas.id alternativa,alternativas.descricao,COUNT(alternativas.correta) correta,alternativas.questao, questoes.id questao,questoes.descricao, respostas.alternativa, respostas.aluno')
+		->select('alternativas.id alternativa,alternativas.descricao,COUNT(alternativas.correta) correta,alternativas.questao, questoes.id questao,questoes.descricao descricacao_questao, respostas.alternativa, respostas.aluno')
 		->from('respostas')
 		->join('alternativas', 'respostas.alternativa = alternativas.id')
 		->join('questoes', 'alternativas.questao = questoes.id')
 		->join('itens_prova', 'questoes.id = itens_prova.questao')
 		->join('formularios', 'formularios.id = itens_prova.formulario')
-		->where('formularios.prova = 1')
+		->join('usuarios', 'usuarios.id = respostas.aluno')
 		->group_by('alternativas.questao')
+		->order_by('correta','DESC')
 		->get()
 		->result_array();
 		// echo $this->db->last_query();
@@ -429,6 +442,15 @@ class Provas_model extends CI_Model {
 		->result_array();
 
 		return reset($prova);
+	}
+
+	function Provas(){
+		$prova = $this->db
+		->from('provas')
+		->get()
+		->result_array();
+
+		return $prova;
 	}
 
 	function inativarUsuario($id){

@@ -37,24 +37,12 @@ class Admin extends MY_Controller {
 	} 
 	public function acertosAlunos() {
 
-		$aluno = $this->session->userdata('usuario');
-
-		$this->load->model('Provas_model');
-
-		$dados = $this->Provas_model->getRespostasAluno($aluno['id']);
-
-		print json_encode($dados);
+		
 
 	} 
 	public function acertosProvas() {
 
-		$aluno = $this->session->userdata('usuario');
-
-		$this->load->model('Provas_model');
-
-		$dados = $this->Provas_model->getRespostasProva();
-
-		print json_encode($dados);
+		
 
 	}
 
@@ -82,10 +70,46 @@ class Admin extends MY_Controller {
 	}
 
 	public function acertosPorAluno(){
-		$this->load->view('administrador/acertos_alunos_tpl');
+
+		$this->load->helper('text');
+		$aluno = $this->input->get('aluno');
+		
+
+		$this->load->model('Provas_model');
+		$this->load->model('Alunos_model');
+
+		$dados['dados'] = $this->Provas_model->getRespostasAluno($aluno);
+		$dados['alunos'] = $this->Alunos_model->alunos();
+
+		$this->load->view('administrador/acertos_alunos_tpl',$dados);
 	}
+
 	public function acertosPorProva(){
-		$this->load->view('administrador/acertos_provas_tpl');
+
+		$this->load->helper('text');
+		$prova = $this->input->get('prova');
+		$filtro = $prova;
+
+		if ($prova){
+			$filtro = explode('?', $prova);
+		}
+		$usuario = $this->session->userdata('usuario');
+		$this->load->model('Alunos_model');
+
+		$this->load->model('Provas_model');
+
+		$dados['dados'] = $this->Provas_model->getRespostasProva($filtro);
+
+		// echo "<pre>";
+		// print_r($dados);
+		// exit();
+
+		$dados['provas'] = $this->Provas_model->Provas();
+
+		$dados['alunos'] = $this->Alunos_model->alunos();
+
+
+		$this->load->view('administrador/acertos_provas_tpl',$dados);
 	}
 	public function formBackup(){
 		

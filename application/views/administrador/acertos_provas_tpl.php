@@ -9,83 +9,93 @@ include 'index_admin_tpl.php';
 
 	<div class="container">
 		<div class="row">
-			<div class="col-md-12 " id="contenedor_grafico">
-				<canvas id="myChart"></canvas>
-			</div>
+			<div class="col-md-6 col-md-offset-3">
+
+			</br>
+			<select class="form-control" name="prova" id="prova">
+				<option value="" >Selecione...</option>
+				<?php  foreach ($provas as $prova): 
+					$selected =  "";
+					if ($this->input->post('prova') == $prova['id']) {
+						$selected =  "selected";
+					} ?>
+					<option value="<?php echo $prova["id"]; ?>" <?php echo $selected?>><?php echo $prova["nome"]; echo " | "; echo $prova["aplicacao"]; ?></option>
+				<?php  endforeach ?>
+			</select>
+		</br>
+		<select class="form-control" name="aluno" id="aluno">
+			<option value="" >Selecione...</option>
+			<?php  foreach ($alunos as $aluno): 
+				$selected =  "";
+				if ($this->input->get('aluno') == $aluno['id']) {
+					$selected =  "selected";
+				} ?>
+				<option value="<?php echo $aluno["id"]; ?>" <?php echo $selected?>><?php echo $aluno["nome"];?></option>
+			<?php  endforeach ?>
+		</select>
+
+		<br>
+		<button class="btn btn-info" id="filtrar">Filtrar</button>
+	</div>
+</div>
+</div>
+<div class="container">
+	<div class="row">
+		<div class="col-md-12 ">
+			<div class="panel-heading" role="tab" id="">
+				<table   align="center"  class="lista-clientes table table-striped" id="myTable">
+					<thead>
+						<tr>
+							<th class="celula1">Descricao</th>
+							<th>Acertos</th>
+						</tr>
+					</thead>
+
+				</div>
+				<?php foreach ($dados as $pergunta) { ?>
+
+					<tr>
+						<td class="celula1">
+							<div class="panel-heading" role="tab" id="questao-painel-<?php echo $pergunta['questao']; ?>">
+								<h4 class="panel-title">
+									<a role="button" data-toggle="collapse" data-parent="#accordion" href="#questao-<?php echo $pergunta['questao']; ?>" aria-expanded="true" aria-controls="questao-<?php echo $pergunta['questao']; ?>">
+										Questão <?php echo $pergunta['questao'];?> : <?php echo character_limiter(strip_tags(html_entity_decode($pergunta['descricacao_questao'])),50); ?>
+									</a>
+								</h4>
+
+							</div>
+
+							<div id="questao-<?php echo $pergunta['questao']; ?>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="questao-painel-<?php echo $pergunta['questao']; ?>">
+								<div class="panel-body">
+									<?php echo html_entity_decode($pergunta['descricacao_questao']); ?><br>
+
+									<?php  echo $pergunta['alternativa']; echo ") "; echo $pergunta['descricao']; ?><br>
+								</div>
+							</div>
+						</td>
+						<td class="celula2">
+							<?php   echo $pergunta['correta']; ?><br>
+
+						</td>
+					</tr>
+				<?php } ?>
+
+			</table>
+
 		</div>
 	</div>
-	
-
-	<script>
-
-		var	pametro1 = [];
-		var	pametro2 = [];
-		$(document).ready(function(){
-
-			$.post("<?php echo base_url();?>administrador/admin/acertosProvas",
-		function(data){
-
-			var obj = JSON.parse(data);
-
-
-			questao = [];
-			correta = [];
-				
-			$.each(obj, function(i,item){
-			console.log(item);
-
-				questao.push(item.questao);
-				correta.push(item.correta);
-			});
-			
-			//Eliminamos y creamos la etiqueta canvas
-			$('#myChart').remove();
-			$('#contenedor_grafico').append("<canvas id='myChart'></canvas>");
-
-			var ctx = $("#myChart");
-			var myChart = new Chart(ctx, {
-			    type: 'bar',
-			    data: {
-			    	labels: questao, //paramMeses,//horizontal
-			    	datasets: [
-			        	{
-				            label: "acertos",
-				            fill: true,
-				            lineTension: 0.1,
-				            backgroundColor: "rgba(75,192,192,0.4)",
-				            borderColor: "rgba(75,192,192,1)",
-				            borderCapStyle: 'butt',
-				            borderDash: [],
-				            borderDashOffset: 0.1,
-				            borderJoinStyle: 'miter',
-				            pointBorderColor: "rgba(75,192,192,1)",
-				            pointBackgroundColor: "#fff",
-				            pointBorderWidth: 5,
-				            pointHoverRadius: 2,
-				            pointHoverBackgroundColor: "rgba(75,192,192,1)",
-				            pointHoverBorderColor: "rgba(220,220,220,1)",
-				            pointHoverBorderWidth: 2,
-				            pointRadius: 1,
-				            pointHitRadius: 2,
-				            data: correta, //paramValores,//vertical
-				            spanGaps: false,
-				        }
-			    	]
-				},
-			    options: {
-			        scales: {
-			            yAxes: [{
-			                ticks: {
-			                    beginAtZero:true
-			                }
-			            }]
-			        }
-			    }
-			});
-		});
-		});
-
-	</script>
-
+</div>
 </body>
+<script type="text/javascript">
+
+	$('#filtrar').click(function(){
+		var aluno = $('#aluno').val();
+		var prova = $('#prova').val();
+		if(aluno != "" && prova != ""){
+			location.href = '<?php echo base_url('administrador/admin/acertosPorProva') ?>?prova='+aluno+'?'+prova;			
+		} else {
+			location.href = '<?php echo base_url('administrador/admin/acertosPorProva') ?>';			
+		}
+	});
+</script>
 </html>

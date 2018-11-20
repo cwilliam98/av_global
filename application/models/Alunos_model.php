@@ -121,6 +121,19 @@ class Alunos_model extends CI_Model {
 		// return  $resultado;
 	}
 
+	function alunos(){
+
+		return $this->db
+		->from('usuarios')
+		->where('contexto','aluno')
+		->where('usuarios.situacao','ativo')
+		->group_by('usuarios.nome')
+		->get()
+		->result_array();
+
+
+	}
+
 
 }
 

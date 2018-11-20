@@ -46,7 +46,7 @@
 								<div class="radio radio-info">
 									<input type="radio"  name="questao[<?php echo $questao->questao ?>]"  value="<?php echo 
 									$alternativa->id ?>"  id="<?php echo $alternativa->id ?>"/>
-									<label for="<?php echo $alternativa->id ?>"> <?php echo $alternativa->descricao?></label>
+									<label for="<?php echo $alternativa->id ?>"> <?php echo html_entity_decode($alternativa->descricao)?></label>
 								</div>
 							<?php endforeach; ?>
 						<?php endforeach; ?>
@@ -69,7 +69,7 @@
 		});
 
 		var countDownDate = new Date();
-		var dataFim = new Date(countDownDate.toDateString() + ' 19:51:00');
+		var dataFim = new Date(countDownDate.toDateString() + ' 22:00:00');
 		var distance = Math.floor((dataFim - countDownDate) / 1000);
 
 		var x = setInterval(function() {

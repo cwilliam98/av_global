@@ -41,7 +41,7 @@ class Provas extends MY_Controller {
 		foreach ($formularios as $formulario) {
 			
 			$questoes = $this->Provas_model->verificaQuestoesByDisciplina($formulario['disciplina']);
-
+			
 			if($questoes){
 
 				$data_formulario = array(
@@ -54,21 +54,23 @@ class Provas extends MY_Controller {
 				$id = $this->Formularios_model->cadastra($data_formulario);
 				
 				foreach ($questoes as $questao) {
-
+					
 					$questoes = $this->Provas_model->getQuestoesByDisciplina($formulario,$questao);
+				}
+				
+				if($questoes){
 
-					if($questoes){
+					foreach($questoes as $questao)
+					{
 
-						foreach($questoes as $questao)
-						{
-							$data = array(
-								"formulario" => $id,
-								"questao" => $questao['id']
-							);
+						$data = array(
+							"formulario" => $id,
+							"questao" => $questao['id']
+						);
 
-							$this->Itens_prova_model->cadastra($data);
-						}
+						$this->Itens_prova_model->cadastra($data);
 					}
+
 				}
 
 			}
@@ -165,6 +167,7 @@ class Provas extends MY_Controller {
 
 
 		$respostas =  $this->Provas_model->getResposta($aluno['id'],$dados->id);
+
 
 
 		$acertos['acertos'] = 0;
