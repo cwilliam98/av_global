@@ -51,8 +51,8 @@ class Perguntas extends MY_Controller {
 		$this->load->model('Perguntas_model');
 
 		$data = [
-			"disciplinas" => $this->Disciplinas_model->getTodasDisciplinasAdmin(),
-			"periodos_letivo" => $this->Perguntas_model->getPeriodoLetivo()
+			"disciplinas" 		=> $this->Disciplinas_model->getTodasDisciplinasAdmin(),
+			"periodos_letivo" 	=> $this->Perguntas_model->getPeriodoLetivo()
 		];
 
 		$this->load->view('administrador/pergunta_cadastro_tpl', $data);
@@ -64,7 +64,7 @@ class Perguntas extends MY_Controller {
 
 		$this->form_validation->set_rules('questao',       'questao',          	 'trim|required|max_length[10000]');
 		$this->form_validation->set_rules('alternativa[]', 'alternativa',        'trim|max_length[10000]');
-		$this->form_validation->set_rules('correta[]',     'alternativa lorreta','trim|required');
+		$this->form_validation->set_rules('correta[]',     'alternativa correta','trim|required');
 		$this->form_validation->set_rules('disciplina',    'disciplina',         'trim|required');
 		$this->form_validation->set_rules('periodo_letivo','periodo letivo',     'trim|required');
 
@@ -80,10 +80,10 @@ class Perguntas extends MY_Controller {
 		$dados = $this->input->post();
 
 		$questaoId = $this->Perguntas_model->cadastraPergunta([
-			"descricao" =>	set_value('questao'),
-			"disciplina" => set_value('disciplina'),
-			"professor"  => $aluno['id'],
-			"periodo_letivo" => set_value('periodo_letivo')
+			"descricao" 		=>	set_value('questao'),
+			"disciplina"	 	=> set_value('disciplina'),
+			"professor"  		=> $aluno['id'],
+			"periodo_letivo" 	=> set_value('periodo_letivo')
 		]);
 
 
@@ -93,9 +93,9 @@ class Perguntas extends MY_Controller {
 				continue;
 
 			$data = [
-				'descricao' => $descricao,
-				'correta' => (bool)set_value("correta[$alternativa]"),
-				'questao' => $questaoId,
+				'descricao' 	=> $descricao,
+				'correta'		=> (bool)set_value("correta[$alternativa]"),
+				'questao' 		=> $questaoId,
 
 			];
 
@@ -163,7 +163,7 @@ class Perguntas extends MY_Controller {
 			"periodo_letivo" => set_value('periodo_letivo')
 		];
 
-
+		
 		$alternativa = $this->Perguntas_model->getAlternativa($id);
 
 		$this->Perguntas_model->alteraPergunta($data,$id,$this->input->post('disciplina'));

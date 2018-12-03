@@ -130,7 +130,7 @@ class Provas extends MY_Controller {
 		$this->load->model('Provas_model');
 
 
-		$retorno = $this->Alunos_model->inativarProva($id);
+		$retorno = $this->Provas_model->inativarProva($id);
 
 		if(!empty($retorno)){
 			redirect('administrador/admin/index?aviso=1');

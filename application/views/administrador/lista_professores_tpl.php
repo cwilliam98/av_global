@@ -39,9 +39,9 @@ include 'index_admin_tpl.php';
             <div id="questao-<?php echo $professor['professor']; ?>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="questao-painel-<?php echo $professor['professor']; ?>">
               <div class="panel-body">
 
-                Professor: <?php echo $professor['professor'];?><br>
+                Professor: <?php echo $professor['nome'];?><br>
 
-                Código: <?php echo $professor['nome'];?><br>
+                Código: <?php echo $professor['professor'];?><br>
 
               </div>
             </div>

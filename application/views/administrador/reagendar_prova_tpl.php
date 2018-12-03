@@ -29,12 +29,12 @@ include 'index_admin_tpl.php';
 
 				<div class="form-group <?php echo form_error('aplicacao') ? 'has-error' : '' ?>">
 					<label >Data</label>
-					<input type="datetime-local" class="form-control" id="aplicacao" name="aplicacao" value="<?php str_replace(' ', 'T',$prova['aplicacao']) ?>"/>
+					<input type="datetime-local" class="form-control" id="aplicacao" name="aplicacao" value="<?php echo str_replace(' ','T', $prova['aplicacao']) ?>"/>
 					<span id="helpBlock2" class="help-block"><?php echo form_error('aplicacao'); ?></span>
 				</div>
 
 				<div class="form-group <?php echo form_error('qtd_questoes') ? 'has-error' : '' ?>">
-					<label >Quantidade de questoes</label>
+					<label >Quantidade de questoes por disciplina</label>
 					<input type="tel" class="form-control" id="qtd_questoes" name="qtd_questoes" placeholder="Quantidade de questões"  value="<?php echo $prova['qtd_questoes'] ?>">
 					<span id="helpBlock2" class="help-block"><?php echo form_error('qtd_questoes'); ?></span>
 				</div>

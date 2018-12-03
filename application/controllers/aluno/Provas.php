@@ -10,6 +10,12 @@ class Provas extends MY_Controller {
 
 	}
 
+	public function avisoQuestoes(){
+
+		$this->load->view('aluno/aviso_questoes_tpl');
+
+	}
+
 	public function gerarProva(){
 
 		$aluno = $this->session->userdata('usuario');
@@ -74,6 +80,11 @@ class Provas extends MY_Controller {
 				}
 
 			}
+		}
+
+
+		if(!$id){
+			redirect('aluno/provas/avisoQuestoes');	
 		}
 
 		$data = ["usuario" => $aluno['id']];
@@ -167,12 +178,35 @@ class Provas extends MY_Controller {
 
 
 		$respostas['respostas'] =  $this->Provas_model->getRespostasAluno($aluno['id']);
+		$data['dados'] = 0;
+		foreach($respostas['respostas'] as $resposta){
 
+			
+			$filtro = [
+				"0" =>$aluno['id'],
+				"1" => $resposta['prova']
+			];
 
+			
+			$data['dados']	= $this->Provas_model->getRespostasProva($filtro);
+			
+		}
+		
+		$qtd_peso = 0;
+		$qtd_questoes = count($data['dados']);
+		if ($qtd_questoes) {
+			$qtd_peso = (10 / $qtd_questoes);
+		}
+		
 		$acertos['acertos'] = count($respostas['respostas']);
+		
 
+		$acertos['nota'] = $qtd_peso * $acertos['acertos'];
+		
+		
+		
 		$this->Provas_model->insereFimSessao($aluno['id']);
-
+		
 		$this->load->view('aluno/fim_tpl',$acertos);
 		$this->session->sess_destroy();
 

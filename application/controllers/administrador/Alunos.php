@@ -226,17 +226,17 @@ class Alunos extends MY_Controller {
 			"nome" =>	set_value('nome'),
 			"codigo" =>	set_value('codigo'),
 			"senha" =>	password_hash(set_value('senha'), PASSWORD_BCRYPT),
-			"contexto" => 'aluno'
+			"contexto" => 'professor'
 		];
 
 		$professor = $this->Alunos_model->alteraUsuario($data,$id);
 
 
 		if(!empty($professor)){
-			redirect('administrador/alunos/alterar/'.$id.'?aviso=1');
+			redirect('administrador/alunos/alterarProfessor/'.$id.'?aviso=1');
 		}
 		
-		redirect('administrador/alunos/alterar/'.$id.'?aviso=2');	
+		redirect('administrador/alunos/alterarProfessor/'.$id.'?aviso=2');	
 
 	}
 

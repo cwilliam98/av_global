@@ -16,18 +16,24 @@ include 'index_admin_tpl.php';
 
 
 
+
 <div class="container">
 	<div class="row">
 		<div class="col-md-12   classe">
 
 			<form method="post" action="<?php echo base_url('administrador/perguntas/execCadastraPergunta') ?>">
 				<div class="form-group <?php echo form_error('disciplina') ? 'has-error' : '' ?>">
-
+					<?php $verifica = "";?>
 					<h4>Selecione a disciplina</h4>
 					<select class="form-control" name="disciplina">
 						<?php  foreach ($disciplinas as $key => $value): ?>
+							<?php if ($verifica != $value["curso"]){?>
+							<optgroup label="<?php echo $value["curso"]; ?>">
+							<?php  }?>
 							<option value="<?php echo $value["id"]; ?>"><?php echo $value["nome"]; ?></option>
+							<?php $verifica = $value["curso"]; ?>
 						<?php  endforeach ?>
+						</optgroup>
 					</select>
 				</div>
 				<div class="form-group <?php echo form_error('periodo_letivo') ? 'has-error' : '' ?>">
@@ -93,6 +99,11 @@ include 'index_admin_tpl.php';
 						</span>
 						<textarea type="text" class="form-control" id="alternativaE" name="alternativa[E]" placeholder="alternativa E"></textarea>
 					</div><!-- /input-group -->
+				</div>
+				<br>
+
+				<div class="form-group <?php echo form_error('correta[]') ? 'has-error' : '' ?>">
+					<span id="helpBlock2" class="help-block"><?php echo form_error('correta[]'); ?></span>
 				</div>
 
 				<br/>

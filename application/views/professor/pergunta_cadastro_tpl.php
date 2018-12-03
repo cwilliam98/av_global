@@ -22,12 +22,17 @@ include 'index_admin_professor_tpl.php';
 
 			<form method="post" action="<?php echo base_url('professor/perguntas/execCadastraPergunta') ?>">
 				<div class="form-group <?php echo form_error('disciplina') ? 'has-error' : '' ?>">
-
+					<?php $verifica = "";?>
 					<h4>Selecione a disciplina</h4>
 					<select class="form-control" name="disciplina">
 						<?php  foreach ($disciplinas as $key => $value): ?>
-							<option value="<?php echo $value["id"]; ?>"><?php echo $value["nome"]; ?></option>
-						<?php  endforeach ?>
+							<?php if ($verifica != $value["curso"]){?>
+								<optgroup label="<?php echo $value["curso"]; ?>">
+								<?php  }?>
+								<option value="<?php echo $value["id"]; ?>"><?php echo $value["nome"]; ?></option>
+								<?php $verifica = $value["curso"]; ?>
+							<?php  endforeach ?>
+						</optgroup>
 					</select>
 				</div>
 				<div class="form-group <?php echo form_error('periodo_letivo') ? 'has-error' : '' ?>">

@@ -31,6 +31,7 @@ class Perguntas_model extends CI_Model {
 	}
 	function cadastraAlternativa($data){
 		$this->db->insert('alternativas',$data);
+
 		return $this->db->insert_id();
 	}
 
@@ -172,6 +173,7 @@ class Perguntas_model extends CI_Model {
 		$this->db->where('questao', $id);
 		$this->db->where('id', $alternativa);
 		$retorno = $this->db->update('alternativas', $data);
+		
 		return $retorno;
 	}
 

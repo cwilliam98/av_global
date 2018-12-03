@@ -61,13 +61,19 @@ class Provas_model extends CI_Model {
 		return reset($resultado);
 	}
 	function getQuestoesByDisciplina($formulario,$questao){
+
+		if ($formulario['disciplina'] == '10299'){
+			$formulario['qtd_questoes'] = '10';
+		}
+
 		$dados = $this->db
-		->select('id,periodo_letivo')
+		->select('questoes.id,questoes.periodo_letivo')
 		->from('questoes')
 		->where('disciplina', $formulario['disciplina'])
-		->where_in('periodo_letivo', [$questao['periodo_letivo'],'0'])
+		->where('NOT EXISTS', '(select itens_prova.questao FROM itens_prova WHERE itens_prova.questao = questoes.id)', FALSE)
+		->where_in('questoes.periodo_letivo', [$questao['periodo_letivo'],'0'])
 		->limit($formulario['qtd_questoes'])
-		->order_by('id', 'random')
+		->order_by('questoes.id', 'random')
 		->get()
 		->result_array();
 		// echo $this->db->last_query();
@@ -169,12 +175,14 @@ class Provas_model extends CI_Model {
 	{
 
 		$retorno = $this->db
-		->select('id,periodo_letivo')
+		->select('questoes.id,questoes.periodo_letivo')
 		->from('questoes')
+		->where('NOT EXISTS', '(select itens_prova.questao FROM itens_prova WHERE itens_prova.questao = questoes.id)', FALSE)
 		->where('questoes.disciplina',$disciplina)
 		->get()
 		->result_array();
-		
+		// echo $this->db->last_query();
+		// exit();
 		return $retorno;
 		
 		// echo "<pre>";
@@ -301,7 +309,7 @@ class Provas_model extends CI_Model {
 	}
 	function getRespostasAluno($aluno){
 		$dados =  $this->db
-		->select('alternativas.id alternativa,alternativas.descricao descricao_alternativa,COUNT(alternativas.correta) correta,alternativas.questao, questoes.id questao,questoes.descricao, respostas.alternativa, respostas.aluno, usuarios.nome')
+		->select('alternativas.id alternativa,alternativas.descricao descricao_alternativa,COUNT(alternativas.correta) correta,alternativas.questao, questoes.id questao,questoes.descricao, respostas.alternativa, respostas.aluno, usuarios.nome,formularios.prova')
 		->from('respostas')
 		->join('alternativas', 'respostas.alternativa = alternativas.id')
 		->join('questoes', 'alternativas.questao = questoes.id')
@@ -324,8 +332,8 @@ class Provas_model extends CI_Model {
 			$this->db->where('formularios.prova', $filtro[1]);
 		if ( !is_null($filtro) )
 			$this->db->where('usuarios.id', $filtro[0]);
-			$this->db->where('respostas.aluno', $filtro[0]);
-			$this->db->where('formularios.aluno', $filtro[0]);
+		$this->db->where('respostas.aluno', $filtro[0]);
+		$this->db->where('formularios.aluno', $filtro[0]);
 		$dados =  $this->db
 		->select('alternativas.id alternativa,alternativas.descricao,COUNT(alternativas.correta) qtd_correta,alternativas.correta alternativa_correta,alternativas.questao, questoes.id questao,questoes.descricao descricacao_questao, respostas.alternativa, respostas.aluno')
 		->from('respostas')
@@ -421,6 +429,7 @@ class Provas_model extends CI_Model {
 		->from('provas')
 		->join('usuarios','usuarios.id = provas.professor')
 		->join('periodo_letivo','periodo_letivo.id = provas.periodo_letivo')
+		->where('provas.situacao','ativo')
 		->order_by('aplicacao','DESC')
 		->get()
 		->result_array();
@@ -456,7 +465,7 @@ class Provas_model extends CI_Model {
 		return $prova;
 	}
 
-	function inativarUsuario($id){
+	function inativarProva($id){
 		$this->db->where('id' , $id);
 		$retorno = $this->db
 		->set('situacao','inativo')

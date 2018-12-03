@@ -115,7 +115,6 @@ include 'index_admin_tpl.php';
 									<td class="text-center">
 										<?php echo $prova['codigo_periodo']; ?>
 									</td>
-									<?php if ($prova['aplicacao'] >= date('d/m/Y H:i:s')) { ?>
 										<td>
 											<p class=" text-right">
 
@@ -123,7 +122,6 @@ include 'index_admin_tpl.php';
 												<a href="<?=base_url('administrador/provas/alterar/' .$prova['id'])?>" class="btn-sm btn-info"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
 											</p>
 										</td>
-										<?php } ?>
 									</tr>
 								<?php }?>
 							</table>

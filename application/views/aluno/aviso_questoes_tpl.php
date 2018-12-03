@@ -64,7 +64,7 @@
 </head>
 <body>
 
-  <?php $aluno =  $this->session->userdata('usuario'); ?>
+  <?php $aluno = $_SESSION['usuario']; ?>
 
   <div class="container-fluid">
     <div class="container">
@@ -80,7 +80,7 @@
             <div class="row">
               <div class="col-sm-12 col-sm-offset-3">
                 <div class="inputBox">
-                  <div class="inputText">Você teve <?php echo $acertos; ?> acertos!  E sua nota foi <?php echo number_format($nota,2); ?></div>
+                  <div class="inputText">Não há questões cadastradas para a suas disciplinas!</div>
                 </div>
             </div>
 
